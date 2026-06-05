@@ -1,12 +1,6 @@
-# Lattice Visual Scientific Site
+# Lattice Visual Website
 
-React + Vite website for Lattice Visual's scientific illustration sub-brand.
-
-Suggested deployment target:
-
-```text
-science.latticevisual.com
-```
+React + Vite website for Lattice Visual.
 
 ## Local Development
 
@@ -37,4 +31,4 @@ Use these settings when connecting the GitHub repository to Cloudflare Pages:
 - Production branch: `main`
 - Node version: pinned by `.node-version`
 
-The `public/_redirects` file is included so SPA routes such as `/work` and `/services` work after deployment.
+The `public/_redirects` file is included so SPA routes such as `/blog` work after deployment.
