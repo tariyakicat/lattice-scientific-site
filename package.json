@@ -1,32 +1,24 @@
 {
-  "name": "lattice-visual-site",
+  "name": "lattice-scientific-site",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "scripts": {
-    "dev": "next dev -H 0.0.0.0",
-    "build": "next build",
-    "start": "next start -H 0.0.0.0",
-    "remotion:preview": "remotion preview remotion/Root.tsx",
-    "remotion:render": "remotion render remotion/Root.tsx YosoHero public/videos/yoso/yoso-hero.mp4",
-    "remotion:render:webm": "remotion render remotion/Root.tsx YosoHero public/videos/yoso/yoso-hero.webm --codec=vp9 --crf=30",
-    "remotion:render:all": "npm run remotion:render && npm run remotion:render:webm"
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0"
   },
   "dependencies": {
-    "@remotion/cli": "^4.0.470",
-    "@remotion/transitions": "^4.0.470",
-    "autoprefixer": "^10.5.0",
+    "@vitejs/plugin-react": "^5.1.2",
     "framer-motion": "^12.40.0",
     "lucide-react": "^1.17.0",
-    "next": "^16.2.7",
-    "postcss": "^8.5.15",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "remotion": "^4.0.470",
-    "tailwindcss": "^3.4.17",
-    "typescript": "^5.9.3"
+    "vite": "^7.3.0"
   },
   "devDependencies": {
-    "@types/react": "19.2.16"
+    "autoprefixer": "^10.5.0",
+    "postcss": "^8.5.15",
+    "tailwindcss": "^3.4.17"
   }
 }
