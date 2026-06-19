@@ -1,19 +1,38 @@
-import { useEffect, useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
+  Activity,
   ArrowRight,
   BadgeCheck,
+  BarChart3,
+  BookOpen,
+  Box,
+  CheckCircle2,
+  ChevronDown,
+  ChevronLeft,
   ChevronRight,
   CircleHelp,
   Clock3,
+  Dna,
   EyeOff,
+  FileText,
   FileImage,
+  Film,
+  GitBranch,
   Globe2,
+  ImageIcon,
+  Layout,
   LifeBuoy,
   Mail,
+  Microscope,
+  Monitor,
   MousePointer2,
+  PieChart,
+  Presentation,
+  RotateCcw,
   Sparkles,
   Target,
+  Upload,
 } from "lucide-react";
 
 const contactEmail = "contact@latticevisual.com";
@@ -23,13 +42,31 @@ const generatedAssets = {
   after: "/generated/after-polished-figure.svg?v=mock-2",
 };
 
-const services = [
-  ["01", "Graphical abstracts", "A concise visual story for the central mechanism, result, or hypothesis."],
-  ["02", "Scientific figures", "Publication-ready figure systems for papers, reports, posters and grants."],
-  ["03", "Journal covers", "Editorial scientific imagery built around impact, symbolism and journal specifications."],
-  ["04", "Scientific animation", "Short mechanism and process animations for talks, launches and lab communication."],
-  ["05", "Slides & pitch decks", "Research narratives for academic presentations, biotech teams and investor contexts."],
-  ["06", "Infographics", "Accessible visual explainers for education, outreach and institutional communication."],
+const servicePages = [
+  [
+    { title: "Graphical Abstracts", description: "Capture your research in one clear visual.", icon: BookOpen },
+    { title: "Figures", description: "Mechanisms, pathways, and data visualizations.", icon: GitBranch },
+    { title: "Journal Covers", description: "Stand out with bespoke cover art.", icon: ImageIcon },
+    { title: "Slides", description: "Powerful visuals for presentations and pitch decks.", icon: Presentation },
+    { title: "Posters", description: "Scientific posters that inform and impress.", icon: Layout },
+    { title: "Infographics", description: "Simplify complex information for any audience.", icon: PieChart },
+  ],
+  [
+    { title: "Scientific Animation", description: "Show dynamic processes unfolding over time.", icon: Film },
+    { title: "Medical Illustration", description: "Explain anatomy and treatment with precision.", icon: Microscope },
+    { title: "3D Visualization", description: "Add depth to molecular and cellular stories.", icon: Box },
+    { title: "Pathway Diagrams", description: "Connect mechanisms across biological systems.", icon: Activity },
+    { title: "Data Visualization", description: "Turn datasets into readable visual evidence.", icon: BarChart3 },
+    { title: "Digital Experiences", description: "Bring research stories to screens and sites.", icon: Monitor },
+  ],
+  [
+    { title: "Molecular Illustration", description: "Reveal structures at the smallest scale.", icon: Dna },
+    { title: "Research Reports", description: "Structure long-form scientific narratives.", icon: FileText },
+    { title: "Conference Graphics", description: "Create a coherent visual system for events.", icon: Presentation },
+    { title: "Educational Media", description: "Make specialist knowledge easier to learn.", icon: BookOpen },
+    { title: "Interactive Figures", description: "Guide audiences through layered evidence.", icon: Activity },
+    { title: "Public Communication", description: "Translate research for wider audiences.", icon: Globe2 },
+  ],
 ];
 
 const testimonials = [
@@ -421,27 +458,81 @@ function AwardBand() {
 }
 
 function Services() {
+  const reduceMotion = useReducedMotion();
+  const [activePage, setActivePage] = useState(0);
+  const goToServicePage = (page) => setActivePage((page + servicePages.length) % servicePages.length);
+
   return (
     <section id="services" className="bg-white py-20 md:py-24">
-      <div className="mx-auto max-w-7xl px-5 md:px-8">
-        <Reveal className="max-w-3xl">
-          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-sky-600">We create</p>
-          <h2 className="mt-5 text-4xl font-medium leading-tight tracking-[-0.055em] text-slate-950 md:text-6xl">
-            Scientific visuals across the whole research journey.
-          </h2>
+      <div className="services-journey mx-auto max-w-7xl px-5 md:px-8">
+        <Reveal className="services-heading">
+          <h2>We create</h2>
+          <p>Publication-quality visuals for every stage of your research communication.</p>
         </Reveal>
 
-        <div className="mt-14 overflow-hidden rounded-[2rem] border border-slate-200 bg-slate-50/80">
-          {services.map(([number, title, copy], index) => (
-            <Reveal key={title} delay={index * 0.035}>
-              <a href="#contact" className="service-row group">
-                <span className="service-number">{number}</span>
-                <span className="service-title">{title}</span>
-                <span className="service-copy">{copy}</span>
-                <ChevronRight className="service-arrow h-5 w-5" aria-hidden />
-              </a>
-            </Reveal>
-          ))}
+        <div className="service-journey" role="region" aria-label="Scientific illustration services">
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={activePage}
+              className="service-journey-page"
+              initial={reduceMotion ? { opacity: 1 } : { opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={reduceMotion ? { opacity: 1 } : { opacity: 0 }}
+              transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
+              aria-live="polite"
+            >
+              <div className="service-journey-track">
+                <svg className="service-journey-line" viewBox="0 0 1200 160" preserveAspectRatio="none" aria-hidden="true">
+                  <path d="M100 52 C166 52 234 100 300 100 S434 52 500 52 S634 100 700 100 S834 52 900 52 S1034 100 1100 100" />
+                </svg>
+
+                <div className="service-journey-nodes">
+                  {servicePages[activePage].map(({ title, description, icon: Icon }) => (
+                    <article className="service-journey-node" key={title}>
+                      <span className="service-node-icon" aria-hidden="true">
+                        <Icon />
+                      </span>
+                      <h3>{title}</h3>
+                      <p>{description}</p>
+                    </article>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+
+          <div className="service-controls">
+            <button
+              className="service-nav-button service-nav-previous"
+              type="button"
+              aria-label="Show previous service page"
+              onClick={() => goToServicePage(activePage - 1)}
+            >
+              <ChevronLeft aria-hidden="true" />
+            </button>
+
+            <div className="service-pagination" aria-label="Service pages">
+              {servicePages.map((page, index) => (
+                <button
+                  key={page[0].title}
+                  type="button"
+                  aria-label={`Go to page ${index + 1}`}
+                  aria-current={index === activePage ? "true" : undefined}
+                  className={index === activePage ? "is-active" : ""}
+                  onClick={() => goToServicePage(index)}
+                />
+              ))}
+            </div>
+
+            <button
+              className="service-nav-button service-nav-next"
+              type="button"
+              aria-label="Show next service page"
+              onClick={() => goToServicePage(activePage + 1)}
+            >
+              <ChevronRight aria-hidden="true" />
+            </button>
+          </div>
         </div>
       </div>
     </section>
@@ -503,55 +594,237 @@ function Testimonials() {
 }
 
 function Contact() {
-  return (
-    <section id="contact" className="relative overflow-hidden bg-slate-950 py-20 text-white md:py-24">
-      <div className="absolute left-1/2 top-0 h-[34rem] w-[34rem] -translate-x-1/2 rounded-full bg-sky-500/20 blur-3xl" />
-      <div className="relative mx-auto max-w-7xl px-5 md:px-8">
-        <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:justify-between">
-          <Reveal className="max-w-3xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-sky-300">Contact</p>
-            <h2 className="mt-5 text-4xl font-medium leading-tight tracking-[-0.055em] md:text-6xl">
-              Tell us what you are preparing.
-            </h2>
-            <p className="mt-7 max-w-2xl text-xl leading-9 text-slate-300">
-              Send a manuscript draft, sketch, deadline or rough idea. We will help define the right visual format.
-            </p>
-            <a href={`mailto:${contactEmail}`} className="mt-9 inline-flex items-center gap-3 rounded-full bg-white px-7 py-4 font-semibold text-slate-950 transition hover:bg-sky-200">
-              <Mail className="h-5 w-5" aria-hidden />
-              {contactEmail}
-            </a>
-          </Reveal>
+  const initialForm = {
+    name: "",
+    email: "",
+    projectType: "",
+    target: "",
+    message: "",
+  };
+  const [formData, setFormData] = useState(initialForm);
+  const [errors, setErrors] = useState({});
+  const [files, setFiles] = useState([]);
+  const [isDragging, setIsDragging] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const fileInputRef = useRef(null);
 
-          <Reveal delay={0.08} className="contact-panel">
-            <label>
-              <span>Name</span>
-              <input type="text" placeholder="Your name" />
-            </label>
-            <label>
-              <span>Email</span>
-              <input type="email" placeholder="you@lab.edu" />
-            </label>
-            <label>
-              <span>Project type</span>
-              <select defaultValue="">
-                <option value="" disabled>Select one</option>
-                <option>Graphical abstract</option>
-                <option>Scientific figure</option>
-                <option>Journal cover</option>
-                <option>Animation</option>
-                <option>Presentation</option>
-              </select>
-            </label>
-            <label>
-              <span>Message</span>
-              <textarea placeholder="Tell us about the science, deadline and intended use." rows="4" />
-            </label>
-            <a href={`mailto:${contactEmail}?subject=Lattice%20Visual%20project%20request`} className="inline-flex items-center justify-center gap-3 rounded-full bg-sky-400 px-6 py-4 font-semibold text-slate-950 transition hover:bg-sky-300">
-              Send project request
-              <ArrowRight className="h-5 w-5" aria-hidden />
-            </a>
-          </Reveal>
-        </div>
+  const updateField = (event) => {
+    const { name, value } = event.target;
+    setFormData((current) => ({ ...current, [name]: value }));
+    if (errors[name]) {
+      setErrors((current) => ({ ...current, [name]: undefined }));
+    }
+  };
+
+  const handleFiles = (selectedFiles) => {
+    setFiles(Array.from(selectedFiles || []));
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const nextErrors = {};
+
+    if (!formData.name.trim()) nextErrors.name = "Please enter your name.";
+    if (!formData.email.trim()) {
+      nextErrors.email = "Please enter your email address.";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      nextErrors.email = "Please enter a valid email address.";
+    }
+    if (!formData.message.trim()) nextErrors.message = "Please tell us a little about your project.";
+
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length > 0) return;
+
+    // TODO: Send the validated form data and selected files to the production contact endpoint.
+    setIsSubmitted(true);
+  };
+
+  const resetForm = () => {
+    setFormData(initialForm);
+    setErrors({});
+    setFiles([]);
+    setIsSubmitted(false);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  return (
+    <section id="contact" className="relative overflow-hidden bg-slate-50 py-20 md:py-24">
+      <div className="contact-shell mx-auto max-w-7xl px-5 md:px-8">
+        <Reveal className="contact-card">
+          <div className="contact-info">
+            <img className="contact-info-art" src="/contact-ink.png" alt="" aria-hidden="true" />
+            <div className="contact-info-content">
+              <p className="contact-label">Contact</p>
+              <h2>
+                <span>Tell us about your project.</span>
+                <span>We&apos;d love to hear from you.</span>
+              </h2>
+
+              <a className="contact-email" href={`mailto:${contactEmail}`}>
+                <Mail aria-hidden="true" />
+                <span>{contactEmail}</span>
+              </a>
+              <p className="contact-response">We typically reply within 1 business day.</p>
+
+              <div className="contact-trust" aria-label="Contact assurances">
+                {["Fast response", "Confidential", "No obligation"].map((item) => (
+                  <span key={item}>
+                    <CheckCircle2 aria-hidden="true" />
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="contact-form-area">
+            {isSubmitted ? (
+              <div className="contact-success" role="status">
+                <span className="contact-success-icon"><CheckCircle2 aria-hidden="true" /></span>
+                <h3>Thanks - we&apos;ll reply within 1 business day.</h3>
+                <p>Your project details are ready for our studio team to review.</p>
+                <button type="button" onClick={resetForm}>
+                  <RotateCcw aria-hidden="true" />
+                  Send another message
+                </button>
+              </div>
+            ) : (
+              <form className="contact-form" onSubmit={handleSubmit} noValidate>
+                <div className="contact-form-grid">
+                  <label className="contact-field" htmlFor="contact-name">
+                    <span>Your name <em>*</em></span>
+                    <input
+                      id="contact-name"
+                      name="name"
+                      type="text"
+                      value={formData.name}
+                      placeholder="Your name"
+                      autoComplete="name"
+                      required
+                      aria-invalid={Boolean(errors.name)}
+                      aria-describedby={errors.name ? "contact-name-error" : undefined}
+                      onChange={updateField}
+                    />
+                    {errors.name && <small id="contact-name-error" className="contact-error">{errors.name}</small>}
+                  </label>
+
+                  <label className="contact-field" htmlFor="contact-email">
+                    <span>Email address <em>*</em></span>
+                    <input
+                      id="contact-email"
+                      name="email"
+                      type="email"
+                      value={formData.email}
+                      placeholder="Email address"
+                      autoComplete="email"
+                      required
+                      aria-invalid={Boolean(errors.email)}
+                      aria-describedby={errors.email ? "contact-email-error" : undefined}
+                      onChange={updateField}
+                    />
+                    {errors.email && <small id="contact-email-error" className="contact-error">{errors.email}</small>}
+                  </label>
+
+                  <label className="contact-field" htmlFor="contact-project-type">
+                    <span>Project type</span>
+                    <span className="contact-select-wrap">
+                      <select id="contact-project-type" name="projectType" value={formData.projectType} onChange={updateField}>
+                        <option value="">Select project type</option>
+                        <option>Graphical abstract</option>
+                        <option>Scientific figure</option>
+                        <option>Journal cover</option>
+                        <option>Scientific animation</option>
+                        <option>Presentation or poster</option>
+                      </select>
+                      <ChevronDown aria-hidden="true" />
+                    </span>
+                  </label>
+
+                  <label className="contact-field" htmlFor="contact-target">
+                    <span>Target journal / deadline</span>
+                    <input
+                      id="contact-target"
+                      name="target"
+                      type="text"
+                      value={formData.target}
+                      placeholder="Target journal / deadline"
+                      onChange={updateField}
+                    />
+                  </label>
+
+                  <label className="contact-field contact-field-full" htmlFor="contact-message">
+                    <span>Tell us about your project <em>*</em></span>
+                    <textarea
+                      id="contact-message"
+                      name="message"
+                      value={formData.message}
+                      placeholder="Tell us about your project"
+                      rows="5"
+                      required
+                      aria-invalid={Boolean(errors.message)}
+                      aria-describedby={errors.message ? "contact-message-error" : undefined}
+                      onChange={updateField}
+                    />
+                    {errors.message && <small id="contact-message-error" className="contact-error">{errors.message}</small>}
+                  </label>
+                </div>
+
+                <div className="contact-submit-row">
+                  <div>
+                    <div
+                      className={`contact-dropzone ${isDragging ? "is-dragging" : ""}`}
+                      role="button"
+                      tabIndex="0"
+                      aria-label="Upload brief or files"
+                      onClick={() => fileInputRef.current?.click()}
+                      onKeyDown={(event) => {
+                        if (event.key === "Enter" || event.key === " ") {
+                          event.preventDefault();
+                          fileInputRef.current?.click();
+                        }
+                      }}
+                      onDragEnter={(event) => {
+                        event.preventDefault();
+                        setIsDragging(true);
+                      }}
+                      onDragOver={(event) => event.preventDefault()}
+                      onDragLeave={() => setIsDragging(false)}
+                      onDrop={(event) => {
+                        event.preventDefault();
+                        setIsDragging(false);
+                        handleFiles(event.dataTransfer.files);
+                      }}
+                    >
+                      <Upload aria-hidden="true" />
+                      <span>
+                        <strong>Upload brief or files (optional)</strong>
+                        <small>Drag and drop or <b>click to browse</b></small>
+                      </span>
+                    </div>
+                    <input
+                      ref={fileInputRef}
+                      className="contact-file-input"
+                      type="file"
+                      multiple
+                      aria-label="Choose project files"
+                      onChange={(event) => handleFiles(event.target.files)}
+                    />
+                    {files.length > 0 && (
+                      <ul className="contact-file-list" aria-label="Selected files">
+                        {files.map((file) => <li key={`${file.name}-${file.size}`}>{file.name}</li>)}
+                      </ul>
+                    )}
+                  </div>
+
+                  <button className="contact-send" type="submit">
+                    Send message
+                    <ArrowRight aria-hidden="true" />
+                  </button>
+                </div>
+              </form>
+            )}
+          </div>
+        </Reveal>
       </div>
     </section>
   );
