@@ -114,5 +114,5 @@ export const founder = {
   title: "We are researchers by training and designers by profession.",
   bio: "We translate complex mechanisms, data and biomedical stories into journal-ready figures, covers, animations and presentation systems for scientists, labs, journals and biotech teams.",
   image: image("711211d7fo408a215a49ee44613fa617.png"),
-  email: "hello@latticevisual.com",
+  email: "contact@latticevisual.com",
 };

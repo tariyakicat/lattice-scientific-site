@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-label="3D-style biological cell cross-section with DNA and molecules">
+  <defs>
+    <radialGradient id="bg" cx="55%" cy="43%" r="70%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="55%" stop-color="#edf8ff"/>
+      <stop offset="100%" stop-color="#dcecf8"/>
+    </radialGradient>
+    <radialGradient id="cellBody" cx="44%" cy="34%" r="65%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity=".98"/>
+      <stop offset="26%" stop-color="#cfefff" stop-opacity=".92"/>
+      <stop offset="64%" stop-color="#b8b6f3" stop-opacity=".76"/>
+      <stop offset="100%" stop-color="#7bc4e6" stop-opacity=".58"/>
+    </radialGradient>
+    <radialGradient id="nucleus" cx="38%" cy="30%" r="68%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="45%" stop-color="#bfc3ff"/>
+      <stop offset="100%" stop-color="#7f77dc"/>
+    </radialGradient>
+    <linearGradient id="membrane" x1="10%" x2="90%" y1="15%" y2="85%">
+      <stop offset="0%" stop-color="#6fcdf2"/>
+      <stop offset="50%" stop-color="#a88fe6"/>
+      <stop offset="100%" stop-color="#74d4dc"/>
+    </linearGradient>
+    <linearGradient id="dna" x1="0%" x2="100%" y1="0%" y2="0%">
+      <stop offset="0%" stop-color="#46bfe8"/>
+      <stop offset="50%" stop-color="#9b8be6"/>
+      <stop offset="100%" stop-color="#68d4cd"/>
+    </linearGradient>
+    <filter id="blur">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+    <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="34" stdDeviation="34" flood-color="#325c84" flood-opacity=".18"/>
+    </filter>
+    <filter id="particleShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="10" stdDeviation="9" flood-color="#335b7c" flood-opacity=".16"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="900" fill="url(#bg)"/>
+  <ellipse cx="720" cy="482" rx="410" ry="318" fill="#b9e8ff" opacity=".18" filter="url(#blur)"/>
+  <ellipse cx="790" cy="452" rx="330" ry="256" fill="#d6cbff" opacity=".16" filter="url(#blur)"/>
+
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round" opacity=".62">
+    <ellipse cx="690" cy="454" rx="390" ry="198" stroke="#6ccfed" stroke-width="5" transform="rotate(-17 690 454)"/>
+    <ellipse cx="704" cy="462" rx="345" ry="178" stroke="#9d8ee8" stroke-width="4" transform="rotate(23 704 462)"/>
+    <ellipse cx="703" cy="467" rx="430" ry="235" stroke="#8ddfdc" stroke-width="3" transform="rotate(9 703 467)"/>
+  </g>
+
+  <g filter="url(#softShadow)">
+    <path d="M410 360C452 244 608 181 766 218C947 261 1058 422 1012 584C970 733 784 812 610 754C455 703 356 511 410 360Z" fill="url(#cellBody)"/>
+    <path d="M410 360C452 244 608 181 766 218C947 261 1058 422 1012 584C970 733 784 812 610 754C455 703 356 511 410 360Z" fill="none" stroke="#ffffff" stroke-width="24" opacity=".72"/>
+    <path d="M453 398C510 278 646 240 789 284C926 326 1011 456 976 581C938 714 778 774 624 724C489 681 388 535 453 398Z" fill="#ffffff" opacity=".18"/>
+  </g>
+
+  <g filter="url(#softShadow)">
+    <ellipse cx="672" cy="488" rx="138" ry="116" fill="url(#nucleus)" transform="rotate(-12 672 488)"/>
+    <ellipse cx="672" cy="488" rx="104" ry="84" fill="#ffffff" opacity=".2" transform="rotate(-12 672 488)"/>
+    <path d="M594 490C640 445 702 444 751 491" fill="none" stroke="#fff" stroke-width="6" opacity=".42"/>
+  </g>
+
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M520 334C580 290 684 294 742 348C790 392 801 450 764 500" stroke="#65c8ee" stroke-width="13" opacity=".65"/>
+    <path d="M822 336C878 384 890 466 840 526C807 566 746 582 700 556" stroke="#8b7de2" stroke-width="13" opacity=".52"/>
+    <path d="M494 582C556 630 652 636 718 594" stroke="#77d8d3" stroke-width="13" opacity=".52"/>
+    <path d="M803 602C858 576 903 526 915 468" stroke="#72c9ef" stroke-width="11" opacity=".54"/>
+  </g>
+
+  <g filter="url(#particleShadow)">
+    <g fill="#ffffff" stroke="#74d4f2" stroke-width="4">
+      <circle cx="424" cy="300" r="18"/>
+      <circle cx="940" cy="302" r="15"/>
+      <circle cx="1010" cy="502" r="12"/>
+      <circle cx="428" cy="610" r="13"/>
+      <circle cx="820" cy="696" r="16"/>
+    </g>
+    <g fill="#a98bea">
+      <circle cx="526" cy="254" r="9"/>
+      <circle cx="774" cy="246" r="7"/>
+      <circle cx="894" cy="620" r="9"/>
+      <circle cx="594" cy="694" r="8"/>
+    </g>
+    <g fill="#6bd7dc">
+      <circle cx="998" cy="386" r="8"/>
+      <circle cx="486" cy="704" r="7"/>
+      <circle cx="362" cy="452" r="8"/>
+    </g>
+  </g>
+
+  <g opacity=".78" fill="none" stroke-linecap="round">
+    <path d="M230 315C320 250 420 268 498 336" stroke="url(#dna)" stroke-width="8"/>
+    <path d="M238 370C326 306 428 326 506 392" stroke="url(#dna)" stroke-width="8"/>
+    <path d="M250 325L238 370M302 296L292 344M356 286L346 334M410 304L398 352M462 338L450 386" stroke="#94a3b8" stroke-width="4" opacity=".55"/>
+
+    <path d="M920 178C1008 224 1076 294 1110 392" stroke="url(#dna)" stroke-width="7"/>
+    <path d="M888 226C980 274 1044 342 1084 432" stroke="url(#dna)" stroke-width="7"/>
+    <path d="M930 186L898 228M980 224L944 268M1024 270L988 314M1060 326L1024 372M1088 382L1056 426" stroke="#94a3b8" stroke-width="4" opacity=".5"/>
+  </g>
+
+  <g filter="url(#particleShadow)">
+    <path d="M326 602C392 568 451 578 501 630" stroke="#5cd6df" stroke-width="26" fill="none" stroke-linecap="round" opacity=".7"/>
+    <path d="M930 648C982 620 1024 578 1054 520" stroke="#8d83e8" stroke-width="24" fill="none" stroke-linecap="round" opacity=".48"/>
+    <path d="M334 214C398 178 462 178 526 218" stroke="#92e5dc" stroke-width="20" fill="none" stroke-linecap="round" opacity=".52"/>
+  </g>
+
+  <g fill="#ffffff" opacity=".62">
+    <circle cx="256" cy="502" r="5"/>
+    <circle cx="288" cy="552" r="4"/>
+    <circle cx="1032" cy="244" r="5"/>
+    <circle cx="1090" cy="472" r="4"/>
+    <circle cx="710" cy="168" r="5"/>
+    <circle cx="558" cy="782" r="4"/>
+  </g>
+</svg>
