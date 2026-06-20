@@ -2294,6 +2294,26 @@ textarea {
   line-height: 1.4;
 }
 
+.contact-honeypot {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.contact-form-error {
+  margin: 0.9rem 0 0;
+  border: 1px solid rgba(166, 79, 45, 0.22);
+  border-radius: 0.65rem;
+  background: rgba(255, 245, 240, 0.92);
+  padding: 0.75rem 0.9rem;
+  color: #963f23;
+  font-size: 0.82rem;
+  font-weight: 650;
+  line-height: 1.5;
+}
+
 .contact-submit-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
@@ -2420,6 +2440,13 @@ textarea {
   transform: translateY(-2px);
   background: #196eac;
   box-shadow: 0 19px 34px rgba(31, 127, 196, 0.28);
+}
+
+.contact-send:disabled {
+  cursor: wait;
+  opacity: 0.66;
+  transform: none;
+  box-shadow: none;
 }
 
 .contact-send:focus-visible {

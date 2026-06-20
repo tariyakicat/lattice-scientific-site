@@ -17,6 +17,7 @@ import Icon from "./Icon.astro";
       </div>
       <div class="contact-form-area">
         <form class="contact-form" novalidate data-contact-form>
+          <label class="contact-honeypot" aria-hidden="true">Website<input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" /></label>
           <div class="contact-form-grid">
             <label class="contact-field" for="contact-name"><span>Your name <em>*</em></span><input id="contact-name" name="name" type="text" placeholder="Your name" autocomplete="name" required aria-describedby="contact-name-error" /><small id="contact-name-error" class="contact-error" data-error="name"></small></label>
             <label class="contact-field" for="contact-email"><span>Email address <em>*</em></span><input id="contact-email" name="email" type="email" placeholder="Email address" autocomplete="email" required aria-describedby="contact-email-error" /><small id="contact-email-error" class="contact-error" data-error="email"></small></label>
@@ -30,8 +31,9 @@ import Icon from "./Icon.astro";
               <input class="contact-file-input" type="file" multiple aria-label="Choose project files" data-file-input />
               <ul class="contact-file-list" aria-label="Selected files" data-file-list hidden></ul>
             </div>
-            <button class="contact-send" type="submit">Send message <span aria-hidden="true">→</span></button>
+            <button class="contact-send" type="submit" data-contact-send>Send message <span aria-hidden="true">→</span></button>
           </div>
+          <p class="contact-form-error" role="alert" aria-live="polite" data-form-error hidden></p>
         </form>
         <div class="contact-success" role="status" data-contact-success hidden><span class="contact-success-icon"><Icon name="check" /></span><h3>Thanks - we'll reply within 1 business day.</h3><p>Your project details are ready for our studio team to review.</p><button type="button" data-contact-reset>Send another message</button></div>
       </div>
@@ -46,11 +48,15 @@ import Icon from "./Icon.astro";
     const input = card.querySelector<HTMLInputElement>("[data-file-input]");
     const dropzone = card.querySelector<HTMLElement>("[data-dropzone]");
     const fileList = card.querySelector<HTMLUListElement>("[data-file-list]");
-    const showFiles = (files: FileList | null) => {
+    const sendButton = card.querySelector<HTMLButtonElement>("[data-contact-send]");
+    const formError = card.querySelector<HTMLElement>("[data-form-error]");
+    let selectedFiles: File[] = [];
+    const showFiles = (files: FileList | File[] | null) => {
+      selectedFiles = [...(files ?? [])];
       if (!fileList) return;
       fileList.innerHTML = "";
-      [...(files ?? [])].forEach((file) => { const item = document.createElement("li"); item.textContent = file.name; fileList.append(item); });
-      fileList.hidden = !files?.length;
+      selectedFiles.forEach((file) => { const item = document.createElement("li"); item.textContent = file.name; fileList.append(item); });
+      fileList.hidden = selectedFiles.length === 0;
     };
     const openPicker = () => input?.click();
     dropzone?.addEventListener("click", openPicker);
@@ -59,7 +65,7 @@ import Icon from "./Icon.astro";
     ["dragenter", "dragover"].forEach((type) => dropzone?.addEventListener(type, (event) => { event.preventDefault(); dropzone.classList.add("is-dragging"); }));
     ["dragleave", "drop"].forEach((type) => dropzone?.addEventListener(type, (event) => { event.preventDefault(); dropzone.classList.remove("is-dragging"); }));
     dropzone?.addEventListener("drop", (event) => showFiles((event as DragEvent).dataTransfer?.files ?? null));
-    form?.addEventListener("submit", (event) => {
+    form?.addEventListener("submit", async (event) => {
       event.preventDefault();
       const values = new FormData(form);
       const errors: Record<string, string> = {};
@@ -71,9 +77,24 @@ import Icon from "./Icon.astro";
       if (!message) errors.message = "Please tell us a little about your project.";
       ["name", "email", "message"].forEach((field) => { const node = form.querySelector<HTMLElement>(`[data-error="${field}"]`); const control = form.elements.namedItem(field) as HTMLElement | null; if (node) node.textContent = errors[field] ?? ""; control?.setAttribute("aria-invalid", String(Boolean(errors[field]))); });
       if (Object.keys(errors).length) return;
-      // TODO: Wire the validated fields and optional files to the production contact endpoint.
-      form.hidden = true; if (success) success.hidden = false;
+      if (formError) formError.hidden = true;
+      selectedFiles.forEach((file) => values.append("files", file, file.name));
+      if (sendButton) { sendButton.disabled = true; sendButton.textContent = "Sending…"; }
+      try {
+        const response = await fetch("/api/contact", { method: "POST", body: values });
+        const payload = await response.json();
+        if (!response.ok) throw new Error(payload.error || "We could not send your message.");
+        form.hidden = true;
+        if (success) success.hidden = false;
+      } catch (error) {
+        if (formError) {
+          formError.textContent = error instanceof Error ? error.message : "We could not send your message. Please try again.";
+          formError.hidden = false;
+        }
+      } finally {
+        if (sendButton) { sendButton.disabled = false; sendButton.innerHTML = 'Send message <span aria-hidden="true">→</span>'; }
+      }
     });
-    card.querySelector("[data-contact-reset]")?.addEventListener("click", () => { form?.reset(); if (form) form.hidden = false; if (success) success.hidden = true; showFiles(null); });
+    card.querySelector("[data-contact-reset]")?.addEventListener("click", () => { form?.reset(); if (form) form.hidden = false; if (success) success.hidden = true; if (formError) formError.hidden = true; showFiles(null); });
   });
 </script>

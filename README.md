@@ -21,7 +21,7 @@ http://127.0.0.1:5173
 npm run build
 ```
 
-Astro prerenders the homepage, resource hub, and every resource detail page. Stripe API routes opt out of prerendering and run through the configured server adapter.
+Astro prerenders the homepage, resource hub, and every resource detail page. Contact and Stripe endpoints run as Cloudflare Pages Functions from the root `functions/` directory.
 
 ## Add A Resource
 
@@ -31,7 +31,7 @@ Images referenced by MDX entries live in `src/assets/resources/`. Free public fi
 
 ## Deployment Notes
 
-The production configuration in this repository uses `@astrojs/vercel` because the Stripe routes need on-demand server execution:
+The production configuration uses Astro static output plus Cloudflare Pages Functions:
 
 ```text
 Framework preset: Astro
@@ -41,4 +41,4 @@ Output directory: framework default
 
 Set `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `PRIVATE_DOWNLOAD_BASE_URL`, and `DOWNLOAD_SIGNING_SECRET` in the deployment environment. Replace every `price_TODO_*` value in resource frontmatter with a real Stripe Price ID before accepting live payments.
 
-If the final runtime remains Cloudflare Workers/Pages, replace the Vercel adapter with `@astrojs/cloudflare` before deployment. Static pages stay unchanged; only the API runtime adapter changes.
+The connected Cloudflare Pages project should keep `npm run build` as its build command and `dist` as its output directory.
