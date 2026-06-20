@@ -1,0 +1,50 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { resourceSlug, type ResourceEntry } from "@/lib/resources";
+
+export async function getStaticPaths() {
+  const resources = await getCollection("resources");
+  return resources.filter((resource) => resource.data.isPremium).map((resource) => ({ params: { slug: resourceSlug(resource) }, props: { resource } }));
+}
+
+interface Props { resource: ResourceEntry; }
+const { resource } = Astro.props;
+---
+
+<BaseLayout title={`Download ${resource.data.title} | Lattice Visual`} description={`Verify your purchase and securely download ${resource.data.title}.`} canonical={`/resources/${resourceSlug(resource)}/success/`}>
+  <section class="download-success" data-download-success>
+    <p class="section-label">Purchase complete</p>
+    <h1>Your resource is almost ready.</h1>
+    <p data-success-status>Verifying your secure payment session…</p>
+    <div class="success-spinner" aria-hidden="true" data-success-spinner></div>
+    <a class="resource-download" href="#" data-success-download hidden>Download {resource.data.title} <span aria-hidden="true">↓</span></a>
+    <p class="success-email-note" data-success-note hidden>We also emailed the download details to the address used at checkout.</p>
+    <a class="success-back" href={`/resources/${resourceSlug(resource)}/`}>Back to resource</a>
+  </section>
+</BaseLayout>
+
+<script>
+  const root = document.querySelector<HTMLElement>("[data-download-success]");
+  if (root) {
+    const status = root.querySelector<HTMLElement>("[data-success-status]");
+    const spinner = root.querySelector<HTMLElement>("[data-success-spinner]");
+    const download = root.querySelector<HTMLAnchorElement>("[data-success-download]");
+    const note = root.querySelector<HTMLElement>("[data-success-note]");
+    const sessionId = new URL(window.location.href).searchParams.get("session_id");
+    if (!sessionId) {
+      if (status) status.textContent = "No payment session was found in this link.";
+      if (spinner) spinner.hidden = true;
+    } else {
+      fetch("/api/verify-session", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ sessionId }) })
+        .then(async (response) => { const payload = await response.json(); if (!response.ok) throw new Error(payload.error ?? "Verification failed."); return payload; })
+        .then((payload) => {
+          if (status) status.textContent = "Payment verified. Your private link is valid for 15 minutes.";
+          if (spinner) spinner.hidden = true;
+          if (download) { download.href = payload.downloadUrl; download.hidden = false; }
+          if (note) note.hidden = false;
+        })
+        .catch((error) => { if (status) status.textContent = error instanceof Error ? error.message : "We could not verify this payment."; if (spinner) spinner.hidden = true; });
+    }
+  }
+</script>

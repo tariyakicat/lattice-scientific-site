@@ -1,0 +1,10 @@
+---
+const steps = ["Brief", "Scientific review", "Visual draft", "Revision", "Final files"];
+---
+
+<section id="process" class="relative overflow-hidden bg-slate-50 py-20 md:py-24">
+  <div class="mx-auto max-w-7xl px-5 md:px-8">
+    <div class="section-centered-heading" data-reveal><p class="section-label">How does it work?</p><h2>A clear workflow from scientific brief to final files.</h2></div>
+    <div class="process-river mt-16" data-reveal>{steps.map((step, index) => <div class="process-step"><span>{index + 1}</span><strong>{step}</strong></div>)}</div>
+  </div>
+</section>

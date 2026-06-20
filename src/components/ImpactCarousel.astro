@@ -1,0 +1,81 @@
+---
+const slides = [
+  {
+    journal: "Regenerative biomaterials",
+    coverImg: "/generated/impact-cover-bone-repair-full.webp",
+    title: "Injectable hydrogel strategy for inflammation control and bone repair",
+    focus: "Si/Sr@nHA · PLGA · angiogenesis · bone remodelling",
+    explanation: "The figure explains how a composite hydrogel shifts the local inflammatory response, supports vascular growth, and guides bone formation across cellular and tissue scales.",
+  },
+  {
+    journal: "Environmental biotechnology",
+    coverImg: "/generated/impact-cover-microalgae-full.webp",
+    title: "Photocatalysis-microalgae system for antibiotic wastewater treatment",
+    focus: "WO3/alpha-Fe2O3 zeolite · visible light · microalgae response",
+    explanation: "This mechanism visual connects material preparation, antibiotic pre-oxidation, toxicity reduction, and the downstream metabolic response of Chlorella-based treatment.",
+  },
+  {
+    journal: "Nano-therapeutic mechanism",
+    coverImg: "/generated/impact-cover-nanotherapeutic-full.webp",
+    title: "ER-targeted nanoplatform activating oxidative stress pathways",
+    focus: "TMPUZ NBs · ROS · ER stress · ferroptosis / apoptosis",
+    explanation: "The illustration shows a therapy-oriented nanoparticle workflow from construct formation to cellular uptake, organelle targeting, and stress-response pathways inside the cell.",
+  },
+];
+---
+
+<section id="impact" class="relative overflow-hidden bg-white py-20 md:py-24">
+  <svg class="impact-top-wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0H1440V34C1298 72 1142 90 972 82C802 74 668 30 484 34C300 38 148 76 0 54V0Z" fill="#fbfdff"></path></svg>
+  <span class="impact-orb impact-orb-a" aria-hidden="true"></span><span class="impact-orb impact-orb-b" aria-hidden="true"></span>
+  <div class="impact-inner mx-auto max-w-6xl px-5 md:px-8">
+    <div class="impact-layout">
+      <div class="impact-copy" data-reveal>
+        <h2>Increase your impact</h2>
+        <p>Strong visuals help your research get noticed, understood and cited. Our illustrations have been featured in leading journals and trusted by researchers worldwide.</p>
+      </div>
+      <div class="impact-paper impact-carousel-card" role="region" aria-label="Featured scientific illustration carousel" data-impact-carousel data-reveal>
+        <div class="impact-carousel-controls" aria-label="Carousel controls">
+          <button type="button" aria-label="Show previous featured slide" data-impact-prev><span aria-hidden="true">←</span></button>
+          <button type="button" aria-label="Show next featured slide" data-impact-next><span aria-hidden="true">→</span></button>
+        </div>
+        <div class="impact-slide-viewport" aria-live="polite">
+          {slides.map((slide, index) => (
+            <article class:list={["impact-slide", { "is-active": index === 0 }]} aria-hidden={index === 0 ? "false" : "true"}>
+              <img class="impact-cover" src={slide.coverImg} alt={`${slide.journal} scientific illustration preview`} loading={index === 0 ? "eager" : "lazy"} width="640" height="800" />
+              <div class="impact-slide-copy"><span class="impact-category">{slide.journal}</span><h3>{slide.title}</h3><p class="impact-focus">{slide.focus}</p><p class="impact-explanation">{slide.explanation}</p></div>
+            </article>
+          ))}
+        </div>
+        <div class="impact-dots" aria-label="Carousel pagination">
+          {slides.map((_, index) => <button type="button" aria-label={`Go to slide ${index + 1}`} aria-current={index === 0 ? "true" : undefined} class:list={{ "is-active": index === 0 }} data-impact-dot={index}></button>)}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-impact-carousel]").forEach((carousel) => {
+    const slides = [...carousel.querySelectorAll<HTMLElement>(".impact-slide")];
+    const dots = [...carousel.querySelectorAll<HTMLButtonElement>("[data-impact-dot]")];
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let index = 0;
+    let timer: number | undefined;
+    let paused = false;
+    const show = (next: number, reset = true) => {
+      index = (next + slides.length) % slides.length;
+      slides.forEach((slide, i) => { slide.classList.toggle("is-active", i === index); slide.setAttribute("aria-hidden", String(i !== index)); });
+      dots.forEach((dot, i) => { dot.classList.toggle("is-active", i === index); i === index ? dot.setAttribute("aria-current", "true") : dot.removeAttribute("aria-current"); });
+      if (reset) start();
+    };
+    const start = () => { window.clearTimeout(timer); if (!reduceMotion && !paused) timer = window.setTimeout(() => show(index + 1, false), 5000); };
+    carousel.querySelector<HTMLButtonElement>("[data-impact-prev]")?.addEventListener("click", () => show(index - 1));
+    carousel.querySelector<HTMLButtonElement>("[data-impact-next]")?.addEventListener("click", () => show(index + 1));
+    dots.forEach((dot, i) => dot.addEventListener("click", () => show(i)));
+    carousel.addEventListener("mouseenter", () => { paused = true; window.clearTimeout(timer); });
+    carousel.addEventListener("mouseleave", () => { paused = false; start(); });
+    carousel.addEventListener("focusin", () => { paused = true; window.clearTimeout(timer); });
+    carousel.addEventListener("focusout", (event) => { if (!carousel.contains(event.relatedTarget as Node)) { paused = false; start(); } });
+    start();
+  });
+</script>

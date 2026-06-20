@@ -1,0 +1,26 @@
+---
+import Icon from "./Icon.astro";
+---
+
+<section id="home" class="lv-hero" style="--hero-bg: url('/generated/hero-background-wide.webp')">
+  <div class="lv-hero-inner">
+    <div class="lv-hero-grid">
+      <div class="lv-hero-copy" data-reveal>
+        <p class="lv-hero-eyebrow"><Icon name="sparkles" size={16} /> Visual science communication studio</p>
+        <h1 class="lv-hero-title">
+          <span>Visual Science</span>
+          <span>Communication for</span>
+          <span>Research Impact</span>
+        </h1>
+        <p class="lv-hero-subtitle">We help scientists, labs and biotech teams communicate complex discoveries with accuracy and high visual impact.</p>
+        <div class="lv-hero-actions">
+          <a href="#contact" class="lv-hero-btn lv-hero-btn-primary">Start a project <span aria-hidden="true">→</span></a>
+          <a href="#services" class="lv-hero-btn lv-hero-btn-secondary">View services <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <svg class="lv-hero-wave" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 88L80 78C160 68 320 48 480 54C640 60 800 92 960 92C1120 92 1280 60 1360 44L1440 28V120H0V88Z" fill="#fbfdff"></path>
+  </svg>
+</section>

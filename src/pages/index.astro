@@ -1,0 +1,44 @@
+---
+import { getAllResources } from "@/lib/resources";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AwardBand from "@/components/AwardBand.astro";
+import BeforeAfter from "@/components/BeforeAfter.astro";
+import ContactForm from "@/components/ContactForm.astro";
+import Hero from "@/components/Hero.astro";
+import ImpactCarousel from "@/components/ImpactCarousel.astro";
+import ProblemSolution from "@/components/ProblemSolution.astro";
+import Process from "@/components/Process.astro";
+import ResourcesTeaser from "@/components/ResourcesTeaser.astro";
+import Testimonials from "@/components/Testimonials.astro";
+import WeCreate from "@/components/WeCreate.astro";
+
+const allResources = await getAllResources();
+const featured = allResources.filter((resource) => resource.data.featured).slice(0, 6);
+const teaserResources = featured.length ? featured : allResources.slice(0, 6);
+
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: "Lattice Visual",
+  url: "https://www.latticevisual.com/",
+  email: "contact@latticevisual.com",
+  description: "Scientific illustration and visual communication for researchers, labs and biotech teams.",
+};
+---
+
+<BaseLayout
+  title="Lattice Visual — Scientific Illustration & Visual Communication"
+  description="Publication-quality graphical abstracts, scientific figures, journal covers, animation and research communication design."
+  jsonLd={organizationJsonLd}
+>
+  <Hero />
+  <ImpactCarousel />
+  <ProblemSolution />
+  <BeforeAfter />
+  <AwardBand />
+  <WeCreate />
+  <ResourcesTeaser resources={teaserResources} />
+  <Process />
+  <Testimonials />
+  <ContactForm />
+</BaseLayout>

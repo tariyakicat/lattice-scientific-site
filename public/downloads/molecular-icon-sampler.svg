@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+  <title id="title">Molecular Icon Sampler</title>
+  <desc id="desc">A collection of editable scientific line icons.</desc>
+  <rect width="1600" height="1000" fill="#f8fbfd"/>
+  <text x="100" y="110" fill="#1a2433" font-family="Georgia,serif" font-size="54" font-weight="700">Molecular Icon Sampler</text>
+  <text x="102" y="155" fill="#5a6675" font-family="Arial,sans-serif" font-size="22">Editable SVG scientific symbols</text>
+  <g fill="#fff" stroke="#dce8f0" stroke-width="3">
+    <rect x="100" y="230" width="300" height="280" rx="24"/><rect x="450" y="230" width="300" height="280" rx="24"/><rect x="800" y="230" width="300" height="280" rx="24"/><rect x="1150" y="230" width="300" height="280" rx="24"/>
+    <rect x="100" y="560" width="300" height="280" rx="24"/><rect x="450" y="560" width="300" height="280" rx="24"/><rect x="800" y="560" width="300" height="280" rx="24"/><rect x="1150" y="560" width="300" height="280" rx="24"/>
+  </g>
+  <g fill="none" stroke="#1f7fc4" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+    <g transform="translate(250 370)"><circle r="72"/><circle cx="-35" cy="-18" r="14"/><circle cx="38" cy="22" r="18"/><path d="M-24-8L25 14"/></g>
+    <g transform="translate(600 370)"><path d="M-70-70c95 35 95 105 0 140M70-70C-25-35-25 35 70 70M-42-50h84M-48 0h96M-42 50h84"/></g>
+    <g transform="translate(950 370)"><path d="M-80 30c35-120 125-120 160 0-35 70-125 70-160 0Z"/><circle cy="5" r="35"/></g>
+    <g transform="translate(1300 370)"><path d="M-82 60c15-105 45-140 82-140s67 35 82 140c-50 30-114 30-164 0Z"/><path d="M0-80V75"/></g>
+    <g transform="translate(250 700)"><circle cx="-62" cy="-25" r="28"/><circle cx="0" cy="45" r="28"/><circle cx="66" cy="-34" r="28"/><path d="M-42-4L-16 28M22 28L47-13M-33-28L35-33"/></g>
+    <g transform="translate(600 700)"><path d="M-90 55C-30-110 35 115 90-55"/><circle cx="-90" cy="55" r="16"/><circle cx="90" cy="-55" r="16"/></g>
+    <g transform="translate(950 700)"><path d="M-80 75V-60h160V75M-45 75V15h90v60"/><circle cy="-22" r="16"/></g>
+    <g transform="translate(1300 700)"><path d="M-85 60h170M-65 60V-25M0 60v-140M65 60V0"/></g>
+  </g>
+</svg>

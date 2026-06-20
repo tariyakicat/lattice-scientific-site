@@ -1,0 +1,14 @@
+---
+const testimonials = [
+  ["The visual structure made the mechanism understandable to collaborators outside our field.", "Principal Investigator", "Biomedical research lab"],
+  ["The figure finally matched the quality of the science. It became the clearest part of the submission.", "Postdoctoral researcher", "Materials science manuscript"],
+  ["The team translated a very dense process into a visual explanation we could use everywhere.", "Scientific communications lead", "Biotech platform launch"],
+];
+---
+
+<section class="bg-white py-20 md:py-24" aria-labelledby="testimonials-title">
+  <div class="mx-auto max-w-7xl px-5 md:px-8">
+    <div class="section-split-heading" data-reveal><div><p class="section-label">Our clients say</p><h2 id="testimonials-title">Designed with scientists, not around them.</h2></div><p>The collaboration is built around accuracy first, then visual impact.</p></div>
+    <div class="quote-stream mt-14">{testimonials.map(([quote, name, role]) => <article class="quote-panel" data-reveal><p>“{quote}”</p><span>{name}</span><small>{role}</small></article>)}</div>
+  </div>
+</section>

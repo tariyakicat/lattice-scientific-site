@@ -1,0 +1,26 @@
+<section id="portfolio" class="relative scroll-mt-24 bg-white py-20 md:py-24" aria-labelledby="before-after-title">
+  <div class="mx-auto max-w-7xl px-5 md:px-8">
+    <div class="section-split-heading" data-reveal>
+      <div class="max-w-3xl"><p class="section-label">Before / After</p><h2 id="before-after-title">From manuscript sketch to publication-ready figure.</h2></div>
+      <p>Move the divider to compare the raw scientific structure with a polished editorial visual.</p>
+    </div>
+    <div class="before-after-shell mt-14" data-before-after data-reveal>
+      <div class="comparison-stage">
+        <div class="comparison-layer comparison-before"><img src="/generated/before-raw-sketch.svg" alt="Raw scientific manuscript sketch before redesign" loading="lazy" /></div>
+        <div class="comparison-layer comparison-after" style="clip-path: inset(0 0 0 52%)"><img src="/generated/after-polished-figure.svg" alt="Publication-ready scientific illustration after redesign" loading="lazy" /></div>
+        <div class="comparison-divider" style="left: 52%"><span aria-hidden="true">↔</span></div>
+        <input class="comparison-range" type="range" min="12" max="88" value="52" aria-label="Move before and after comparison divider" />
+      </div>
+      <div class="comparison-caption"><span>raw sketch / notes</span><span>lattice visual effect</span></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-before-after]").forEach((root) => {
+    const input = root.querySelector<HTMLInputElement>(".comparison-range");
+    const after = root.querySelector<HTMLElement>(".comparison-after");
+    const divider = root.querySelector<HTMLElement>(".comparison-divider");
+    input?.addEventListener("input", () => { const value = input.value; if (after) after.style.clipPath = `inset(0 0 0 ${value}%)`; if (divider) divider.style.left = `${value}%`; });
+  });
+</script>

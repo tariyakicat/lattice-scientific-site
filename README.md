@@ -1,12 +1,12 @@
 # Lattice Visual Scientific Illustration Site
 
-Next.js website for the Lattice Visual scientific illustration sub-site.
+Astro + TypeScript website for Lattice Visual scientific illustration and its growing resource library.
 
 ## Local Development
 
 ```bash
 npm install
-npm run dev -- -p 5173
+npm run dev -- --port 5173
 ```
 
 Local URL:
@@ -21,52 +21,24 @@ http://127.0.0.1:5173
 npm run build
 ```
 
-This is a Next.js App Router project. It does **not** build to `dist`.
+Astro prerenders the homepage, resource hub, and every resource detail page. Stripe API routes opt out of prerendering and run through the configured server adapter.
+
+## Add A Resource
+
+Create one MDX file in `src/content/resources/` using an existing entry as a template. The content schema lives in `src/content.config.ts`. On the next build, the resource is added to the hub, receives its own static detail page, and is included in the sitemap.
+
+Images referenced by MDX entries live in `src/assets/resources/`. Free public files live in `public/downloads/`; premium files must remain in private object storage.
 
 ## Deployment Notes
 
-The previous version of this repository was a Vite/static SPA and used:
+The production configuration in this repository uses `@astrojs/vercel` because the Stripe routes need on-demand server execution:
 
 ```text
-Framework preset: Vite
+Framework preset: Astro
 Build command: npm run build
-Build output directory: dist
+Output directory: framework default
 ```
 
-Those settings are no longer correct.
+Set `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `PRIVATE_DOWNLOAD_BASE_URL`, and `DOWNLOAD_SIGNING_SECRET` in the deployment environment. Replace every `price_TODO_*` value in resource frontmatter with a real Stripe Price ID before accepting live payments.
 
-### Recommended: Vercel
-
-Use Vercel for the current Next.js site:
-
-```text
-Framework preset: Next.js
-Build command: npm run build
-Output directory: leave blank / Vercel default
-Production branch: main
-```
-
-Then add the custom domain:
-
-```text
-sci.latticevisual.com
-```
-
-In Cloudflare DNS, point the subdomain to the Vercel target shown in Vercel's domain settings.
-
-### If Staying On Cloudflare
-
-The existing `sci.latticevisual.com` currently resolves through Cloudflare and was serving the old Vite build. To deploy this Next.js version on Cloudflare, do not use the old `dist` output.
-
-Use either:
-
-- Cloudflare's Next.js static export flow only if API routes are removed and the site is fully static.
-- Cloudflare Workers/OpenNext for full Next.js behavior.
-
-The current site includes an API route at:
-
-```text
-app/api/quote/route.ts
-```
-
-So a full Next deployment target such as Vercel, or Cloudflare Workers/OpenNext, is preferred.
+If the final runtime remains Cloudflare Workers/Pages, replace the Vercel adapter with `@astrojs/cloudflare` before deployment. Static pages stay unchanged; only the API runtime adapter changes.

@@ -1,0 +1,20 @@
+---
+import type { ResourceEntry } from "@/lib/resources";
+import ResourceCard from "./ResourceCard.astro";
+
+interface Props { resources: ResourceEntry[]; }
+const { resources } = Astro.props;
+---
+
+<section id="resources" class="resources-section resources-teaser">
+  <div class="resources-shell">
+    <div class="resources-heading" data-reveal><p>Resources</p><h2>Templates &amp; assets</h2><span>Publication-ready tools to jump-start your science visuals.</span></div>
+    <form class="resource-search" action="/resources/" method="get" role="search">
+      <label class="sr-only" for="home-resource-search">Search scientific templates and assets</label>
+      <input id="home-resource-search" type="search" name="q" placeholder="Search templates, figure kits, icons…" />
+      <button type="submit">Search <span aria-hidden="true">→</span></button>
+    </form>
+    <div class="resource-grid resource-teaser-grid">{resources.map((resource) => <ResourceCard {resource} />)}</div>
+    <div class="resources-browse"><a href="/resources/">Browse all resources <span aria-hidden="true">→</span></a></div>
+  </div>
+</section>

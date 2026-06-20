@@ -1,0 +1,126 @@
+---
+import { Image } from "astro:assets";
+import { getCollection, render } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ResourceCard from "@/components/ResourceCard.astro";
+import { resourceSlug, type ResourceEntry } from "@/lib/resources";
+
+export async function getStaticPaths() {
+  const resources = await getCollection("resources");
+  return resources.map((resource) => ({ params: { slug: resourceSlug(resource) }, props: { resource } }));
+}
+
+interface Props { resource: ResourceEntry; }
+const { resource } = Astro.props;
+const { Content } = await render(resource);
+const allResources = await getCollection("resources");
+const slug = resourceSlug(resource);
+const related = allResources.filter((entry) => entry.id !== resource.id && entry.data.category === resource.data.category).slice(0, 3);
+const accessLabel = resource.data.isPremium ? "Premium" : "Free";
+const title = `${resource.data.title} — ${accessLabel} ${resource.data.fileType} | Lattice Visual`;
+const canonical = `/resources/${slug}/`;
+const itemJsonLd = resource.data.isPremium ? {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: resource.data.title,
+  description: resource.data.summary,
+  image: new URL(resource.data.thumb.src, Astro.site).href,
+  url: new URL(canonical, Astro.site).href,
+  offers: { "@type": "Offer", price: resource.data.price, priceCurrency: resource.data.currency.toUpperCase(), availability: "https://schema.org/InStock", url: new URL(canonical, Astro.site).href },
+} : {
+  "@context": "https://schema.org",
+  "@type": "DigitalDocument",
+  name: resource.data.title,
+  description: resource.data.summary,
+  encodingFormat: resource.data.fileType,
+  isAccessibleForFree: true,
+  url: new URL(canonical, Astro.site).href,
+};
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://www.latticevisual.com/" },
+    { "@type": "ListItem", position: 2, name: "Resources", item: "https://www.latticevisual.com/resources/" },
+    { "@type": "ListItem", position: 3, name: resource.data.title, item: new URL(canonical, Astro.site).href },
+  ],
+};
+---
+
+<BaseLayout {title} description={resource.data.summary} image={resource.data.thumb.src} {canonical} jsonLd={[itemJsonLd, breadcrumbJsonLd]}>
+  <article class="resource-detail">
+    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/resources/">Resources</a><span aria-hidden="true">/</span><span aria-current="page">{resource.data.title}</span></nav>
+    <div class="resource-detail-grid">
+      <section class="resource-gallery" aria-label={`${resource.data.title} preview gallery`} data-resource-gallery>
+        <div class="resource-gallery-stage">
+          {resource.data.previewImages.map((preview, index) => (
+            <figure class:list={{ "is-active": index === 0 }} data-gallery-slide={index} aria-hidden={index === 0 ? "false" : "true"}>
+              <Image
+                src={preview}
+                alt={`${resource.data.title} preview ${index + 1}`}
+                widths={[720, 1100]}
+                sizes="(max-width: 899px) 100vw, 58vw"
+                loading={index === 0 ? "eager" : "lazy"}
+              />
+            </figure>
+          ))}
+          {resource.data.previewImages.length > 1 && (
+            <>
+              <button class="gallery-arrow gallery-prev" type="button" aria-label="Show previous preview" data-gallery-prev>←</button>
+              <button class="gallery-arrow gallery-next" type="button" aria-label="Show next preview" data-gallery-next>→</button>
+            </>
+          )}
+        </div>
+        <div class="resource-gallery-thumbs" aria-label="Choose preview image">
+          {resource.data.previewImages.map((preview, index) => (
+            <button type="button" class:list={{ "is-active": index === 0 }} aria-label={`Show preview ${index + 1}`} aria-current={index === 0 ? "true" : undefined} data-gallery-thumb={index}>
+              <Image src={preview} alt="" width={140} height={100} loading="lazy" />
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <aside class="resource-detail-info">
+        <div class="resource-detail-tags"><span>{resource.data.category}</span><span>{resource.data.fileType}</span></div>
+        <h1>{resource.data.title}</h1>
+        <p class="resource-detail-summary">{resource.data.summary}</p>
+        <section class="resource-included" aria-labelledby="included-title"><h2 id="included-title">What's included</h2><ul>{resource.data.included.map((item) => <li><span aria-hidden="true">✓</span>{item}</li>)}</ul></section>
+        <dl class="resource-specs"><div><dt>Formats</dt><dd>{resource.data.formats.join(", ")}</dd></div><div><dt>File size</dt><dd>{resource.data.fileSize}</dd></div><div><dt>License</dt><dd>{resource.data.license}</dd></div><div><dt>Compatibility</dt><dd>{resource.data.compatibility}</dd></div></dl>
+        <div class="resource-buy-panel">
+          {resource.data.isPremium ? <><div><span>One-time purchase</span><strong>${resource.data.price}</strong></div><button type="button" data-checkout-slug={slug}>Buy &amp; download <span aria-hidden="true">→</span></button><p>Secure checkout. {resource.data.license} license included.</p><p class="checkout-error" data-checkout-error hidden></p></> : <><a href={resource.data.downloadUrl ?? "#"} class="resource-download" download>Download free resource <span aria-hidden="true">↓</span></a><p>{resource.data.license} license included.</p></>}
+        </div>
+      </aside>
+    </div>
+    <section class="resource-rich-body"><h2>About this resource</h2><div class="resource-prose"><Content /></div></section>
+    {related.length > 0 && <section class="related-resources"><div class="related-heading"><h2>Related resources</h2><a href="/resources/">View all <span aria-hidden="true">→</span></a></div><div class="resource-grid">{related.map((entry) => <ResourceCard resource={entry} />)}</div></section>}
+  </article>
+</BaseLayout>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-resource-gallery]").forEach((gallery) => {
+    const slides = [...gallery.querySelectorAll<HTMLElement>("[data-gallery-slide]")];
+    const thumbs = [...gallery.querySelectorAll<HTMLButtonElement>("[data-gallery-thumb]")];
+    let index = 0;
+    const show = (next: number) => { index = (next + slides.length) % slides.length; slides.forEach((slide, i) => { slide.classList.toggle("is-active", i === index); slide.setAttribute("aria-hidden", String(i !== index)); }); thumbs.forEach((thumb, i) => { thumb.classList.toggle("is-active", i === index); i === index ? thumb.setAttribute("aria-current", "true") : thumb.removeAttribute("aria-current"); }); };
+    gallery.querySelector("[data-gallery-prev]")?.addEventListener("click", () => show(index - 1));
+    gallery.querySelector("[data-gallery-next]")?.addEventListener("click", () => show(index + 1));
+    thumbs.forEach((thumb, i) => thumb.addEventListener("click", () => show(i)));
+    gallery.addEventListener("keydown", (event) => { if (event.key === "ArrowLeft") show(index - 1); if (event.key === "ArrowRight") show(index + 1); });
+  });
+
+  document.querySelectorAll<HTMLButtonElement>("[data-checkout-slug]").forEach((button) => {
+    button.addEventListener("click", async () => {
+      const error = button.parentElement?.querySelector<HTMLElement>("[data-checkout-error]");
+      button.disabled = true; button.textContent = "Opening secure checkout…"; if (error) error.hidden = true;
+      try {
+        const response = await fetch("/api/create-checkout-session", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ resourceId: button.dataset.checkoutSlug }) });
+        const payload = await response.json();
+        if (!response.ok || !payload.url) throw new Error(payload.error ?? "Checkout could not be started.");
+        window.location.assign(payload.url);
+      } catch (reason) {
+        if (error) { error.textContent = reason instanceof Error ? reason.message : "Checkout could not be started."; error.hidden = false; }
+        button.disabled = false; button.textContent = "Buy & download →";
+      }
+    });
+  });
+</script>

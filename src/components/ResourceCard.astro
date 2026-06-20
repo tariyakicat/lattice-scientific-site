@@ -1,0 +1,46 @@
+---
+import { Image } from "astro:assets";
+import type { ResourceEntry } from "@/lib/resources";
+import { resourceLabel, resourceSlug } from "@/lib/resources";
+
+interface Props {
+  resource: ResourceEntry;
+  headingLevel?: "h2" | "h3";
+}
+
+const { resource, headingLevel = "h3" } = Astro.props;
+const Heading = headingLevel;
+const slug = resourceSlug(resource);
+const href = `/resources/${slug}/`;
+const access = resource.data.isPremium ? "premium" : "free";
+---
+
+<article
+  class="resource-card-host"
+  data-resource-card
+  data-title={resource.data.title.toLowerCase()}
+  data-summary={resource.data.summary.toLowerCase()}
+  data-subtype={resource.data.subtype.toLowerCase()}
+  data-category={resource.data.category}
+  data-access={access}
+>
+  <div class="resource-card">
+    <a class="resource-card-media" href={href} aria-label={`View ${resource.data.title}`}>
+      <Image src={resource.data.thumb} alt={`${resource.data.title} preview`} widths={[480, 760]} sizes="(max-width: 767px) 100vw, (max-width: 991px) 50vw, 33vw" loading="lazy" />
+      <span class:list={["resource-card-badge", resource.data.isPremium ? "is-premium" : "is-free"]}>{resourceLabel(resource)}</span>
+    </a>
+    <div class="resource-card-body">
+      <span class="resource-type">{resource.data.fileType}</span>
+      <Heading><a href={href}>{resource.data.title}</a></Heading>
+      <p>{resource.data.summary}</p>
+      <div class="resource-card-footer">
+        <small>{resource.data.formats.join(" / ")} · {resource.data.fileSize}</small>
+        {resource.data.isPremium ? (
+          <a class="resource-cta" href={href} aria-label={`Get ${resource.data.title} for $${resource.data.price}`}>Get for ${resource.data.price} <span aria-hidden="true">→</span></a>
+        ) : (
+          <a class="resource-cta" href={resource.data.downloadUrl ?? href} download aria-label={`Download ${resource.data.title}`}>Download <span aria-hidden="true">↓</span></a>
+        )}
+      </div>
+    </div>
+  </div>
+</article>

@@ -1,0 +1,79 @@
+---
+import Icon from "./Icon.astro";
+---
+
+<section id="contact" class="relative overflow-hidden bg-slate-50 py-20 md:py-24">
+  <div class="contact-shell mx-auto max-w-7xl px-5 md:px-8">
+    <div class="contact-card" data-contact-card data-reveal>
+      <div class="contact-info">
+        <img class="contact-info-art" src="/contact-ink.png" alt="" aria-hidden="true" />
+        <div class="contact-info-content">
+          <p class="contact-label">Contact</p>
+          <h2><span>Tell us about your project.</span><span>We'd love to hear from you.</span></h2>
+          <a class="contact-email" href="mailto:contact@latticevisual.com"><Icon name="mail" /><span>contact@latticevisual.com</span></a>
+          <p class="contact-response">We typically reply within 1 business day.</p>
+          <div class="contact-trust" aria-label="Contact assurances">{["Fast response", "Confidential", "No obligation"].map((item) => <span><Icon name="check" size={18} />{item}</span>)}</div>
+        </div>
+      </div>
+      <div class="contact-form-area">
+        <form class="contact-form" novalidate data-contact-form>
+          <div class="contact-form-grid">
+            <label class="contact-field" for="contact-name"><span>Your name <em>*</em></span><input id="contact-name" name="name" type="text" placeholder="Your name" autocomplete="name" required aria-describedby="contact-name-error" /><small id="contact-name-error" class="contact-error" data-error="name"></small></label>
+            <label class="contact-field" for="contact-email"><span>Email address <em>*</em></span><input id="contact-email" name="email" type="email" placeholder="Email address" autocomplete="email" required aria-describedby="contact-email-error" /><small id="contact-email-error" class="contact-error" data-error="email"></small></label>
+            <label class="contact-field" for="contact-project-type"><span>Project type</span><span class="contact-select-wrap"><select id="contact-project-type" name="projectType"><option value="">Select project type</option><option>Graphical abstract</option><option>Scientific figure</option><option>Journal cover</option><option>Scientific animation</option><option>Presentation or poster</option></select><span aria-hidden="true">⌄</span></span></label>
+            <label class="contact-field" for="contact-target"><span>Target journal / deadline</span><input id="contact-target" name="target" type="text" placeholder="Target journal / deadline" /></label>
+            <label class="contact-field contact-field-full" for="contact-message"><span>Tell us about your project <em>*</em></span><textarea id="contact-message" name="message" placeholder="Tell us about your project" rows="5" required aria-describedby="contact-message-error"></textarea><small id="contact-message-error" class="contact-error" data-error="message"></small></label>
+          </div>
+          <div class="contact-submit-row">
+            <div>
+              <div class="contact-dropzone" role="button" tabindex="0" aria-label="Upload brief or files" data-dropzone><Icon name="upload" /><span><strong>Upload brief or files (optional)</strong><small>Drag and drop or <b>click to browse</b></small></span></div>
+              <input class="contact-file-input" type="file" multiple aria-label="Choose project files" data-file-input />
+              <ul class="contact-file-list" aria-label="Selected files" data-file-list hidden></ul>
+            </div>
+            <button class="contact-send" type="submit">Send message <span aria-hidden="true">→</span></button>
+          </div>
+        </form>
+        <div class="contact-success" role="status" data-contact-success hidden><span class="contact-success-icon"><Icon name="check" /></span><h3>Thanks - we'll reply within 1 business day.</h3><p>Your project details are ready for our studio team to review.</p><button type="button" data-contact-reset>Send another message</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-contact-card]").forEach((card) => {
+    const form = card.querySelector<HTMLFormElement>("[data-contact-form]");
+    const success = card.querySelector<HTMLElement>("[data-contact-success]");
+    const input = card.querySelector<HTMLInputElement>("[data-file-input]");
+    const dropzone = card.querySelector<HTMLElement>("[data-dropzone]");
+    const fileList = card.querySelector<HTMLUListElement>("[data-file-list]");
+    const showFiles = (files: FileList | null) => {
+      if (!fileList) return;
+      fileList.innerHTML = "";
+      [...(files ?? [])].forEach((file) => { const item = document.createElement("li"); item.textContent = file.name; fileList.append(item); });
+      fileList.hidden = !files?.length;
+    };
+    const openPicker = () => input?.click();
+    dropzone?.addEventListener("click", openPicker);
+    dropzone?.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); openPicker(); } });
+    input?.addEventListener("change", () => showFiles(input.files));
+    ["dragenter", "dragover"].forEach((type) => dropzone?.addEventListener(type, (event) => { event.preventDefault(); dropzone.classList.add("is-dragging"); }));
+    ["dragleave", "drop"].forEach((type) => dropzone?.addEventListener(type, (event) => { event.preventDefault(); dropzone.classList.remove("is-dragging"); }));
+    dropzone?.addEventListener("drop", (event) => showFiles((event as DragEvent).dataTransfer?.files ?? null));
+    form?.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const values = new FormData(form);
+      const errors: Record<string, string> = {};
+      const name = String(values.get("name") ?? "").trim();
+      const email = String(values.get("email") ?? "").trim();
+      const message = String(values.get("message") ?? "").trim();
+      if (!name) errors.name = "Please enter your name.";
+      if (!email) errors.email = "Please enter your email address."; else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errors.email = "Please enter a valid email address.";
+      if (!message) errors.message = "Please tell us a little about your project.";
+      ["name", "email", "message"].forEach((field) => { const node = form.querySelector<HTMLElement>(`[data-error="${field}"]`); const control = form.elements.namedItem(field) as HTMLElement | null; if (node) node.textContent = errors[field] ?? ""; control?.setAttribute("aria-invalid", String(Boolean(errors[field]))); });
+      if (Object.keys(errors).length) return;
+      // TODO: Wire the validated fields and optional files to the production contact endpoint.
+      form.hidden = true; if (success) success.hidden = false;
+    });
+    card.querySelector("[data-contact-reset]")?.addEventListener("click", () => { form?.reset(); if (form) form.hidden = false; if (success) success.hidden = true; showFiles(null); });
+  });
+</script>

@@ -1,0 +1,37 @@
+---
+import Icon from "./Icon.astro";
+
+const problemPoints = [
+  ["file-image", "Figures lack clarity and visual hierarchy"],
+  ["eye-off", "Manuscripts get overlooked"],
+  ["clock", "Time-consuming and hard to do in-house"],
+  ["help", "Limited design support in academia"],
+];
+const solutionPoints = [
+  ["badge", "Journal-ready, publication quality"],
+  ["target", "Highlight the key message"],
+  ["support", "Save time with expert support"],
+  ["globe", "Trusted by scientists worldwide"],
+];
+---
+
+<section id="solution" class="relative overflow-hidden bg-slate-50 py-20 md:py-24">
+  <div class="mx-auto max-w-[1320px] px-5 md:px-8">
+    <div class="problem-solution-flow">
+      <div class="solution-column solution-problem" data-reveal>
+        <h2>Problem</h2><h3>Complex science is hard to communicate</h3>
+        <p class="solution-description">Dense data, abstract mechanisms and specialized language make it difficult to explain your research to a broader audience - from journal editors to investors and the public.</p>
+        <ul class="solution-point-list">{problemPoints.map(([icon, label]) => <li><span class="solution-point-icon"><Icon name={icon} size={22} /></span><span>{label}</span></li>)}</ul>
+      </div>
+      <div class="solution-visual" data-reveal>
+        <img class="solution-visual-image" src="/problem-solution.png" alt="A mirrored protein-like structure transitioning from warm orange to clear blue" width="1448" height="1086" loading="lazy" decoding="async" />
+        <button class="solution-compare-button" type="button" aria-label="Compare problem and solution"><Icon name="right" /></button>
+      </div>
+      <div class="solution-column solution-answer" data-reveal>
+        <h2>Solution</h2><h3>Scientific visuals that make an impact</h3>
+        <p class="solution-description">We translate your research into accurate, elegant and effective visuals that highlight the key story and drive understanding across any audience.</p>
+        <ul class="solution-point-list">{solutionPoints.map(([icon, label]) => <li><span class="solution-point-icon"><Icon name={icon} size={22} /></span><span>{label}</span></li>)}</ul>
+      </div>
+    </div>
+  </div>
+</section>
