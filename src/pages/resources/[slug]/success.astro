@@ -19,7 +19,7 @@ const { resource } = Astro.props;
     <p data-success-status>Verifying your secure payment session…</p>
     <div class="success-spinner" aria-hidden="true" data-success-spinner></div>
     <a class="resource-download" href="#" data-success-download hidden>Download {resource.data.title} <span aria-hidden="true">↓</span></a>
-    <p class="success-email-note" data-success-note hidden>We also emailed the download details to the address used at checkout.</p>
+    <p class="success-email-note" data-success-note hidden>This private link expires after 15 minutes. You can return to this page to generate a fresh link from the same paid session.</p>
     <a class="success-back" href={`/resources/${resourceSlug(resource)}/`}>Back to resource</a>
   </section>
 </BaseLayout>

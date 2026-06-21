@@ -1,4 +1,26 @@
 export const premiumResources = {
+  "stripe-test-download": {
+    title: "Stripe Test Download",
+    price: 100,
+    currency: "usd",
+    stripePriceId: null,
+    downloadName: "lattice-visual-stripe-test.svg",
+    contentType: "image/svg+xml; charset=utf-8",
+    inlineContent: `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">Lattice Visual Stripe test download</title>
+  <desc id="desc">A private test asset delivered after a verified Stripe Sandbox payment.</desc>
+  <rect width="1200" height="800" fill="#f4f8fc"/>
+  <circle cx="930" cy="180" r="220" fill="#dcebf7"/>
+  <circle cx="190" cy="690" r="280" fill="#e8f2fa"/>
+  <path d="M120 570 C320 230 520 680 710 350 S1010 180 1100 420" fill="none" stroke="#1f7fc4" stroke-width="18" stroke-linecap="round"/>
+  <g fill="#1a2433" font-family="Arial, Helvetica, sans-serif">
+    <text x="120" y="205" font-size="34" letter-spacing="4">LATTICE VISUAL</text>
+    <text x="120" y="325" font-size="76" font-weight="700">Payment test complete</text>
+    <text x="120" y="395" font-size="30" fill="#5a6675">This private SVG was released after Stripe verified the purchase.</text>
+    <text x="120" y="720" font-size="24" fill="#5a6675">Sandbox resource · $1.00 · Testing only</text>
+  </g>
+</svg>`,
+  },
   "journal-cover-layouts": {
     title: "Journal Cover Layouts",
     price: 1900,
@@ -33,4 +55,11 @@ export const premiumResources = {
 
 export function getPremiumResource(slug) {
   return premiumResources[slug] || null;
+}
+
+export function isPaidSessionForResource(session, slug, resource) {
+  return session?.payment_status === "paid"
+    && session?.metadata?.resourceSlug === slug
+    && session?.amount_total === resource.price
+    && session?.currency === resource.currency;
 }
