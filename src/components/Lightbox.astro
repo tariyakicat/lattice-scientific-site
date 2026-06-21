@@ -1,0 +1,175 @@
+---
+import type { PortfolioEntry } from "@/lib/portfolio";
+import { categorySlugForProject, portfolioAlt, portfolioSlug } from "@/lib/portfolio";
+
+interface Props {
+  projects: PortfolioEntry[];
+  id?: string;
+}
+
+const { projects, id = "portfolio-lightbox" } = Astro.props;
+const lightboxProjects = projects.map((project) => ({
+  slug: portfolioSlug(project),
+  title: project.data.title,
+  category: project.data.category,
+  categorySlug: categorySlugForProject(project),
+  field: project.data.field,
+  summary: project.data.summary,
+  client: project.data.client,
+  tools: project.data.tools,
+  finalImage: project.data.finalImage.src,
+  draftImage: project.data.draftImage?.src ?? null,
+  gallery: project.data.gallery.map((image) => image.src),
+  finalAlt: portfolioAlt(project),
+  draftAlt: portfolioAlt(project, "draft artwork before refinement"),
+}));
+---
+
+<div class="portfolio-lightbox-root" data-portfolio-lightbox={id}>
+  <script is:inline type="application/json" data-portfolio-data set:html={JSON.stringify(lightboxProjects)}></script>
+  <dialog class="portfolio-lightbox" aria-label="Portfolio project viewer">
+    <div class="portfolio-lightbox-shell">
+      <header class="portfolio-lightbox-header">
+        <a href="/portfolio/" class="portfolio-lightbox-brand">Lattice Visual <span>/ Selected work</span></a>
+        <button type="button" class="portfolio-lightbox-close" data-lightbox-close aria-label="Close project viewer">×</button>
+      </header>
+      <div class="portfolio-lightbox-layout">
+        <div class="portfolio-lightbox-viewer">
+          <div class="portfolio-lightbox-stage" data-lightbox-stage>
+            <div class="portfolio-lightbox-compare" data-lightbox-compare style="--compare-position: 50%" hidden>
+              <img data-lightbox-draft alt="" />
+              <div data-lightbox-final-wrap><img data-lightbox-final alt="" /></div>
+              <span class="portfolio-comparison-label is-draft">Draft</span>
+              <span class="portfolio-comparison-label is-final">Final</span>
+              <span class="portfolio-comparison-handle" aria-hidden="true"><span>↔</span></span>
+              <input type="range" min="8" max="92" value="50" data-lightbox-range aria-label="Move Draft and Final comparison divider" />
+            </div>
+            <img class="portfolio-lightbox-image" data-lightbox-image alt="" />
+          </div>
+          <div class="portfolio-lightbox-thumbs" data-lightbox-thumbs aria-label="Project gallery"></div>
+        </div>
+        <aside class="portfolio-lightbox-copy">
+          <p data-lightbox-category></p>
+          <h2 data-lightbox-title></h2>
+          <p class="portfolio-lightbox-field" data-lightbox-field></p>
+          <p class="portfolio-lightbox-summary" data-lightbox-summary></p>
+          <dl>
+            <div data-lightbox-tools-row><dt>Tools</dt><dd data-lightbox-tools></dd></div>
+            <div data-lightbox-client-row><dt>Client</dt><dd data-lightbox-client></dd></div>
+          </dl>
+          <a href="/#contact" class="portfolio-lightbox-cta">Discuss a similar project <span aria-hidden="true">→</span></a>
+        </aside>
+      </div>
+      <footer class="portfolio-lightbox-nav">
+        <button type="button" data-lightbox-prev aria-label="View previous project"><span aria-hidden="true">←</span> Previous</button>
+        <span data-lightbox-position aria-live="polite"></span>
+        <button type="button" data-lightbox-next aria-label="View next project">Next <span aria-hidden="true">→</span></button>
+      </footer>
+    </div>
+  </dialog>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-portfolio-lightbox]").forEach((root) => {
+    if (root.dataset.ready === "true") return;
+    root.dataset.ready = "true";
+    const dialog = root.querySelector<HTMLDialogElement>("dialog");
+    const payload = root.querySelector<HTMLScriptElement>("[data-portfolio-data]");
+    if (!dialog || !payload) return;
+    type LightboxProject = { slug: string; title: string; category: string; categorySlug: string; field: string; summary: string; client: string | null; tools: string[]; finalImage: string; draftImage: string | null; gallery: string[]; finalAlt: string; draftAlt: string };
+    const projects = JSON.parse(payload.textContent ?? "[]") as LightboxProject[];
+    const bySlug = new Map(projects.map((project) => [project.slug, project]));
+    const title = dialog.querySelector<HTMLElement>("[data-lightbox-title]");
+    const category = dialog.querySelector<HTMLElement>("[data-lightbox-category]");
+    const field = dialog.querySelector<HTMLElement>("[data-lightbox-field]");
+    const summary = dialog.querySelector<HTMLElement>("[data-lightbox-summary]");
+    const tools = dialog.querySelector<HTMLElement>("[data-lightbox-tools]");
+    const toolsRow = dialog.querySelector<HTMLElement>("[data-lightbox-tools-row]");
+    const client = dialog.querySelector<HTMLElement>("[data-lightbox-client]");
+    const clientRow = dialog.querySelector<HTMLElement>("[data-lightbox-client-row]");
+    const image = dialog.querySelector<HTMLImageElement>("[data-lightbox-image]");
+    const compare = dialog.querySelector<HTMLElement>("[data-lightbox-compare]");
+    const draft = dialog.querySelector<HTMLImageElement>("[data-lightbox-draft]");
+    const final = dialog.querySelector<HTMLImageElement>("[data-lightbox-final]");
+    const range = dialog.querySelector<HTMLInputElement>("[data-lightbox-range]");
+    const thumbs = dialog.querySelector<HTMLElement>("[data-lightbox-thumbs]");
+    const position = dialog.querySelector<HTMLElement>("[data-lightbox-position]");
+    let activeSlug = projects[0]?.slug ?? "";
+    let returnFocus: HTMLElement | null = null;
+
+    const visibleSlugs = () => [...document.querySelectorAll<HTMLElement>("[data-portfolio-card]")]
+      .filter((card) => !card.hidden && bySlug.has(card.dataset.projectSlug ?? ""))
+      .map((card) => card.dataset.projectSlug ?? "");
+
+    const showImage = (src: string, alt: string) => {
+      if (compare) compare.hidden = true;
+      if (image) { image.hidden = false; image.src = src; image.alt = alt; }
+    };
+
+    const showComparison = (project: LightboxProject) => {
+      if (!project.draftImage || !compare || !draft || !final) return showImage(project.finalImage, project.finalAlt);
+      if (image) image.hidden = true;
+      compare.hidden = false;
+      compare.style.setProperty("--compare-position", "50%");
+      if (range) range.value = "50";
+      draft.src = project.draftImage; draft.alt = project.draftAlt;
+      final.src = project.finalImage; final.alt = project.finalAlt;
+    };
+
+    const render = (slug: string) => {
+      const project = bySlug.get(slug);
+      if (!project) return;
+      activeSlug = slug;
+      if (title) title.textContent = project.title;
+      if (category) category.textContent = project.category;
+      if (field) field.textContent = project.field;
+      if (summary) summary.textContent = project.summary;
+      if (tools) tools.textContent = project.tools.join(" · ");
+      if (toolsRow) toolsRow.hidden = project.tools.length === 0;
+      if (client) client.textContent = project.client ?? "";
+      if (clientRow) clientRow.hidden = !project.client;
+      showComparison(project);
+      if (thumbs) {
+        thumbs.innerHTML = "";
+        const gallery = [{ src: project.finalImage, alt: project.finalAlt, comparison: Boolean(project.draftImage) }, ...project.gallery.map((src, index) => ({ src, alt: `${project.title} additional view ${index + 1}`, comparison: false }))];
+        gallery.forEach((item, index) => {
+          const button = document.createElement("button");
+          button.type = "button"; button.setAttribute("aria-label", index === 0 && item.comparison ? "Show Draft and Final comparison" : `Show project image ${index + 1}`);
+          button.classList.toggle("is-active", index === 0);
+          const thumb = document.createElement("img"); thumb.src = item.src; thumb.alt = ""; button.append(thumb);
+          button.addEventListener("click", () => {
+            thumbs.querySelectorAll("button").forEach((node) => node.classList.toggle("is-active", node === button));
+            item.comparison ? showComparison(project) : showImage(item.src, item.alt);
+          });
+          thumbs.append(button);
+        });
+      }
+      const slugs = visibleSlugs();
+      const index = Math.max(0, slugs.indexOf(slug));
+      if (position) position.textContent = `${index + 1} / ${slugs.length}`;
+    };
+
+    const move = (direction: number) => {
+      const slugs = visibleSlugs();
+      if (!slugs.length) return;
+      const current = Math.max(0, slugs.indexOf(activeSlug));
+      render(slugs[(current + direction + slugs.length) % slugs.length]);
+    };
+
+    document.querySelectorAll<HTMLElement>("[data-portfolio-open]").forEach((button) => button.addEventListener("click", () => {
+      const card = button.closest<HTMLElement>("[data-portfolio-card]");
+      const slug = card?.dataset.projectSlug;
+      if (!slug || !bySlug.has(slug)) return;
+      returnFocus = button;
+      render(slug);
+      dialog.showModal();
+      dialog.querySelector<HTMLButtonElement>("[data-lightbox-close]")?.focus();
+      document.documentElement.classList.add("has-dialog");
+    }));
+    dialog.querySelector("[data-lightbox-close]")?.addEventListener("click", () => dialog.close());
+    dialog.querySelector("[data-lightbox-prev]")?.addEventListener("click", () => move(-1));
+    dialog.querySelector("[data-lightbox-next]")?.addEventListener("click", () => move(1));
+    range?.addEventListener("input", () => compare?.style.setProperty("--compare-position", `${range.value}%`));
+    dialog.addEventListener("close", () => { document.documentElement.classList.remove("has-dialog"); returnFocus?.focus(); });
+  });
+</script>

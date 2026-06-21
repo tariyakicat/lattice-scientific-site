@@ -1,0 +1,88 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import BeforeAfterSlider from "@/components/BeforeAfterSlider.astro";
+import PortfolioGrid from "@/components/PortfolioGrid.astro";
+import { getPublicPortfolio, portfolioAlt } from "@/lib/portfolio";
+
+const projects = await getPublicPortfolio();
+const comparisons = projects.filter((project) => project.data.draftImage).slice(0, 4);
+const canonical = "https://sci.latticevisual.com/portfolio/";
+const itemList = projects.map((project, index) => ({
+  "@type": "ListItem",
+  position: index + 1,
+  name: project.data.title,
+  image: new URL(project.data.finalImage.src, Astro.site).href,
+  url: canonical,
+}));
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "Selected scientific illustration work",
+    description: "Selected graphical abstracts, scientific figures, infographics, slides and research communication design by Lattice Visual.",
+    url: canonical,
+    mainEntity: { "@type": "ItemList", itemListElement: itemList },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://sci.latticevisual.com/" },
+      { "@type": "ListItem", position: 2, name: "Portfolio", item: canonical },
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title="Selected Scientific Illustration Work | Lattice Visual"
+  description="Explore selected graphical abstracts, scientific figures, infographics, slides and visual communication projects by Lattice Visual."
+  canonical="/portfolio/"
+  image={projects[0]?.data.finalImage.src}
+  jsonLd={jsonLd}
+>
+  <header class="portfolio-hero">
+    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span aria-current="page">Portfolio</span></nav>
+    <p class="section-label">Portfolio</p>
+    <h1>Selected work</h1>
+    <p>Scientific visuals shaped around the logic of the research: precise enough for specialists, clear enough to travel across audiences.</p>
+    <div class="portfolio-hero-proof"><strong>{projects.length}</strong><span>projects currently selected for public view</span></div>
+  </header>
+
+  {comparisons.length > 0 && (
+    <section class="portfolio-featured" aria-labelledby="portfolio-featured-title">
+      <div class="portfolio-section-heading">
+        <div><p class="section-label">Draft → Final</p><h2 id="portfolio-featured-title">See the thinking become visible.</h2></div>
+        <p>Move each divider to compare the working draft with the refined visual.</p>
+      </div>
+      <div class="portfolio-featured-list">
+        {comparisons.map((project) => (
+          <article>
+            <BeforeAfterSlider
+              draftImage={project.data.draftImage!}
+              finalImage={project.data.finalImage}
+              draftAlt={portfolioAlt(project, "draft artwork before refinement")}
+              finalAlt={portfolioAlt(project)}
+              label={`Compare Draft and Final for ${project.data.title}`}
+            />
+            <div><h3>{project.data.title}</h3><p>{project.data.category} · {project.data.field}</p></div>
+          </article>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <main class="portfolio-index" aria-labelledby="portfolio-grid-title">
+    <div class="portfolio-section-heading is-compact">
+      <div><p class="section-label">Browse by type</p><h2 id="portfolio-grid-title">The work, without the pitch.</h2></div>
+      <p>Filter the collection by deliverable. Every image opens into a focused project viewer.</p>
+    </div>
+    <PortfolioGrid projects={projects} filters />
+  </main>
+
+  <section class="portfolio-bottom-cta">
+    <p class="section-label">Have a project in mind?</p>
+    <h2>Bring the research. We’ll shape the visual story.</h2>
+    <div><a href="/#contact">Start a project <span aria-hidden="true">→</span></a><a href="mailto:contact@latticevisual.com">Get a free quote</a></div>
+  </section>
+</BaseLayout>

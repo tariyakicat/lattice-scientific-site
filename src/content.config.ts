@@ -1,6 +1,7 @@
 import { defineCollection } from "astro:content";
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
+import { portfolioCategoryNames } from "@/lib/portfolio-categories";
 
 const resources = defineCollection({
   loader: glob({ base: "./src/content/resources", pattern: "**/*.{md,mdx}" }),
@@ -36,4 +37,23 @@ const resources = defineCollection({
     }),
 });
 
-export const collections = { resources };
+const portfolio = defineCollection({
+  loader: glob({ base: "./src/content/portfolio", pattern: "**/*.{md,mdx}" }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      category: z.enum(portfolioCategoryNames),
+      field: z.string(),
+      finalImage: image(),
+      draftImage: image().nullable().default(null),
+      gallery: z.array(image()).optional().default([]),
+      summary: z.string(),
+      tools: z.array(z.string()).optional().default([]),
+      featured: z.boolean().default(false),
+      date: z.coerce.date(),
+      displayPermission: z.boolean().default(true),
+      client: z.string().nullable().default(null),
+    }),
+});
+
+export const collections = { resources, portfolio };

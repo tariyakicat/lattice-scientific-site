@@ -1,7 +1,8 @@
 ---
 const currentPath = Astro.url.pathname;
 const links = [
-  { href: "/#portfolio", label: "Portfolio" },
+  { href: "/", label: "Home" },
+  { href: "/portfolio/", label: "Portfolio" },
   { href: "/#services", label: "Services" },
   { href: "/resources/", label: "Resources" },
   { href: "/#process", label: "Process" },
@@ -18,7 +19,7 @@ const links = [
 
     <div class="site-nav-links">
       {links.map((link) => (
-        <a href={link.href} aria-current={currentPath.startsWith("/resources") && link.label === "Resources" ? "page" : undefined}>
+        <a href={link.href} aria-current={(link.label === "Home" && currentPath === "/") || (link.label === "Resources" && currentPath.startsWith("/resources")) || (link.label === "Portfolio" && currentPath.startsWith("/portfolio")) ? "page" : undefined}>
           {link.label}
         </a>
       ))}

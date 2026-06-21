@@ -1,0 +1,27 @@
+---
+import type { PortfolioEntry } from "@/lib/portfolio";
+import Lightbox from "@/components/Lightbox.astro";
+import PortfolioCard from "@/components/PortfolioCard.astro";
+import PortfolioFilters from "@/components/PortfolioFilters.astro";
+
+interface Props {
+  projects: PortfolioEntry[];
+  filters?: boolean;
+  lightboxId?: string;
+}
+
+const { projects, filters = false, lightboxId = "portfolio-lightbox" } = Astro.props;
+---
+
+<section class="portfolio-gallery" data-portfolio-hub={filters ? "true" : undefined}>
+  {filters && <PortfolioFilters />}
+  <div class="portfolio-results-line" aria-live="polite"><strong data-portfolio-count>{projects.length}</strong> selected projects</div>
+  <div class="portfolio-grid">
+    {projects.map((project) => <PortfolioCard {project} />)}
+  </div>
+  <div class="portfolio-empty" data-portfolio-empty hidden>
+    <h2>No projects in this category yet.</h2>
+    <p>Choose another project type to continue browsing.</p>
+  </div>
+  <Lightbox projects={projects} id={lightboxId} />
+</section>

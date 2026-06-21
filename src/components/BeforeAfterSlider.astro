@@ -1,0 +1,36 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  draftImage: ImageMetadata;
+  finalImage: ImageMetadata;
+  draftAlt: string;
+  finalAlt: string;
+  label?: string;
+}
+
+const { draftImage, finalImage, draftAlt, finalAlt, label = "Draft and final comparison" } = Astro.props;
+---
+
+<div class="portfolio-comparison" data-portfolio-comparison style="--compare-position: 50%">
+  <div class="portfolio-comparison-stage">
+    <Image class="portfolio-comparison-image is-draft" src={draftImage} alt={draftAlt} widths={[720, 1120, 1440]} sizes="(max-width: 900px) 100vw, 50vw" loading="lazy" />
+    <div class="portfolio-comparison-final" data-comparison-final>
+      <Image class="portfolio-comparison-image" src={finalImage} alt={finalAlt} widths={[720, 1120, 1440]} sizes="(max-width: 900px) 100vw, 50vw" loading="lazy" />
+    </div>
+    <span class="portfolio-comparison-label is-draft">Draft</span>
+    <span class="portfolio-comparison-label is-final">Final</span>
+    <span class="portfolio-comparison-handle" data-comparison-handle aria-hidden="true"><span>↔</span></span>
+    <input type="range" min="8" max="92" value="50" aria-label={label} data-comparison-range />
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-portfolio-comparison]").forEach((comparison) => {
+    if (comparison.dataset.ready === "true") return;
+    comparison.dataset.ready = "true";
+    const range = comparison.querySelector<HTMLInputElement>("[data-comparison-range]");
+    range?.addEventListener("input", () => comparison.style.setProperty("--compare-position", `${range.value}%`));
+  });
+</script>

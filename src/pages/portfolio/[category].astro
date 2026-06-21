@@ -1,0 +1,86 @@
+---
+import type { GetStaticPaths } from "astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import BeforeAfterSlider from "@/components/BeforeAfterSlider.astro";
+import PortfolioGrid from "@/components/PortfolioGrid.astro";
+import { portfolioCategories } from "@/lib/portfolio-categories";
+import { getPublicPortfolio, portfolioAlt } from "@/lib/portfolio";
+
+export const getStaticPaths = (async () => portfolioCategories.map((category) => ({ params: { category: category.slug }, props: { category } }))) satisfies GetStaticPaths;
+
+const { category } = Astro.props;
+const allProjects = await getPublicPortfolio();
+const projects = allProjects.filter((project) => project.data.category === category.name);
+const comparisons = projects.filter((project) => project.data.draftImage).slice(0, 3);
+const canonical = `https://sci.latticevisual.com/portfolio/${category.slug}/`;
+const title = `${category.heading} | Lattice Visual`;
+const description = `${category.intro} Explore selected ${category.name.toLowerCase()} by Lattice Visual.`;
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: category.heading,
+    description,
+    url: canonical,
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: projects.map((project, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: project.data.title,
+        image: new URL(project.data.finalImage.src, Astro.site).href,
+        url: canonical,
+      })),
+    },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://sci.latticevisual.com/" },
+      { "@type": "ListItem", position: 2, name: "Portfolio", item: "https://sci.latticevisual.com/portfolio/" },
+      { "@type": "ListItem", position: 3, name: category.name, item: canonical },
+    ],
+  },
+];
+---
+
+<BaseLayout {title} {description} canonical={`/portfolio/${category.slug}/`} image={projects[0]?.data.finalImage.src} jsonLd={jsonLd}>
+  <header class="portfolio-category-hero">
+    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/portfolio/">Portfolio</a><span aria-hidden="true">/</span><span aria-current="page">{category.name}</span></nav>
+    <p class="section-label">{category.name}</p>
+    <h1>{category.heading}</h1>
+    <p>{category.intro}</p>
+  </header>
+
+  {comparisons.length > 0 && (
+    <section class="portfolio-featured is-category" aria-labelledby="category-comparison-title">
+      <div class="portfolio-section-heading is-compact"><div><p class="section-label">Draft → Final</p><h2 id="category-comparison-title">From structure to finished visual.</h2></div></div>
+      <div class="portfolio-featured-list">
+        {comparisons.map((project) => (
+          <article>
+            <BeforeAfterSlider draftImage={project.data.draftImage!} finalImage={project.data.finalImage} draftAlt={portfolioAlt(project, "draft artwork before refinement")} finalAlt={portfolioAlt(project)} label={`Compare Draft and Final for ${project.data.title}`} />
+            <div><h3>{project.data.title}</h3><p>{project.data.field}</p></div>
+          </article>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <main class="portfolio-category-body">
+    {projects.length ? <PortfolioGrid projects={projects} lightboxId={`portfolio-${category.slug}`} /> : (
+      <div class="portfolio-category-empty"><h2>New work is being prepared.</h2><p>This category is part of the studio’s portfolio structure and will be populated as projects are cleared for public display.</p></div>
+    )}
+  </main>
+
+  <nav class="portfolio-category-links" aria-label="Explore other portfolio categories">
+    <p>Explore other project types</p>
+    <div>{portfolioCategories.filter((item) => item.slug !== category.slug).map((item) => <a href={`/portfolio/${item.slug}/`}>{item.name}<span aria-hidden="true">↗</span></a>)}</div>
+  </nav>
+
+  <section class="portfolio-bottom-cta">
+    <p class="section-label">Start a conversation</p>
+    <h2>Need a visual system for your research?</h2>
+    <div><a href="/#contact">Start a project <span aria-hidden="true">→</span></a><a href="/portfolio/">Back to all work</a></div>
+  </section>
+</BaseLayout>

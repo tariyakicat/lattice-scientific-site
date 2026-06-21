@@ -1,0 +1,39 @@
+---
+import { Image } from "astro:assets";
+import type { PortfolioEntry } from "@/lib/portfolio";
+import { categorySlugForProject, portfolioAlt, portfolioSlug } from "@/lib/portfolio";
+
+interface Props {
+  project: PortfolioEntry;
+  headingLevel?: "h2" | "h3";
+}
+
+const { project, headingLevel = "h2" } = Astro.props;
+const Heading = headingLevel;
+const slug = portfolioSlug(project);
+const categorySlug = categorySlugForProject(project);
+---
+
+<article class="portfolio-card" data-portfolio-card data-project-slug={slug} data-category={categorySlug}>
+  <button type="button" class="portfolio-card-open" data-portfolio-open aria-label={`Open ${project.data.title} in portfolio viewer`}>
+    <span class="portfolio-card-media">
+      <Image
+        src={project.data.finalImage}
+        alt={portfolioAlt(project)}
+        widths={[520, 840, 1120]}
+        sizes="(max-width: 767px) 100vw, (max-width: 1099px) 50vw, 33vw"
+        loading="lazy"
+      />
+      {project.data.draftImage && <span class="portfolio-compare-badge">Draft / Final</span>}
+      <span class="portfolio-card-overlay" aria-hidden="true">
+        <span>{project.data.category}</span>
+        <strong>{project.data.title}</strong>
+        <em>View project <span>↗</span></em>
+      </span>
+    </span>
+    <span class="portfolio-card-caption">
+      <span><Heading>{project.data.title}</Heading><small>{project.data.field}</small></span>
+      <span aria-hidden="true">↗</span>
+    </span>
+  </button>
+</article>

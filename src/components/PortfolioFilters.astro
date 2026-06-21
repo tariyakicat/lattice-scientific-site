@@ -1,0 +1,49 @@
+---
+import { portfolioCategories } from "@/lib/portfolio-categories";
+---
+
+<div class="portfolio-filter-bar" aria-label="Filter portfolio by project type" data-portfolio-filters>
+  <button type="button" class="is-active" data-portfolio-filter="all" aria-pressed="true">All</button>
+  {portfolioCategories.map((category) => (
+    <button type="button" data-portfolio-filter={category.slug} aria-pressed="false">{category.name}</button>
+  ))}
+</div>
+
+<script>
+  const scope = document.querySelector<HTMLElement>("[data-portfolio-hub]");
+  if (scope) {
+    const buttons = [...scope.querySelectorAll<HTMLButtonElement>("[data-portfolio-filter]")];
+    const cards = [...scope.querySelectorAll<HTMLElement>("[data-portfolio-card]")];
+    const count = scope.querySelector<HTMLElement>("[data-portfolio-count]");
+    const empty = scope.querySelector<HTMLElement>("[data-portfolio-empty]");
+    const valid = ["all", ...buttons.map((button) => button.dataset.portfolioFilter ?? "")];
+    let active = new URL(window.location.href).searchParams.get("category") ?? "all";
+    if (!valid.includes(active)) active = "all";
+
+    const applyFilter = () => {
+      let visible = 0;
+      cards.forEach((card) => {
+        const show = active === "all" || card.dataset.category === active;
+        card.hidden = !show;
+        if (show) visible += 1;
+      });
+      buttons.forEach((button) => {
+        const selected = button.dataset.portfolioFilter === active;
+        button.classList.toggle("is-active", selected);
+        button.setAttribute("aria-pressed", String(selected));
+      });
+      if (count) count.textContent = String(visible);
+      if (empty) empty.hidden = visible !== 0;
+      const url = new URL(window.location.href);
+      active === "all" ? url.searchParams.delete("category") : url.searchParams.set("category", active);
+      history.replaceState({}, "", url);
+      window.dispatchEvent(new CustomEvent("portfolio:filterchange"));
+    };
+
+    buttons.forEach((button) => button.addEventListener("click", () => {
+      active = button.dataset.portfolioFilter ?? "all";
+      applyFilter();
+    }));
+    applyFilter();
+  }
+</script>

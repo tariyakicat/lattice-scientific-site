@@ -1,7 +1,6 @@
 ---
 import { getAllResources } from "@/lib/resources";
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import AwardBand from "@/components/AwardBand.astro";
 import BeforeAfter from "@/components/BeforeAfter.astro";
 import ContactForm from "@/components/ContactForm.astro";
 import Hero from "@/components/Hero.astro";
@@ -35,7 +34,9 @@ const organizationJsonLd = {
   <ImpactCarousel />
   <ProblemSolution />
   <BeforeAfter />
-  <AwardBand />
+  <div class="portfolio-home-entry">
+    <a href="/portfolio/" aria-label="View more scientific illustration cases">View more cases <span aria-hidden="true">→</span></a>
+  </div>
   <WeCreate />
   <ResourcesTeaser resources={teaserResources} />
   <Process />
