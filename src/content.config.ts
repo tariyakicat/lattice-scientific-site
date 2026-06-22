@@ -1,7 +1,51 @@
-import { defineCollection } from "astro:content";
+import { defineCollection, reference } from "astro:content";
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
+import { blogCategoryNames } from "@/lib/blog-categories";
 import { portfolioCategoryNames } from "@/lib/portfolio-categories";
+
+const authors = defineCollection({
+  loader: glob({ base: "./src/content/authors", pattern: "**/*.{md,mdx,json,yaml,yml}" }),
+  schema: ({ image }) => z.object({
+    name: z.string(),
+    role: z.string(),
+    credentials: z.string().default(""),
+    bio: z.string(),
+    avatar: image(),
+    links: z.object({
+      website: z.url().optional(),
+      linkedin: z.url().optional(),
+      orcid: z.url().optional(),
+    }).default({}),
+  }),
+});
+
+const blog = defineCollection({
+  loader: glob({ base: "./src/content/blog", pattern: "**/*.{md,mdx}" }),
+  schema: ({ image }) => z.object({
+    title: z.string(),
+    description: z.string().max(155),
+    tldr: z.string().refine((value) => {
+      const words = value.trim().split(/\s+/).filter(Boolean).length;
+      return words >= 40 && words <= 60;
+    }, "TL;DR must contain 40–60 words."),
+    category: z.enum(blogCategoryNames),
+    tags: z.array(z.string()).min(1),
+    author: reference("authors"),
+    datePublished: z.coerce.date(),
+    dateModified: z.coerce.date(),
+    heroImage: image(),
+    ogImage: image().optional(),
+    faq: z.array(z.object({ question: z.string(), answer: z.string() })).default([]),
+    featured: z.boolean().default(false),
+    draftFinal: z.object({
+      draftImage: image(),
+      finalImage: image(),
+      caption: z.string(),
+    }).optional(),
+    relatedSlugs: z.array(z.string()).optional().default([]),
+  }),
+});
 
 const resources = defineCollection({
   loader: glob({ base: "./src/content/resources", pattern: "**/*.{md,mdx}" }),
@@ -56,4 +100,4 @@ const portfolio = defineCollection({
     }),
 });
 
-export const collections = { resources, portfolio };
+export const collections = { authors, blog, resources, portfolio };

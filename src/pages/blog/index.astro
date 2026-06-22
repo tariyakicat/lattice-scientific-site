@@ -1,0 +1,90 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PostCard from "@/components/blog/PostCard.astro";
+import { blogCategories } from "@/lib/blog-categories";
+import { allBlogTags, blogTagSlug, blogUrl, getAllBlogPosts } from "@/lib/blog";
+
+const posts = await getAllBlogPosts();
+const PAGE_SIZE = 9;
+const featured = posts.find((post) => post.data.featured) ?? posts[0];
+const gridPosts = posts.filter((post) => post.id !== featured?.id).slice(0, PAGE_SIZE - 1);
+const nextPage = posts.length > PAGE_SIZE ? "/blog/page/2/" : undefined;
+const tags = allBlogTags(posts);
+const canonical = new URL("/blog/", Astro.site).href;
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "Lattice Visual scientific illustration blog",
+    description: "Practical guidance on graphical abstracts, scientific posters, medical illustration, and research communication design.",
+    url: canonical,
+    mainEntity: { "@type": "ItemList", itemListElement: posts.map((post, index) => ({ "@type": "ListItem", position: index + 1, name: post.data.title, url: new URL(blogUrl(post), Astro.site).href })) },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: new URL("/", Astro.site).href },
+      { "@type": "ListItem", position: 2, name: "Blog", item: canonical },
+    ],
+  },
+];
+---
+
+<BaseLayout title="Scientific Illustration Blog | Lattice Visual" description="Practical guides to graphical abstracts, scientific posters, medical illustration, and clearer research communication." canonical="/blog/" image={featured?.data.ogImage?.src ?? featured?.data.heroImage.src} {jsonLd} next={nextPage}>
+  <header class="blog-index-hero">
+    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span aria-current="page">Blog</span></nav>
+    <div><p class="section-label">Field notes for visual research</p><h1>Blog</h1></div>
+    <p>Practical, evidence-aware guidance for turning complex research into graphical abstracts, posters, medical illustrations, and visual stories people can understand.</p>
+  </header>
+
+  {featured && <section class="blog-featured" aria-labelledby="featured-article-title"><p class="section-label">Featured article</p><PostCard post={featured} featured /></section>}
+
+  <section class="blog-index" data-blog-index aria-labelledby="latest-articles-title">
+    <div class="blog-index-heading"><div><p class="section-label">Browse the library</p><h2 id="latest-articles-title">Latest articles</h2></div><p><strong data-blog-results>{gridPosts.length}</strong> articles</p></div>
+    <div class="blog-filter-row" aria-label="Filter blog posts">
+      <button type="button" class="is-active" data-blog-filter="all" aria-pressed="true">All</button>
+      {blogCategories.map((category) => <button type="button" data-blog-filter={category.slug} aria-pressed="false">{category.name}</button>)}
+      {tags.map((tag) => <button type="button" data-blog-tag={blogTagSlug(tag.name)} aria-pressed="false">#{tag.name}</button>)}
+    </div>
+    <div class="blog-card-grid">{gridPosts.map((post) => <PostCard {post} />)}</div>
+    {nextPage && <nav class="blog-pagination" aria-label="Blog pagination"><a href={nextPage}>Older articles <span aria-hidden="true">→</span></a></nav>}
+    <div class="blog-empty" data-blog-empty hidden><h2>No articles match this filter yet.</h2><button type="button" data-blog-reset>Show all articles</button></div>
+  </section>
+</BaseLayout>
+
+<script>
+  const root = document.querySelector<HTMLElement>("[data-blog-index]");
+  if (root) {
+    const cards = [...root.querySelectorAll<HTMLElement>("[data-blog-card]")];
+    const categoryButtons = [...root.querySelectorAll<HTMLButtonElement>("[data-blog-filter]")];
+    const tagButtons = [...root.querySelectorAll<HTMLButtonElement>("[data-blog-tag]")];
+    const count = root.querySelector<HTMLElement>("[data-blog-results]");
+    const empty = root.querySelector<HTMLElement>("[data-blog-empty]");
+    const params = new URL(window.location.href).searchParams;
+    let activeCategory = params.get("category") ?? "all";
+    let activeTag = params.get("tag") ?? "";
+
+    const apply = () => {
+      let visible = 0;
+      cards.forEach((card) => {
+        const categoriesMatch = activeCategory === "all" || card.dataset.category === activeCategory;
+        const tagsMatch = !activeTag || (card.dataset.tags ?? "").split("|").some((tag) => tag.replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") === activeTag);
+        card.hidden = !(categoriesMatch && tagsMatch);
+        if (!card.hidden) visible += 1;
+      });
+      categoryButtons.forEach((button) => { const selected = button.dataset.blogFilter === activeCategory; button.classList.toggle("is-active", selected); button.setAttribute("aria-pressed", String(selected)); });
+      tagButtons.forEach((button) => { const selected = button.dataset.blogTag === activeTag; button.classList.toggle("is-active", selected); button.setAttribute("aria-pressed", String(selected)); });
+      if (count) count.textContent = String(visible);
+      if (empty) empty.hidden = visible !== 0;
+      const url = new URL(window.location.href);
+      activeCategory === "all" ? url.searchParams.delete("category") : url.searchParams.set("category", activeCategory);
+      activeTag ? url.searchParams.set("tag", activeTag) : url.searchParams.delete("tag");
+      history.replaceState({}, "", url);
+    };
+    categoryButtons.forEach((button) => button.addEventListener("click", () => { activeCategory = button.dataset.blogFilter ?? "all"; apply(); }));
+    tagButtons.forEach((button) => button.addEventListener("click", () => { activeTag = activeTag === button.dataset.blogTag ? "" : button.dataset.blogTag ?? ""; apply(); }));
+    root.querySelector("[data-blog-reset]")?.addEventListener("click", () => { activeCategory = "all"; activeTag = ""; apply(); });
+    apply();
+  }
+</script>

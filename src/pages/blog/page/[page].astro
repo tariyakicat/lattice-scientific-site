@@ -1,0 +1,38 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PostCard from "@/components/blog/PostCard.astro";
+import { blogUrl, getAllBlogPosts } from "@/lib/blog";
+
+export async function getStaticPaths() {
+  const pageSize = 9;
+  const posts = await getAllBlogPosts();
+  const pages = Math.ceil(posts.length / pageSize);
+  return Array.from({ length: Math.max(0, pages - 1) }, (_, index) => {
+    const page = index + 2;
+    return { params: { page: String(page) }, props: { page, posts: posts.slice((page - 1) * pageSize, page * pageSize), pages } };
+  });
+}
+
+interface Props { page: number; posts: Awaited<ReturnType<typeof getAllBlogPosts>>; pages: number; }
+const { page, posts, pages } = Astro.props as Props;
+const pageSize = 9;
+const canonical = `/blog/page/${page}/`;
+const prev = page === 2 ? "/blog/" : `/blog/page/${page - 1}/`;
+const next = page < pages ? `/blog/page/${page + 1}/` : undefined;
+const jsonLd = [
+  { "@context": "https://schema.org", "@type": "CollectionPage", name: `Lattice Visual Blog — page ${page}`, url: new URL(canonical, Astro.site).href, mainEntity: { "@type": "ItemList", itemListElement: posts.map((post, index) => ({ "@type": "ListItem", position: (page - 1) * pageSize + index + 1, name: post.data.title, url: new URL(blogUrl(post), Astro.site).href })) } },
+  { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: new URL("/", Astro.site).href },
+    { "@type": "ListItem", position: 2, name: "Blog", item: new URL("/blog/", Astro.site).href },
+    { "@type": "ListItem", position: 3, name: `Page ${page}`, item: new URL(canonical, Astro.site).href },
+  ] },
+];
+---
+
+<BaseLayout title={`Scientific Illustration Blog — Page ${page} | Lattice Visual`} description="More practical scientific illustration and research communication guides from Lattice Visual." {canonical} {jsonLd} {prev} {next} image={posts[0]?.data.ogImage?.src ?? posts[0]?.data.heroImage.src}>
+  <header class="blog-taxonomy-hero">
+    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/blog/">Blog</a><span aria-hidden="true">/</span><span aria-current="page">Page {page}</span></nav>
+    <p class="section-label">Article archive</p><h1>Blog <span>/{page}</span></h1><p>More field notes on visual research communication.</p>
+  </header>
+  <section class="blog-taxonomy-list"><div class="blog-card-grid">{posts.map((post) => <PostCard {post} />)}</div><nav class="blog-pagination" aria-label="Blog pagination"><a href={prev}><span aria-hidden="true">←</span> Newer articles</a>{next && <a href={next}>Older articles <span aria-hidden="true">→</span></a>}</nav></section>
+</BaseLayout>

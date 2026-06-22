@@ -1,0 +1,22 @@
+---
+import { Image } from "astro:assets";
+import type { BlogEntry } from "@/lib/blog";
+import { blogUrl, formatBlogDate, postCategorySlug, readingTime } from "@/lib/blog";
+
+interface Props { post: BlogEntry; headingLevel?: "h2" | "h3"; featured?: boolean; }
+const { post, headingLevel = "h2", featured = false } = Astro.props;
+const Heading = headingLevel;
+const time = readingTime(post);
+---
+
+<article class:list={["blog-post-card", { "is-featured": featured }]} data-blog-card data-category={postCategorySlug(post)} data-tags={post.data.tags.map((tag) => tag.toLowerCase()).join("|")}>
+  <a class="blog-post-card-media" href={blogUrl(post)} aria-label={`Read ${post.data.title}`}>
+    <Image src={post.data.heroImage} alt={`${post.data.title} scientific illustration`} widths={[560, 900, 1320]} sizes={featured ? "(max-width: 900px) 100vw, 58vw" : "(max-width: 767px) 100vw, 33vw"} loading={featured ? "eager" : "lazy"} />
+  </a>
+  <div class="blog-post-card-copy">
+    <div><a href={`/blog/category/${postCategorySlug(post)}/`}>{post.data.category}</a><span>{formatBlogDate(post.data.datePublished)} · {time.label}</span></div>
+    <Heading><a href={blogUrl(post)}>{post.data.title}</a></Heading>
+    <p>{post.data.description}</p>
+    <a class="blog-post-card-link" href={blogUrl(post)}>Read article <span aria-hidden="true">→</span></a>
+  </div>
+</article>

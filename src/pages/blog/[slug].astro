@@ -1,0 +1,93 @@
+---
+import { Image } from "astro:assets";
+import { getCollection, render } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AuthorByline from "@/components/blog/AuthorByline.astro";
+import FAQ from "@/components/blog/FAQ.astro";
+import RelatedPosts from "@/components/blog/RelatedPosts.astro";
+import TableOfContents from "@/components/blog/TableOfContents.astro";
+import TLDR from "@/components/blog/TLDR.astro";
+import BeforeAfterSlider from "@/components/BeforeAfterSlider.astro";
+import { blogSlug, blogTagSlug, blogUrl, formatBlogDate, getAllBlogPosts, getPostAuthor, postCategorySlug, readingTime, type BlogEntry } from "@/lib/blog";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map((post) => ({ params: { slug: blogSlug(post) }, props: { post } }));
+}
+
+interface Props { post: BlogEntry; }
+const { post } = Astro.props as Props;
+const { Content, headings } = await render(post);
+const author = await getPostAuthor(post);
+if (!author) throw new Error(`Author not found for ${post.id}`);
+const allPosts = await getAllBlogPosts();
+const explicitRelated = post.data.relatedSlugs.map((slug) => allPosts.find((candidate) => blogSlug(candidate) === slug)).filter(Boolean) as BlogEntry[];
+const related = (explicitRelated.length ? explicitRelated : allPosts.filter((candidate) => candidate.id !== post.id && candidate.data.category === post.data.category)).slice(0, 3);
+const canonical = blogUrl(post);
+const canonicalUrl = new URL(canonical, Astro.site).href;
+const hero = post.data.ogImage ?? post.data.heroImage;
+const time = readingTime(post);
+const authorLinks = Object.values(author.data.links).filter(Boolean);
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.data.title,
+    description: post.data.description,
+    image: new URL(hero.src, Astro.site).href,
+    author: { "@type": "Organization", name: author.data.name, url: author.data.links.website ?? new URL("/about/", Astro.site).href, sameAs: authorLinks },
+    publisher: { "@type": "Organization", name: "Lattice Visual", url: new URL("/", Astro.site).href, logo: { "@type": "ImageObject", url: new URL("/favicon.svg", Astro.site).href } },
+    datePublished: post.data.datePublished.toISOString(),
+    dateModified: post.data.dateModified.toISOString(),
+    mainEntityOfPage: { "@type": "WebPage", "@id": canonicalUrl },
+  },
+  {
+    "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: new URL("/", Astro.site).href },
+      { "@type": "ListItem", position: 2, name: "Blog", item: new URL("/blog/", Astro.site).href },
+      { "@type": "ListItem", position: 3, name: post.data.title, item: canonicalUrl },
+    ],
+  },
+];
+---
+
+<BaseLayout title={`${post.data.title} | Lattice Visual`} description={post.data.description} image={hero.src} canonical={canonical} jsonLd={jsonLd} headType="article">
+  <article class="blog-article">
+    <header class="blog-article-header">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/blog/">Blog</a><span aria-hidden="true">/</span><span aria-current="page">{post.data.title}</span></nav>
+      <div class="blog-article-kicker"><a href={`/blog/category/${postCategorySlug(post)}/`}>{post.data.category}</a><span>{post.data.tags.map((tag) => `#${tag}`).join("  ")}</span></div>
+      <h1>{post.data.title}</h1>
+      <p class="blog-article-description">{post.data.description}</p>
+      <div class="blog-article-meta">
+        <AuthorByline {author} />
+        <p>Published {formatBlogDate(post.data.datePublished)}<br /><strong>Last updated {formatBlogDate(post.data.dateModified)}</strong> · {time.label}</p>
+      </div>
+      <TLDR text={post.data.tldr} />
+    </header>
+
+    <figure class="blog-article-hero">
+      <Image src={post.data.heroImage} alt={`${post.data.title} — scientific communication guide`} widths={[760, 1240, 1760]} sizes="(max-width: 900px) 100vw, 80vw" loading="eager" />
+    </figure>
+
+    {post.data.draftFinal && (
+      <section class="blog-draft-final" aria-label="Draft and final comparison">
+        <BeforeAfterSlider draftImage={post.data.draftFinal.draftImage} finalImage={post.data.draftFinal.finalImage} draftAlt={`${post.data.title} draft example`} finalAlt={`${post.data.title} refined final example`} label={`Compare draft and final example for ${post.data.title}`} />
+        <p>{post.data.draftFinal.caption}</p>
+      </section>
+    )}
+
+    <div class="blog-article-layout">
+      <aside><TableOfContents {headings} /></aside>
+      <div class="blog-prose"><Content /></div>
+    </div>
+
+    <footer class="blog-article-footer">
+      <AuthorByline {author} mode="bio" />
+      <div class="blog-tag-links">{post.data.tags.map((tag) => <a href={`/blog/tag/${blogTagSlug(tag)}/`}>#{tag}</a>)}</div>
+    </footer>
+  </article>
+
+  <FAQ items={post.data.faq} />
+  <RelatedPosts posts={related} />
+  <section class="blog-bottom-cta"><p class="section-label">Working on a complex story?</p><h2>Turn your research into a visual people remember.</h2><a href="/#contact">Start a project <span aria-hidden="true">→</span></a></section>
+</BaseLayout>

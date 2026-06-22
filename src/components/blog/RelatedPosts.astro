@@ -1,0 +1,14 @@
+---
+import PostCard from "@/components/blog/PostCard.astro";
+import type { BlogEntry } from "@/lib/blog";
+
+interface Props { posts: BlogEntry[]; }
+const { posts } = Astro.props;
+---
+
+{posts.length > 0 && (
+  <section class="blog-related" aria-labelledby="related-posts-title">
+    <div><p class="section-label">Continue reading</p><h2 id="related-posts-title">Related articles</h2></div>
+    <div class="blog-card-grid">{posts.map((post) => <PostCard {post} headingLevel="h3" />)}</div>
+  </section>
+)}

@@ -1,0 +1,41 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PostCard from "@/components/blog/PostCard.astro";
+import { allBlogTags, blogTagSlug, blogUrl, getAllBlogPosts } from "@/lib/blog";
+
+export async function getStaticPaths() {
+  const posts = await getAllBlogPosts();
+  return allBlogTags(posts).map((tag) => ({ params: { tag: tag.slug }, props: { tag } }));
+}
+
+interface Props { tag: { slug: string; name: string }; }
+const { tag } = Astro.props;
+const posts = (await getAllBlogPosts()).filter((post) => post.data.tags.some((item) => blogTagSlug(item) === tag.slug));
+const description = `Articles tagged ${tag.name}, with practical guidance for scientific illustration and research communication.`;
+const canonical = new URL(`/blog/tag/${tag.slug}/`, Astro.site).href;
+const jsonLd = [
+  {
+    "@context": "https://schema.org", "@type": "CollectionPage", name: `${tag.name} articles`, description, url: canonical,
+    mainEntity: { "@type": "ItemList", itemListElement: posts.map((post, index) => ({ "@type": "ListItem", position: index + 1, name: post.data.title, url: new URL(blogUrl(post), Astro.site).href })) },
+  },
+  {
+    "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: new URL("/", Astro.site).href },
+      { "@type": "ListItem", position: 2, name: "Blog", item: new URL("/blog/", Astro.site).href },
+      { "@type": "ListItem", position: 3, name: `Tag: ${tag.name}`, item: canonical },
+    ],
+  },
+];
+---
+
+<BaseLayout title={`${tag.name} Articles | Lattice Visual`} {description} canonical={`/blog/tag/${tag.slug}/`} image={posts[0]?.data.ogImage?.src ?? posts[0]?.data.heroImage.src} {jsonLd}>
+  <header class="blog-taxonomy-hero">
+    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/blog/">Blog</a><span aria-hidden="true">/</span><span aria-current="page">{tag.name}</span></nav>
+    <p class="section-label">Topic index</p>
+    <h1>#{tag.name}</h1>
+    <p>{description}</p>
+  </header>
+  <section class="blog-taxonomy-list" aria-label={`${tag.name} articles`}>
+    <div class="blog-card-grid">{posts.map((post) => <PostCard {post} />)}</div>
+  </section>
+</BaseLayout>

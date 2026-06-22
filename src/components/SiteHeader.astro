@@ -4,6 +4,7 @@ const links = [
   { href: "/", label: "Home" },
   { href: "/portfolio/", label: "Portfolio" },
   { href: "/#services", label: "Services" },
+  { href: "/blog/", label: "Blog" },
   { href: "/resources/", label: "Resources" },
   { href: "/#process", label: "Process" },
   { href: "/#contact", label: "Contact" },
@@ -19,7 +20,7 @@ const links = [
 
     <div class="site-nav-links">
       {links.map((link) => (
-        <a href={link.href} aria-current={(link.label === "Home" && currentPath === "/") || (link.label === "Resources" && currentPath.startsWith("/resources")) || (link.label === "Portfolio" && currentPath.startsWith("/portfolio")) ? "page" : undefined}>
+        <a href={link.href} aria-current={(link.label === "Home" && currentPath === "/") || (link.label === "Resources" && currentPath.startsWith("/resources")) || (link.label === "Portfolio" && currentPath.startsWith("/portfolio")) || (link.label === "Blog" && currentPath.startsWith("/blog")) ? "page" : undefined}>
           {link.label}
         </a>
       ))}

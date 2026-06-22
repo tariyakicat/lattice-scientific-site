@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-labelledby="title desc">
+  <title id="title">Lattice Visual Editorial Team</title>
+  <desc id="desc">Abstract blue editorial mark formed from connected scientific nodes.</desc>
+  <rect width="320" height="320" rx="160" fill="#edf5fb"/>
+  <circle cx="160" cy="160" r="112" fill="#ffffff" stroke="#c9deed" stroke-width="2"/>
+  <path d="M92 181 132 112l54 34 42-51M132 112l-9 98 63-64 39 71M123 210l102 7" fill="none" stroke="#1f7fc4" stroke-linecap="round" stroke-width="6"/>
+  <g fill="#1f7fc4" stroke="#ffffff" stroke-width="5">
+    <circle cx="92" cy="181" r="13"/><circle cx="132" cy="112" r="13"/><circle cx="186" cy="146" r="13"/><circle cx="228" cy="95" r="13"/><circle cx="123" cy="210" r="13"/><circle cx="225" cy="217" r="13"/>
+  </g>
+</svg>

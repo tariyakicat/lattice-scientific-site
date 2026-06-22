@@ -1,0 +1,10 @@
+---
+interface Props { title?: string; source?: string; sourceUrl?: string; }
+const { title = "Editorial note", source, sourceUrl } = Astro.props;
+---
+
+<aside class="blog-callout">
+  <strong>{title}</strong>
+  <div><slot /></div>
+  {source && sourceUrl && <a href={sourceUrl} rel="noreferrer">Source: {source} <span aria-hidden="true">↗</span></a>}
+</aside>

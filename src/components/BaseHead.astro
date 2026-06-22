@@ -5,6 +5,9 @@ export interface Props {
   image?: string;
   canonical?: string;
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  type?: "website" | "article";
+  prev?: string;
+  next?: string;
 }
 
 const {
@@ -13,6 +16,9 @@ const {
   image = "/generated/hero-background-wide.webp",
   canonical,
   jsonLd,
+  type = "website",
+  prev,
+  next,
 } = Astro.props;
 
 const canonicalUrl = canonical
@@ -27,8 +33,11 @@ const imageUrl = new URL(image, Astro.site);
 <meta name="description" content={description} />
 <link rel="canonical" href={canonicalUrl} />
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="alternate" type="application/rss+xml" title="Lattice Visual Blog" href={new URL("/rss.xml", Astro.site)} />
+{prev && <link rel="prev" href={new URL(prev, Astro.site)} />}
+{next && <link rel="next" href={new URL(next, Astro.site)} />}
 
-<meta property="og:type" content="website" />
+<meta property="og:type" content={type} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:url" content={canonicalUrl} />

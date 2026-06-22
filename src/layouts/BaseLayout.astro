@@ -11,15 +11,18 @@ export interface Props {
   canonical?: string;
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
   hideHeader?: boolean;
+  headType?: "website" | "article";
+  prev?: string;
+  next?: string;
 }
 
-const { title, description, image, canonical, jsonLd, hideHeader = false } = Astro.props;
+const { title, description, image, canonical, jsonLd, hideHeader = false, headType = "website", prev, next } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <BaseHead {title} {description} {image} {canonical} {jsonLd} />
+    <BaseHead {title} {description} {image} {canonical} {jsonLd} type={headType} {prev} {next} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet" />

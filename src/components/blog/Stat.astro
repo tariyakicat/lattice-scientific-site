@@ -1,0 +1,10 @@
+---
+interface Props { value: string; label: string; source: string; sourceUrl: string; }
+const { value, label, source, sourceUrl } = Astro.props;
+---
+
+<figure class="blog-stat">
+  <strong>{value}</strong>
+  <figcaption>{label}</figcaption>
+  <a href={sourceUrl} rel="noreferrer">{source} <span aria-hidden="true">↗</span></a>
+</figure>

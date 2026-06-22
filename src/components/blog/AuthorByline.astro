@@ -1,0 +1,18 @@
+---
+import { Image } from "astro:assets";
+import type { AuthorEntry } from "@/lib/blog";
+
+interface Props { author: AuthorEntry; mode?: "byline" | "bio"; }
+const { author, mode = "byline" } = Astro.props;
+const primaryLink = author.data.links.website ?? author.data.links.linkedin ?? author.data.links.orcid;
+---
+
+<div class:list={["blog-author", { "is-bio": mode === "bio" }]}> 
+  <Image src={author.data.avatar} alt={`${author.data.name} editorial avatar`} width={mode === "bio" ? 88 : 48} height={mode === "bio" ? 88 : 48} loading="lazy" />
+  <div>
+    {mode === "bio" && <span>Written and reviewed by</span>}
+    {primaryLink ? <a href={primaryLink} rel="author">{author.data.name}</a> : <strong>{author.data.name}</strong>}
+    <p>{author.data.role}{author.data.credentials ? ` · ${author.data.credentials}` : ""}</p>
+    {mode === "bio" && <div class="blog-author-bio">{author.data.bio}</div>}
+  </div>
+</div>
