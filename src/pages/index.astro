@@ -19,7 +19,7 @@ const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
   name: "Lattice Visual",
-  url: "https://www.latticevisual.com/",
+  url: new URL("/", Astro.site).href,
   email: "contact@latticevisual.com",
   description: "Scientific illustration and visual communication for researchers, labs and biotech teams.",
 };

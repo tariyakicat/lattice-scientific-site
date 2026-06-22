@@ -12,7 +12,7 @@ interface Props { resource: ResourceEntry; }
 const { resource } = Astro.props;
 ---
 
-<BaseLayout title={`Download ${resource.data.title} | Lattice Visual`} description={`Verify your purchase and securely download ${resource.data.title}.`} canonical={`/resources/${resourceSlug(resource)}/success/`}>
+<BaseLayout title={`Download ${resource.data.title} | Lattice Visual`} description={`Verify your purchase and securely download ${resource.data.title}.`} canonical={`/resources/${resourceSlug(resource)}/success/`} noindex={true}>
   <section class="download-success" data-download-success>
     <p class="section-label">Purchase complete</p>
     <h1>Your resource is almost ready.</h1>

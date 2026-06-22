@@ -8,6 +8,7 @@ export interface Props {
   type?: "website" | "article";
   prev?: string;
   next?: string;
+  noindex?: boolean;
 }
 
 const {
@@ -19,6 +20,7 @@ const {
   type = "website",
   prev,
   next,
+  noindex = false,
 } = Astro.props;
 
 const canonicalUrl = canonical
@@ -31,6 +33,7 @@ const imageUrl = new URL(image, Astro.site);
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="generator" content={Astro.generator} />
 <meta name="description" content={description} />
+<meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow, max-image-preview:large"} />
 <link rel="canonical" href={canonicalUrl} />
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 <link rel="alternate" type="application/rss+xml" title="Lattice Visual Blog" href={new URL("/rss.xml", Astro.site)} />
