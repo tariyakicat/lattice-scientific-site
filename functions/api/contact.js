@@ -57,9 +57,9 @@ export async function onRequestPost({ request, env }) {
         from: env.CONTACT_FROM_EMAIL || "Lattice Visual Website <website@send.latticevisual.com>",
         to: [env.CONTACT_TO_EMAIL || "contact@latticevisual.com"],
         reply_to: email,
-        subject: `[Lattice Visual] ${projectType || "Scientific illustration enquiry"} — ${name}`,
-        text: [`Name: ${name}`, `Email: ${email}`, `Project type: ${projectType || "Not specified"}`, `Target journal / deadline: ${target || "Not specified"}`, "", message].join("\n"),
-        html: `<h2>New project enquiry</h2><p><strong>Name:</strong> ${safeName}</p><p><strong>Email:</strong> <a href="mailto:${safeEmail}">${safeEmail}</a></p><p><strong>Project type:</strong> ${safeProjectType}</p><p><strong>Target journal / deadline:</strong> ${safeTarget}</p><hr /><p>${safeMessage}</p>`,
+        subject: `[Lattice Visual] ${projectType || "Research communication enquiry"} — ${name}`,
+        text: [`Name: ${name}`, `Email: ${email}`, `Project type: ${projectType || "Not specified"}`, `Target audience / deadline: ${target || "Not specified"}`, "", message].join("\n"),
+        html: `<h2>New project enquiry</h2><p><strong>Name:</strong> ${safeName}</p><p><strong>Email:</strong> <a href="mailto:${safeEmail}">${safeEmail}</a></p><p><strong>Project type:</strong> ${safeProjectType}</p><p><strong>Target audience / deadline:</strong> ${safeTarget}</p><hr /><p>${safeMessage}</p>`,
         attachments,
       }),
     });

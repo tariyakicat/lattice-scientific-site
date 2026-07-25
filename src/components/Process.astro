@@ -1,10 +1,26 @@
 ---
-const steps = ["Brief", "Scientific communication", "Visual draft", "Revision", "Final files"];
+const steps = [
+  { title: "Brief", description: "We clarify the audience, evidence and communication goal." },
+  { title: "Communication strategy", description: "We shape the right narrative, format and level of detail." },
+  { title: "Design", description: "We create clear, accurate and compelling visual work." },
+  { title: "Delivery", description: "We supply ready-to-use files and practical handover support." },
+];
 ---
 
-<section id="process" class="relative overflow-hidden bg-slate-50 py-20 md:py-24">
-  <div class="mx-auto max-w-7xl px-5 md:px-8">
-    <div class="section-centered-heading" data-reveal><p class="section-label">How does it work?</p><h2>A clear workflow from scientific brief to final files.</h2></div>
-    <div class="process-river mt-16" data-reveal>{steps.map((step, index) => <div class="process-step"><span>{index + 1}</span><strong>{step}</strong></div>)}</div>
+<section id="process" class="home-process" aria-labelledby="home-process-title">
+  <div class="home-process-inner" data-reveal>
+    <header>
+      <p class="section-label">How we work</p>
+      <h2 id="home-process-title">Our process. Collaborative by design.</h2>
+    </header>
+    <ol class="home-process-steps">
+      {steps.map((step, index) => (
+        <li>
+          <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+          <strong>{step.title}</strong>
+          <p>{step.description}</p>
+        </li>
+      ))}
+    </ol>
   </div>
 </section>

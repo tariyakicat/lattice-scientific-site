@@ -1,0 +1,194 @@
+---
+import { Image } from "astro:assets";
+import scientificVisualImage from "@/assets/homepage/scientific-visual-anf-cnf-membrane.png";
+import scientificVisualOverviewImage from "@/assets/homepage/iscience-journal-desk-mockup.png";
+import researchDataStudyImage from "@/assets/homepage/research-data-syngenome.png";
+import scientificSlideImage from "@/assets/homepage/climate-research-slides-wide.png";
+import researchPosterOverviewImage from "@/assets/homepage/research-poster-conference-exhibition.png";
+import micrositeImage from "@/assets/homepage/climate-research-microsite-mockup.png";
+import impactReportImage from "@/assets/homepage/water-treatment-impact-campaign-mockup.png";
+import posterImage from "@/assets/homepage/climate-food-security-poster.png";
+
+const pathways = [
+  {
+    number: "01",
+    title: "Explain clearly",
+    description: "Scientific visuals and data stories.",
+    href: "#explain",
+    linkLabel: "See how we explain",
+    image: scientificVisualOverviewImage,
+    alt: "iScience journal resting on a bright research studio desk",
+  },
+  {
+    number: "02",
+    title: "Present & engage",
+    description: "Slides, posters and research microsites.",
+    href: "#present",
+    linkLabel: "See how we engage",
+    image: researchPosterOverviewImage,
+    alt: "Microplastics research poster displayed at a scientific conference",
+  },
+  {
+    number: "03",
+    title: "Demonstrate impact",
+    description: "Grant, R&D and impact showcases.",
+    href: "#impact",
+    linkLabel: "See how we show impact",
+    image: micrositeImage,
+    alt: "Interactive climate and food security research microsite displayed across desktop and mobile",
+  },
+];
+---
+
+<section id="services" class="communication-cases" aria-labelledby="communication-goals-title">
+  <div class="communication-goals" data-reveal>
+    <p class="communication-goals-eyebrow">From evidence to experience</p>
+    <h2 id="communication-goals-title">Three ways to make research matter.</h2>
+
+    <nav class="communication-goal-links" aria-label="Research communication pathways">
+      {pathways.map((pathway) => (
+        <a href={pathway.href} class="communication-goal">
+          <figure class="communication-goal-visual">
+            <Image
+              src={pathway.image}
+              alt={pathway.alt}
+              widths={[480, 720, 960]}
+              sizes="(min-width: 860px) 31vw, 92vw"
+              loading="lazy"
+            />
+          </figure>
+          <div class="communication-goal-copy">
+            <span aria-hidden="true">{pathway.number}</span>
+            <div>
+              <strong>{pathway.title}</strong>
+              <p>{pathway.description}</p>
+            </div>
+          </div>
+          <span class="communication-goal-action">
+            {pathway.linkLabel} <span aria-hidden="true">→</span>
+          </span>
+        </a>
+      ))}
+    </nav>
+  </div>
+
+  <div class="communication-case-list">
+    <article id="explain" class="communication-case communication-case-explain" data-reveal>
+      <div class="communication-case-copy">
+        <span class="communication-case-number" aria-hidden="true">01</span>
+        <h2>Explain clearly.</h2>
+        <p class="communication-case-services">Scientific Visuals · Research Data Visualization</p>
+        <h3>Making complex evidence understandable.</h3>
+        <dl class="communication-case-notes">
+          <div>
+            <dt>The problem</dt>
+            <dd>Complex mechanisms and datasets are difficult to interpret across specialist, commercial and public audiences.</dd>
+          </div>
+          <div>
+            <dt>Our communication decision</dt>
+            <dd>We turn technical evidence into clear diagrams and data stories that reveal how and why the work matters.</dd>
+          </div>
+        </dl>
+        <a class="communication-case-link" href="/portfolio/figures/">Explore visual communication cases <span aria-hidden="true">→</span></a>
+      </div>
+
+      <div class="communication-explain-gallery">
+        <figure class="communication-visual communication-visual-mechanism">
+          <div class="communication-visual-frame">
+            <Image
+              src={scientificVisualImage}
+              alt="Scientific illustration showing aramid and cellulose nanofibres forming a battery membrane that promotes uniform zinc deposition"
+              widths={[640, 902]}
+              sizes="(min-width: 1040px) 42vw, 92vw"
+              loading="lazy"
+            />
+          </div>
+          <figcaption>
+            <span>Scientific visual</span>
+            <strong>From fibre design to controlled zinc deposition</strong>
+          </figcaption>
+        </figure>
+
+        <figure class="communication-visual communication-visual-data">
+          <div class="communication-data-story">
+            <Image
+              src={researchDataStudyImage}
+              alt="Multi-panel genomic data visualization comparing generated and reference protein sequences, functional families and structural predictions"
+              widths={[640, 960, 1124]}
+              sizes="(min-width: 1040px) 34vw, 92vw"
+              loading="lazy"
+            />
+          </div>
+          <figcaption>
+            <span>Data visualization</span>
+            <strong>Mapping generated proteins across sequence, function and structure</strong>
+          </figcaption>
+        </figure>
+      </div>
+    </article>
+
+    <article id="present" class="communication-case communication-case-present" data-reveal>
+      <div class="communication-case-copy">
+        <span class="communication-case-number" aria-hidden="true">02</span>
+        <h2>Present and engage.</h2>
+        <p class="communication-case-services">Research Posters · Scientific Slides · Interactive Research Microsites</p>
+        <h3>From a research finding to an experience people remember.</h3>
+        <p class="communication-case-summary">We design presentation decks, conference posters and digital experiences for research updates, investor and stakeholder conversations, launches and events.</p>
+        <a class="communication-case-link" href="/portfolio/posters/">Explore presentation and digital cases <span aria-hidden="true">→</span></a>
+      </div>
+
+      <div class="communication-present-gallery">
+        <figure class="communication-visual communication-visual-slides">
+          <Image
+            src={scientificSlideImage}
+            alt="Climate and food security presentation deck displayed in a research meeting room"
+            widths={[640, 960, 1280, 1693]}
+            sizes="(min-width: 1040px) 48vw, 92vw"
+            loading="lazy"
+          />
+        </figure>
+
+        <figure class="communication-visual communication-visual-poster">
+          <Image
+            src={posterImage}
+            alt="Scientific poster analysing climate-driven impacts on global food security"
+            widths={[320, 480, 640]}
+            sizes="(min-width: 1040px) 18vw, 48vw"
+            loading="lazy"
+          />
+        </figure>
+
+        <figure id="engage" class="communication-visual communication-visual-microsite">
+          <Image
+            src={micrositeImage}
+            alt="Interactive climate and food security research microsite displayed on a laptop and mobile phone"
+            widths={[720, 1120, 1549]}
+            sizes="(min-width: 1040px) 34vw, 92vw"
+            loading="lazy"
+          />
+        </figure>
+      </div>
+    </article>
+
+    <article id="impact" class="communication-case communication-case-impact" data-reveal>
+      <div class="communication-case-copy">
+        <span class="communication-case-number" aria-hidden="true">03</span>
+        <h2>Demonstrate impact.</h2>
+        <p class="communication-case-services">Grant & Impact Showcases</p>
+        <h3>Show what the research changes.</h3>
+        <p class="communication-case-summary">We turn research outcomes, R&D progress and grant-funded work into credible stories for funders, partners, investors and public audiences.</p>
+        <a class="communication-case-link" href="/portfolio/">Explore impact communication cases <span aria-hidden="true">→</span></a>
+      </div>
+
+      <figure class="communication-visual communication-visual-impact">
+        <Image
+          src={impactReportImage}
+          alt="Water treatment impact report, interactive dashboard and porous membrane sample presented on a strategy meeting table"
+          widths={[720, 1120, 1549]}
+          sizes="(min-width: 1040px) 68vw, 92vw"
+          loading="lazy"
+        />
+      </figure>
+    </article>
+  </div>
+</section>

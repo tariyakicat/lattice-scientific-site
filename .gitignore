@@ -5,3 +5,10 @@ dist/
 .vercel/
 .wrangler/
 .DS_Store
+
+# Local visual QA artifacts
+tmp/
+design-qa.md
+
+# Local homepage asset drafts not used by the live build
+src/assets/homepage/drafts/
