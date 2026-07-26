@@ -8,6 +8,7 @@ const posts = await getAllBlogPosts();
 const PAGE_SIZE = 9;
 const featured = posts.find((post) => post.data.featured) ?? posts[0];
 const gridPosts = posts.filter((post) => post.id !== featured?.id).slice(0, PAGE_SIZE - 1);
+const pagePosts = featured ? [featured, ...gridPosts] : gridPosts;
 const nextPage = posts.length > PAGE_SIZE ? "/blog/page/2/" : undefined;
 const tags = allBlogTags(posts);
 const canonical = new URL("/blog/", Astro.site).href;
@@ -38,19 +39,21 @@ const jsonLd = [
     <p>Practical, evidence-aware guidance for turning complex research into graphical abstracts, posters, medical illustrations, and visual stories people can understand.</p>
   </header>
 
-  {featured && <section class="blog-featured" aria-labelledby="featured-article-title"><p class="section-label">Featured article</p><PostCard post={featured} featured /></section>}
+  <div data-blog-index>
+    {featured && <section class="blog-featured" aria-labelledby="featured-article-title"><p class="section-label" id="featured-article-title">Featured article</p><PostCard post={featured} featured /></section>}
 
-  <section class="blog-index" data-blog-index aria-labelledby="latest-articles-title">
-    <div class="blog-index-heading"><div><p class="section-label">Browse the library</p><h2 id="latest-articles-title">Latest articles</h2></div><p><strong data-blog-results>{gridPosts.length}</strong> articles</p></div>
-    <div class="blog-filter-row" aria-label="Filter blog posts">
-      <button type="button" class="is-active" data-blog-filter="all" aria-pressed="true">All</button>
-      {blogCategories.map((category) => <button type="button" data-blog-filter={category.slug} aria-pressed="false">{category.name}</button>)}
-      {tags.map((tag) => <button type="button" data-blog-tag={blogTagSlug(tag.name)} aria-pressed="false">#{tag.name}</button>)}
-    </div>
-    <div class="blog-card-grid">{gridPosts.map((post) => <PostCard {post} />)}</div>
-    {nextPage && <nav class="blog-pagination" aria-label="Blog pagination"><a href={nextPage}>Older articles <span aria-hidden="true">→</span></a></nav>}
-    <div class="blog-empty" data-blog-empty hidden><h2>No articles match this filter yet.</h2><button type="button" data-blog-reset>Show all articles</button></div>
-  </section>
+    <section class="blog-index" aria-labelledby="latest-articles-title">
+      <div class="blog-index-heading"><div><p class="section-label">Browse the library</p><h2 id="latest-articles-title">Latest articles</h2></div><p><strong data-blog-results>{pagePosts.length}</strong> articles</p></div>
+      <div class="blog-filter-row" aria-label="Filter blog posts">
+        <button type="button" class="is-active" data-blog-filter="all" aria-pressed="true">All</button>
+        {blogCategories.map((category) => <button type="button" data-blog-filter={category.slug} aria-pressed="false">{category.name}</button>)}
+        {tags.map((tag) => <button type="button" data-blog-tag={blogTagSlug(tag.name)} aria-pressed="false">#{tag.name}</button>)}
+      </div>
+      <div class="blog-card-grid">{gridPosts.map((post) => <PostCard {post} />)}</div>
+      {nextPage && <nav class="blog-pagination" aria-label="Blog pagination"><a href={nextPage}>Older articles <span aria-hidden="true">→</span></a></nav>}
+      <div class="blog-empty" data-blog-empty hidden><h2>No articles match this filter yet.</h2><button type="button" data-blog-reset>Show all articles</button></div>
+    </section>
+  </div>
 </BaseLayout>
 
 <script>
@@ -61,6 +64,7 @@ const jsonLd = [
     const tagButtons = [...root.querySelectorAll<HTMLButtonElement>("[data-blog-tag]")];
     const count = root.querySelector<HTMLElement>("[data-blog-results]");
     const empty = root.querySelector<HTMLElement>("[data-blog-empty]");
+    const featuredSection = root.querySelector<HTMLElement>(".blog-featured");
     const params = new URL(window.location.href).searchParams;
     let activeCategory = params.get("category") ?? "all";
     let activeTag = params.get("tag") ?? "";
@@ -73,6 +77,10 @@ const jsonLd = [
         card.hidden = !(categoriesMatch && tagsMatch);
         if (!card.hidden) visible += 1;
       });
+      if (featuredSection) {
+        const featuredCard = featuredSection.querySelector<HTMLElement>("[data-blog-card]");
+        featuredSection.hidden = featuredCard?.hidden ?? false;
+      }
       categoryButtons.forEach((button) => { const selected = button.dataset.blogFilter === activeCategory; button.classList.toggle("is-active", selected); button.setAttribute("aria-pressed", String(selected)); });
       tagButtons.forEach((button) => { const selected = button.dataset.blogTag === activeTag; button.classList.toggle("is-active", selected); button.setAttribute("aria-pressed", String(selected)); });
       if (count) count.textContent = String(visible);

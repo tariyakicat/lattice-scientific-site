@@ -1,6 +1,6 @@
 ---
 import { Image } from "astro:assets";
-import { getCollection, render } from "astro:content";
+import { render } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AuthorByline from "@/components/blog/AuthorByline.astro";
 import FAQ from "@/components/blog/FAQ.astro";
@@ -11,7 +11,7 @@ import BeforeAfterSlider from "@/components/BeforeAfterSlider.astro";
 import { blogSlug, blogTagSlug, blogUrl, formatBlogDate, getAllBlogPosts, getPostAuthor, postCategorySlug, readingTime, type BlogEntry } from "@/lib/blog";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog");
+  const posts = await getAllBlogPosts();
   return posts.map((post) => ({ params: { slug: blogSlug(post) }, props: { post } }));
 }
 
@@ -28,6 +28,7 @@ const canonicalUrl = new URL(canonical, Astro.site).href;
 const hero = post.data.ogImage ?? post.data.heroImage;
 const time = readingTime(post);
 const authorLinks = Object.values(author.data.links).filter(Boolean);
+const publisherLogoUrl = new URL("/favicon.svg", Astro.site).href;
 const jsonLd = [
   {
     "@context": "https://schema.org",
@@ -35,10 +36,26 @@ const jsonLd = [
     headline: post.data.title,
     description: post.data.description,
     image: new URL(hero.src, Astro.site).href,
-    author: { "@type": "Organization", name: author.data.name, url: author.data.links.website ?? new URL("/about/", Astro.site).href, sameAs: authorLinks },
-    publisher: { "@type": "Organization", name: "Lattice Visual", url: new URL("/", Astro.site).href, logo: { "@type": "ImageObject", url: new URL("/favicon.svg", Astro.site).href } },
+    author: {
+      "@type": "Organization",
+      name: author.data.name,
+      description: author.data.bio,
+      url: author.data.links.website ?? new URL("/", Astro.site).href,
+      sameAs: authorLinks,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Lattice Visual",
+      url: new URL("/", Astro.site).href,
+      logo: { "@type": "ImageObject", url: publisherLogoUrl },
+    },
     datePublished: post.data.datePublished.toISOString(),
     dateModified: post.data.dateModified.toISOString(),
+    articleSection: post.data.category,
+    keywords: post.data.tags.join(", "),
+    wordCount: time.words,
+    timeRequired: `PT${time.minutes}M`,
+    inLanguage: "en-GB",
     mainEntityOfPage: { "@type": "WebPage", "@id": canonicalUrl },
   },
   {
@@ -66,7 +83,7 @@ const jsonLd = [
     </header>
 
     <figure class="blog-article-hero">
-      <Image src={post.data.heroImage} alt={`${post.data.title} — scientific communication guide`} widths={[760, 1240, 1760]} sizes="(max-width: 900px) 100vw, 80vw" loading="eager" />
+      <Image src={post.data.heroImage} alt={post.data.heroAlt} widths={[760, 1240, 1760]} sizes="(max-width: 900px) 100vw, 80vw" loading="eager" />
     </figure>
 
     {post.data.draftFinal && (

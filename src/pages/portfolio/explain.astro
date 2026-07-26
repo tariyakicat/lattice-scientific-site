@@ -1,0 +1,1174 @@
+---
+import { Image } from "astro:assets";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+import graphicalNanovaccine from "@/assets/portfolio/explain/graphical-nanovaccine.webp";
+import graphicalResidualCancer from "@/assets/portfolio/explain/graphical-residual-cancer.webp";
+import graphicalEcmOHydrogel from "@/assets/portfolio/explain/graphical-ecmo-hydrogel.webp";
+import graphicalPeptideTherapy from "@/assets/portfolio/explain/graphical-peptide-therapy.webp";
+import graphicalMicroalgae from "@/assets/portfolio/explain/graphical-microalgae.webp";
+import graphicalNanobubble from "@/assets/portfolio/explain/graphical-nanobubble.webp";
+import graphicalPhotothermalBacteria from "@/assets/portfolio/explain/graphical-photothermal-bacteria.webp";
+import graphicalBoneRegeneration from "@/assets/portfolio/explain/graphical-bone-regeneration.webp";
+import mechanismVascularHealing from "@/assets/portfolio/explain/mechanism-vascular-healing.webp";
+import mechanismOsteoarthritis from "@/assets/portfolio/explain/mechanism-osteoarthritis.webp";
+import mechanismNeurovascularUnit from "@/assets/portfolio/explain/mechanism-neurovascular-unit.webp";
+import mechanismEpsAntibacterial from "@/assets/portfolio/explain/mechanism-eps-antibacterial.webp";
+import mechanismLmpResponse from "@/assets/portfolio/explain/mechanism-lmp-response.webp";
+import mechanismCompositeRepair from "@/assets/portfolio/explain/mechanism-composite-repair.webp";
+import mechanismUrologicalProcedure from "@/assets/portfolio/explain/mechanism-urological-procedure.webp";
+import mechanismPlantLineage from "@/assets/portfolio/explain/mechanism-plant-lineage.webp";
+import dataPregnancyCoagulation from "@/assets/portfolio/explain/data-pregnancy-coagulation.webp";
+import dataVitaminKMap from "@/assets/portfolio/explain/data-vitamin-k-map.webp";
+import dataEcmoMonitoring from "@/assets/portfolio/explain/data-ecmo-monitoring.webp";
+import dataSynGenome from "@/assets/homepage/research-data-syngenome.png";
+
+type Work = {
+  id: string;
+  title: string;
+  descriptor: string;
+  alt: string;
+  image: ImageMetadata;
+  layout: "feature" | "wide" | "portrait" | "standard";
+  ratio: string;
+};
+
+type WorkSection = {
+  id: string;
+  number: string;
+  title: string;
+  summary: string;
+  works: Work[];
+};
+
+const sections: WorkSection[] = [
+  {
+    id: "graphical-abstracts",
+    number: "01",
+    title: "Graphical Abstracts",
+    summary:
+      "Research narratives organised into a single visual sequence, from the scientific question to the mechanism and response.",
+    works: [
+      {
+        id: "nanovaccine-delivery",
+        title: "Nanovaccine delivery and immune activation",
+        descriptor: "Nanomedicine · cancer immunotherapy",
+        alt: "Graphical abstract showing nanovaccine delivery, lymph-node targeting and tumour immune activation",
+        image: graphicalNanovaccine,
+        layout: "feature",
+        ratio: "2.12 / 1",
+      },
+      {
+        id: "residual-cancer",
+        title: "Post-surgical residual cancer therapy",
+        descriptor: "Oncology · immune response",
+        alt: "Graphical abstract illustrating treatment of residual tumour cells after surgery and subsequent immune response",
+        image: graphicalResidualCancer,
+        layout: "wide",
+        ratio: "1.96 / 1",
+      },
+      {
+        id: "peptide-therapy",
+        title: "Targeted peptide therapy",
+        descriptor: "Drug delivery · tumour microenvironment",
+        alt: "Graphical abstract showing targeted peptide delivery and cellular response in a tumour microenvironment",
+        image: graphicalPeptideTherapy,
+        layout: "standard",
+        ratio: "1 / 1",
+      },
+      {
+        id: "microalgae-treatment",
+        title: "Microalgae photocatalytic water treatment",
+        descriptor: "Environmental biotechnology",
+        alt: "Graphical abstract showing microalgae preparation, photocatalytic treatment and wastewater response",
+        image: graphicalMicroalgae,
+        layout: "portrait",
+        ratio: "0.8 / 1",
+      },
+      {
+        id: "nanobubble-delivery",
+        title: "Nanobubble-assisted cellular delivery",
+        descriptor: "Nanomedicine · cellular therapy",
+        alt: "Graphical abstract showing nanobubble preparation and a cellular therapeutic pathway",
+        image: graphicalNanobubble,
+        layout: "portrait",
+        ratio: "0.92 / 1",
+      },
+      {
+        id: "pregnancy-coagulation",
+        title: "Coagulation profiles across pregnancy",
+        descriptor: "Clinical research · pregnancy",
+        alt: "Graphical abstract summarising the study design and changing coagulation profiles across pregnancy",
+        image: dataPregnancyCoagulation,
+        layout: "wide",
+        ratio: "1.43 / 1",
+      },
+      {
+        id: "vitamin-k-map",
+        title: "Vitamin K functional evidence map",
+        descriptor: "Biochemistry · functional diversity",
+        alt: "Graphical abstract summarising the biological functions and molecular relationships of vitamin K",
+        image: dataVitaminKMap,
+        layout: "feature",
+        ratio: "1.92 / 1",
+      },
+      {
+        id: "bone-regeneration",
+        title: "Controlled delivery for bone regeneration",
+        descriptor: "Regenerative medicine",
+        alt: "Graphical abstract showing a controlled drug-delivery platform, inflammatory response and bone regeneration",
+        image: graphicalBoneRegeneration,
+        layout: "portrait",
+        ratio: "0.72 / 1",
+      },
+    ],
+  },
+  {
+    id: "mechanism-diagrams",
+    number: "02",
+    title: "Mechanism Diagrams",
+    summary:
+      "Multi-scale systems that clarify material behaviour, biological pathways and the relationships between intervention and outcome.",
+    works: [
+      {
+        id: "vascular-healing",
+        title: "Vascular injury and healing pathway",
+        descriptor: "Vascular biology",
+        alt: "Mechanism diagram comparing vascular injury and healing responses under different interventions",
+        image: mechanismVascularHealing,
+        layout: "wide",
+        ratio: "1.26 / 1",
+      },
+      {
+        id: "ecmo-hydrogel",
+        title: "ECMO-assisted hydrogel wound treatment",
+        descriptor: "Biomedical engineering · wound repair",
+        alt: "Mechanism diagram showing an ECMO-assisted hydrogel system and stages of tissue repair",
+        image: graphicalEcmOHydrogel,
+        layout: "portrait",
+        ratio: "0.87 / 1",
+      },
+      {
+        id: "photothermal-bacteria",
+        title: "Photothermal bacterial treatment",
+        descriptor: "Antimicrobial therapy · biofilm",
+        alt: "Mechanism diagram showing photothermal bacterial treatment and downstream biological responses",
+        image: graphicalPhotothermalBacteria,
+        layout: "portrait",
+        ratio: "0.91 / 1",
+      },
+      {
+        id: "ecmo-monitoring",
+        title: "ECMO monitoring and thrombogenesis",
+        descriptor: "Biomedical sensing · thrombogenesis",
+        alt: "Mechanism diagram combining an ECMO monitoring system with the process of thrombogenesis",
+        image: dataEcmoMonitoring,
+        layout: "standard",
+        ratio: "1.35 / 1",
+      },
+      {
+        id: "osteoarthritis",
+        title: "Osteoarthritis progression and intervention",
+        descriptor: "Musculoskeletal biology",
+        alt: "Mechanism diagram showing osteoarthritis progression, joint tissues and cellular intervention pathways",
+        image: mechanismOsteoarthritis,
+        layout: "feature",
+        ratio: "1.43 / 1",
+      },
+      {
+        id: "neurovascular-unit",
+        title: "Neurovascular unit and barrier function",
+        descriptor: "Neuroscience",
+        alt: "Scientific mechanism diagram showing neural cells, blood vessels and barrier junctions",
+        image: mechanismNeurovascularUnit,
+        layout: "feature",
+        ratio: "2.5 / 1",
+      },
+      {
+        id: "eps-antibacterial",
+        title: "EPS composite antibacterial mechanism",
+        descriptor: "Biomaterials · microbiology",
+        alt: "Mechanism diagram showing an EPS-based composite and its effects on bacterial membranes and electron transport",
+        image: mechanismEpsAntibacterial,
+        layout: "wide",
+        ratio: "1.46 / 1",
+      },
+      {
+        id: "lmp-response",
+        title: "LMP synthesis and intracellular response",
+        descriptor: "Molecular therapeutics",
+        alt: "Mechanism diagram showing LMP synthesis, cellular uptake and intracellular therapeutic responses",
+        image: mechanismLmpResponse,
+        layout: "portrait",
+        ratio: "0.8 / 1",
+      },
+      {
+        id: "composite-repair",
+        title: "Ocular drug-retention mechanism",
+        descriptor: "Ophthalmic delivery · biomaterials",
+        alt: "Mechanism diagram comparing conventional ocular medicines with a gel-based drug-retention system",
+        image: mechanismCompositeRepair,
+        layout: "feature",
+        ratio: "2.6 / 1",
+      },
+      {
+        id: "urological-procedure",
+        title: "Anatomy and procedural pathway",
+        descriptor: "Clinical illustration",
+        alt: "Four-part clinical illustration showing anatomy and stages in a urological procedure",
+        image: mechanismUrologicalProcedure,
+        layout: "standard",
+        ratio: "1 / 1",
+      },
+      {
+        id: "plant-lineage",
+        title: "Plant cell-lineage hierarchy",
+        descriptor: "Plant biology",
+        alt: "Scientific mechanism diagram organising plant cell origins and developmental relationships",
+        image: mechanismPlantLineage,
+        layout: "wide",
+        ratio: "1.7 / 1",
+      },
+    ],
+  },
+  {
+    id: "data-visualization",
+    number: "03",
+    title: "Data Visualization",
+    summary:
+      "Dense evidence reorganised into legible comparisons, distributions and connected systems without losing scientific detail.",
+    works: [
+      {
+        id: "syngenome-landscape",
+        title: "Protein sequence and function landscape",
+        descriptor: "Genomics · multi-panel evidence",
+        alt: "Multi-panel genomic data visualization comparing generated and reference protein sequences, functional families and structures",
+        image: dataSynGenome,
+        layout: "feature",
+        ratio: "1.15 / 1",
+      },
+    ],
+  },
+];
+
+const works = sections.flatMap((section) =>
+  section.works.map((work) => ({
+    ...work,
+    category: section.title,
+  })),
+);
+
+const canonical = "https://sci.latticevisual.com/portfolio/explain/";
+const description =
+  "Explore graphical abstracts, scientific mechanism diagrams and research data visualizations created by Lattice Visual.";
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "Scientific visual communication portfolio",
+    description,
+    url: canonical,
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: works.map((work, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: work.title,
+        image: new URL(work.image.src, Astro.site).href,
+        url: `${canonical}#${work.id}`,
+      })),
+    },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://sci.latticevisual.com/" },
+      { "@type": "ListItem", position: 2, name: "Portfolio", item: "https://sci.latticevisual.com/portfolio/" },
+      { "@type": "ListItem", position: 3, name: "Explain clearly", item: canonical },
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title="Graphical Abstracts, Mechanism Diagrams & Data Visualization | Lattice Visual"
+  {description}
+  canonical="/portfolio/explain/"
+  image={graphicalNanovaccine.src}
+  jsonLd={jsonLd}
+>
+  <header class="explain-hero">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span aria-hidden="true">/</span>
+      <a href="/portfolio/">Portfolio</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">Explain clearly</span>
+    </nav>
+    <div class="explain-hero-grid">
+      <p class="explain-index">01</p>
+      <div>
+        <p class="section-label">Explain clearly</p>
+        <h1>Make complex research easier to see.</h1>
+      </div>
+      <p class="explain-intro">
+        Graphical abstracts, mechanism diagrams and data visualizations shaped around the logic of the research.
+        Each work below opens into a focused high-resolution viewer.
+      </p>
+    </div>
+    <nav class="explain-section-nav" aria-label="Jump to a portfolio section">
+      {sections.map((section) => (
+        <a href={`#${section.id}`}>
+          <span>{section.number}</span>
+          {section.title}
+        </a>
+      ))}
+    </nav>
+  </header>
+
+  <main class="explain-portfolio">
+    {sections.map((section, sectionIndex) => (
+      <section
+        id={section.id}
+        class:list={["explain-work-section", { "is-tinted": sectionIndex === 1 }]}
+        aria-labelledby={`${section.id}-title`}
+      >
+        <div class="explain-section-inner">
+          <header class="explain-section-heading">
+            <p>{section.number}</p>
+            <div>
+              <h2 id={`${section.id}-title`}>{section.title}</h2>
+              <p>{section.summary}</p>
+            </div>
+            {sectionIndex === 0 && (
+              <span>Open any image to inspect the full composition.</span>
+            )}
+          </header>
+
+          <div class={`explain-gallery is-${section.id}`}>
+            {section.works.map((work) => (
+              <figure
+                id={work.id}
+                class:list={["explain-work", `is-${work.layout}`]}
+                style={`--work-ratio: ${work.ratio}`}
+              >
+                <button
+                  type="button"
+                  class="explain-work-open"
+                  data-explain-open
+                  data-work-id={work.id}
+                  aria-label={`Open ${work.title} in high-resolution viewer`}
+                >
+                  <span class="explain-work-media">
+                    <Image
+                      src={work.image}
+                      alt={work.alt}
+                      widths={[560, 900, 1400, 2200]}
+                      sizes="(max-width: 767px) 92vw, (max-width: 1100px) 50vw, 48vw"
+                      loading="lazy"
+                    />
+                    <span class="explain-expand" aria-hidden="true">↗</span>
+                  </span>
+                </button>
+                <figcaption>
+                  <strong>{work.title}</strong>
+                  <span>{work.descriptor}</span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+    ))}
+  </main>
+
+  <section class="explain-next" aria-labelledby="explain-next-title">
+    <p class="section-label">Continue through the work</p>
+    <h2 id="explain-next-title">Research can also be presented, experienced and evidenced.</h2>
+    <nav aria-label="Explore the other communication pathways">
+      <a href="/#present">
+        <span>02</span>
+        <strong>Present & engage</strong>
+        <em>Slides, posters and research microsites</em>
+        <b aria-hidden="true">→</b>
+      </a>
+      <a href="/#impact">
+        <span>03</span>
+        <strong>Demonstrate impact</strong>
+        <em>Grant, R&D and impact showcases</em>
+        <b aria-hidden="true">→</b>
+      </a>
+    </nav>
+  </section>
+
+  <section class="explain-cta">
+    <p class="section-label">Have a research story to clarify?</p>
+    <h2>Bring us the evidence. We’ll help make the logic visible.</h2>
+    <a href="/#contact">Start a project <span aria-hidden="true">→</span></a>
+  </section>
+
+  <div class="explain-lightbox-root">
+    <script
+      is:inline
+      type="application/json"
+      data-explain-data
+      set:html={JSON.stringify(
+        works.map((work) => ({
+          id: work.id,
+          title: work.title,
+          descriptor: work.descriptor,
+          category: work.category,
+          alt: work.alt,
+          src: work.image.src,
+        })),
+      )}
+    ></script>
+    <dialog class="explain-lightbox" aria-label="High-resolution scientific visual viewer">
+      <div class="explain-lightbox-shell">
+        <header>
+          <a href="/portfolio/explain/">Lattice Visual <span>/ Explain clearly</span></a>
+          <button type="button" data-explain-close aria-label="Close image viewer">×</button>
+        </header>
+        <div class="explain-lightbox-layout">
+          <div class="explain-lightbox-stage">
+            <img data-explain-image alt="" />
+          </div>
+          <aside>
+            <p data-explain-category></p>
+            <h2 data-explain-title></h2>
+            <p data-explain-descriptor></p>
+            <small>Use the arrow keys to move through the selected work.</small>
+          </aside>
+        </div>
+        <footer>
+          <button type="button" data-explain-prev aria-label="View previous work">
+            <span aria-hidden="true">←</span> Previous
+          </button>
+          <span data-explain-position aria-live="polite"></span>
+          <button type="button" data-explain-next aria-label="View next work">
+            Next <span aria-hidden="true">→</span>
+          </button>
+        </footer>
+      </div>
+    </dialog>
+  </div>
+</BaseLayout>
+
+<script>
+  type ExplainWork = {
+    id: string;
+    title: string;
+    descriptor: string;
+    category: string;
+    alt: string;
+    src: string;
+  };
+
+  const root = document.querySelector<HTMLElement>(".explain-lightbox-root");
+  const dialog = root?.querySelector<HTMLDialogElement>("dialog");
+  const payload = root?.querySelector<HTMLScriptElement>("[data-explain-data]");
+
+  if (root && dialog && payload && root.dataset.ready !== "true") {
+    root.dataset.ready = "true";
+    const works = JSON.parse(payload.textContent ?? "[]") as ExplainWork[];
+    const image = dialog.querySelector<HTMLImageElement>("[data-explain-image]");
+    const category = dialog.querySelector<HTMLElement>("[data-explain-category]");
+    const title = dialog.querySelector<HTMLElement>("[data-explain-title]");
+    const descriptor = dialog.querySelector<HTMLElement>("[data-explain-descriptor]");
+    const position = dialog.querySelector<HTMLElement>("[data-explain-position]");
+    let activeIndex = 0;
+    let returnFocus: HTMLElement | null = null;
+
+    const render = (index: number) => {
+      activeIndex = (index + works.length) % works.length;
+      const work = works[activeIndex];
+      if (!work) return;
+      if (image) {
+        image.src = work.src;
+        image.alt = work.alt;
+      }
+      if (category) category.textContent = work.category;
+      if (title) title.textContent = work.title;
+      if (descriptor) descriptor.textContent = work.descriptor;
+      if (position) position.textContent = `${activeIndex + 1} / ${works.length}`;
+    };
+
+    document.querySelectorAll<HTMLElement>("[data-explain-open]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const index = works.findIndex((work) => work.id === button.dataset.workId);
+        if (index < 0) return;
+        returnFocus = button;
+        render(index);
+        dialog.showModal();
+        document.documentElement.classList.add("has-dialog");
+        dialog.querySelector<HTMLButtonElement>("[data-explain-close]")?.focus();
+      });
+    });
+
+    dialog.querySelector("[data-explain-close]")?.addEventListener("click", () => dialog.close());
+    dialog.querySelector("[data-explain-prev]")?.addEventListener("click", () => render(activeIndex - 1));
+    dialog.querySelector("[data-explain-next]")?.addEventListener("click", () => render(activeIndex + 1));
+    dialog.addEventListener("click", (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+    dialog.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowLeft") render(activeIndex - 1);
+      if (event.key === "ArrowRight") render(activeIndex + 1);
+    });
+    dialog.addEventListener("close", () => {
+      document.documentElement.classList.remove("has-dialog");
+      returnFocus?.focus();
+    });
+  }
+</script>
+
+<style>
+  .explain-hero,
+  .explain-section-inner,
+  .explain-next {
+    width: min(calc(100% - 2.5rem), 1280px);
+    margin-inline: auto;
+  }
+
+  .explain-hero {
+    padding: 10rem 0 4rem;
+  }
+
+  .breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin-bottom: 4.5rem;
+    color: #7b8795;
+    font-size: 0.75rem;
+  }
+
+  .breadcrumbs a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .breadcrumbs a:hover {
+    color: var(--color-blue);
+  }
+
+  .explain-hero-grid {
+    display: grid;
+    grid-template-columns: 5rem minmax(0, 1fr) minmax(18rem, 28rem);
+    align-items: end;
+    gap: clamp(1.5rem, 4vw, 4.5rem);
+  }
+
+  .explain-index {
+    margin: 0 0 0.65rem;
+    color: #9bc9e8;
+    font-family: var(--font-display);
+    font-size: 2.4rem;
+    line-height: 1;
+  }
+
+  .explain-hero h1 {
+    max-width: 48rem;
+    margin: 0.75rem 0 0;
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    font-size: clamp(3.25rem, 6.8vw, 6rem);
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 0.98;
+  }
+
+  .explain-intro {
+    margin: 0 0 0.5rem;
+    color: var(--color-muted);
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+
+  .explain-section-nav {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: 4.75rem;
+    border-top: 1px solid var(--color-line);
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .explain-section-nav a {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-height: 5.25rem;
+    padding: 1rem 1.5rem;
+    color: var(--color-ink);
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background 180ms ease, color 180ms ease;
+  }
+
+  .explain-section-nav a + a {
+    border-left: 1px solid var(--color-line);
+  }
+
+  .explain-section-nav a:hover {
+    background: #f3f8fc;
+    color: var(--color-blue);
+  }
+
+  .explain-section-nav span {
+    color: #9bb0c1;
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+  }
+
+  .explain-work-section {
+    scroll-margin-top: 5rem;
+    padding: clamp(5rem, 9vw, 8.5rem) 0;
+    background: rgba(255, 255, 255, 0.8);
+  }
+
+  .explain-work-section.is-tinted {
+    background:
+      radial-gradient(circle at 96% 14%, rgba(150, 209, 236, 0.2), transparent 24rem),
+      #eef6fb;
+  }
+
+  .explain-section-heading {
+    display: grid;
+    grid-template-columns: 4.5rem minmax(0, 1fr) minmax(15rem, 24rem);
+    align-items: end;
+    gap: clamp(1.5rem, 4vw, 4rem);
+    margin-bottom: clamp(3rem, 6vw, 5.25rem);
+  }
+
+  .explain-section-heading > p {
+    margin: 0 0 0.35rem;
+    color: #9bc9e8;
+    font-family: var(--font-display);
+    font-size: 1.7rem;
+  }
+
+  .explain-section-heading h2 {
+    margin: 0;
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    font-size: clamp(2.6rem, 5vw, 4.6rem);
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 1;
+  }
+
+  .explain-section-heading div > p {
+    max-width: 43rem;
+    margin: 1.1rem 0 0;
+    color: var(--color-muted);
+    line-height: 1.7;
+  }
+
+  .explain-section-heading > span {
+    margin-bottom: 0.4rem;
+    color: #7c8997;
+    font-size: 0.78rem;
+    line-height: 1.5;
+    text-align: right;
+  }
+
+  .explain-gallery {
+    columns: 2;
+    column-gap: clamp(1.5rem, 3.5vw, 3.5rem);
+  }
+
+  .explain-gallery.is-data-visualization {
+    width: min(100%, 68rem);
+    margin-inline: auto;
+    columns: 1;
+  }
+
+  .explain-work {
+    display: inline-block;
+    width: 100%;
+    margin: 0 0 clamp(3rem, 5vw, 5rem);
+    break-inside: avoid;
+    vertical-align: top;
+  }
+
+  .explain-work-open {
+    display: block;
+    width: 100%;
+    cursor: zoom-in;
+    border: 0;
+    background: none;
+    padding: 0;
+    text-align: left;
+  }
+
+  .explain-work-open:focus-visible {
+    outline: 3px solid rgba(31, 127, 196, 0.32);
+    outline-offset: 5px;
+  }
+
+  .explain-work-media {
+    position: relative;
+    display: grid;
+    width: 100%;
+    aspect-ratio: var(--work-ratio);
+    place-items: center;
+    overflow: hidden;
+    border: 1px solid rgba(147, 166, 184, 0.28);
+    border-radius: 0.5rem;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 20px 55px rgba(50, 76, 99, 0.08);
+    transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 320ms ease;
+  }
+
+  .explain-work-media :global(picture) {
+    display: contents;
+  }
+
+  .explain-work-media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .explain-work-open:hover .explain-work-media {
+    transform: translateY(-4px);
+    box-shadow: 0 28px 70px rgba(50, 76, 99, 0.14);
+  }
+
+  .explain-work-open:hover .explain-work-media :global(img) {
+    transform: scale(1.015);
+  }
+
+  .explain-expand {
+    position: absolute;
+    right: 0.8rem;
+    bottom: 0.8rem;
+    display: grid;
+    width: 2.25rem;
+    height: 2.25rem;
+    place-items: center;
+    border: 1px solid rgba(224, 229, 236, 0.9);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--color-ink);
+    font-size: 0.9rem;
+    box-shadow: 0 8px 22px rgba(26, 36, 51, 0.1);
+    opacity: 0;
+    transform: translateY(0.35rem);
+    transition: opacity 180ms ease, transform 180ms ease;
+  }
+
+  .explain-work-open:hover .explain-expand,
+  .explain-work-open:focus-visible .explain-expand {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .explain-work figcaption {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-top: 0.9rem;
+  }
+
+  .explain-work figcaption strong {
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    font-size: clamp(1.05rem, 1.7vw, 1.35rem);
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  .explain-work figcaption span {
+    flex: 0 0 auto;
+    max-width: 12rem;
+    color: #7a8794;
+    font-size: 0.7rem;
+    line-height: 1.45;
+    text-align: right;
+  }
+
+  .explain-next {
+    padding: clamp(5rem, 10vw, 9rem) 0;
+  }
+
+  .explain-next h2,
+  .explain-cta h2 {
+    max-width: 52rem;
+    margin: 1rem 0 0;
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 5vw, 4.3rem);
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 1.08;
+  }
+
+  .explain-next nav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 4rem;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .explain-next a {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr auto;
+    align-items: center;
+    gap: 0.85rem 1.2rem;
+    min-height: 8.5rem;
+    padding: 1.5rem;
+    color: var(--color-ink);
+    text-decoration: none;
+    transition: background 180ms ease;
+  }
+
+  .explain-next a + a {
+    border-left: 1px solid var(--color-line);
+  }
+
+  .explain-next a:hover {
+    background: #f3f8fc;
+  }
+
+  .explain-next a > span {
+    color: #96a8b8;
+    font-family: var(--font-display);
+  }
+
+  .explain-next strong {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+  }
+
+  .explain-next em {
+    grid-column: 2;
+    color: var(--color-muted);
+    font-size: 0.8rem;
+    font-style: normal;
+  }
+
+  .explain-next b {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+    color: var(--color-blue);
+    font-size: 1.2rem;
+  }
+
+  .explain-cta {
+    display: grid;
+    min-height: 34rem;
+    place-content: center;
+    justify-items: center;
+    background:
+      radial-gradient(circle at 15% 40%, rgba(140, 211, 235, 0.26), transparent 20rem),
+      radial-gradient(circle at 88% 70%, rgba(203, 218, 241, 0.35), transparent 22rem),
+      #eef6fb;
+    padding: 5rem 1.25rem;
+    text-align: center;
+  }
+
+  .explain-cta h2 {
+    text-align: center;
+  }
+
+  .explain-cta > a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin-top: 2.25rem;
+    border-radius: 999px;
+    background: var(--color-blue);
+    padding: 0.95rem 1.35rem;
+    color: white;
+    font-size: 0.87rem;
+    font-weight: 750;
+    text-decoration: none;
+    transition: transform 180ms ease, box-shadow 180ms ease;
+  }
+
+  .explain-cta > a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px rgba(31, 127, 196, 0.2);
+  }
+
+  .explain-lightbox {
+    width: 100vw;
+    max-width: none;
+    height: 100dvh;
+    max-height: none;
+    margin: 0;
+    border: 0;
+    background: white;
+    padding: 0;
+  }
+
+  .explain-lightbox::backdrop {
+    background: rgba(22, 33, 46, 0.45);
+    backdrop-filter: blur(8px);
+  }
+
+  .explain-lightbox-shell {
+    display: grid;
+    min-height: 100%;
+    grid-template-rows: auto 1fr auto;
+  }
+
+  .explain-lightbox header,
+  .explain-lightbox footer {
+    display: flex;
+    min-height: 4.5rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    border-color: var(--color-line);
+    padding: 0.75rem clamp(1rem, 3vw, 3rem);
+  }
+
+  .explain-lightbox header {
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .explain-lightbox footer {
+    border-top: 1px solid var(--color-line);
+  }
+
+  .explain-lightbox header a {
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .explain-lightbox header a span {
+    color: var(--color-muted);
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    font-weight: 500;
+  }
+
+  .explain-lightbox header button {
+    display: grid;
+    width: 2.6rem;
+    height: 2.6rem;
+    cursor: pointer;
+    place-items: center;
+    border: 1px solid var(--color-line);
+    border-radius: 50%;
+    background: white;
+    color: var(--color-ink);
+    font-size: 1.45rem;
+  }
+
+  .explain-lightbox-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(17rem, 22rem);
+    align-items: center;
+    gap: clamp(2rem, 4vw, 5rem);
+    width: min(calc(100% - 3rem), 1500px);
+    margin-inline: auto;
+    padding: 2rem 0;
+  }
+
+  .explain-lightbox-stage {
+    display: grid;
+    height: min(72vh, 54rem);
+    min-height: 24rem;
+    place-items: center;
+    overflow: hidden;
+    background: #f7f9fb;
+  }
+
+  .explain-lightbox-stage img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .explain-lightbox aside > p:first-child {
+    margin: 0;
+    color: var(--color-blue);
+    font-size: 0.72rem;
+    font-weight: 750;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .explain-lightbox aside h2 {
+    margin: 0.8rem 0 0;
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 3.4vw, 3.5rem);
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 1.05;
+  }
+
+  .explain-lightbox aside > p:nth-of-type(2) {
+    margin: 1.25rem 0 0;
+    color: var(--color-muted);
+    line-height: 1.6;
+  }
+
+  .explain-lightbox aside small {
+    display: block;
+    margin-top: 3rem;
+    color: #8994a0;
+    font-size: 0.7rem;
+    line-height: 1.5;
+  }
+
+  .explain-lightbox footer button {
+    cursor: pointer;
+    border: 0;
+    background: none;
+    color: var(--color-ink);
+    font: inherit;
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+
+  .explain-lightbox footer > span {
+    color: var(--color-muted);
+    font-size: 0.72rem;
+  }
+
+  @media (max-width: 960px) {
+    .explain-hero-grid,
+    .explain-section-heading {
+      grid-template-columns: 3.5rem minmax(0, 1fr);
+    }
+
+    .explain-intro,
+    .explain-section-heading > span {
+      grid-column: 2;
+      margin-top: 1.5rem;
+      text-align: left;
+    }
+
+    .explain-lightbox-layout {
+      grid-template-columns: 1fr;
+      align-items: start;
+      padding-bottom: 3rem;
+    }
+
+    .explain-lightbox-stage {
+      height: min(58vh, 42rem);
+    }
+
+    .explain-lightbox aside {
+      max-width: 44rem;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .explain-hero,
+    .explain-section-inner,
+    .explain-next {
+      width: min(calc(100% - 1.5rem), 1280px);
+    }
+
+    .explain-hero {
+      padding-top: 8.5rem;
+    }
+
+    .breadcrumbs {
+      margin-bottom: 3rem;
+    }
+
+    .explain-hero-grid,
+    .explain-section-heading {
+      display: block;
+    }
+
+    .explain-index,
+    .explain-section-heading > p {
+      margin-bottom: 1rem;
+      font-size: 1.4rem;
+    }
+
+    .explain-intro,
+    .explain-section-heading > span {
+      margin-top: 1.5rem;
+    }
+
+    .explain-section-nav {
+      grid-template-columns: 1fr;
+      margin-top: 3rem;
+    }
+
+    .explain-section-nav a {
+      min-height: 4.4rem;
+      padding-inline: 0.75rem;
+    }
+
+    .explain-section-nav a + a {
+      border-top: 1px solid var(--color-line);
+      border-left: 0;
+    }
+
+    .explain-gallery {
+      columns: 1;
+    }
+
+    .explain-work figcaption {
+      display: block;
+    }
+
+    .explain-work figcaption span {
+      display: block;
+      margin-top: 0.4rem;
+      max-width: none;
+      text-align: left;
+    }
+
+    .explain-expand {
+      opacity: 1;
+      transform: none;
+    }
+
+    .explain-next nav {
+      grid-template-columns: 1fr;
+      margin-top: 2.5rem;
+    }
+
+    .explain-next a + a {
+      border-top: 1px solid var(--color-line);
+      border-left: 0;
+    }
+
+    .explain-lightbox header a span,
+    .explain-lightbox aside small {
+      display: none;
+    }
+
+    .explain-lightbox-layout {
+      width: min(calc(100% - 1.5rem), 1500px);
+      gap: 1.5rem;
+      padding-block: 1rem 2rem;
+    }
+
+    .explain-lightbox-stage {
+      height: min(52vh, 30rem);
+      min-height: 16rem;
+    }
+
+    .explain-lightbox aside h2 {
+      font-size: 2rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .explain-work-media,
+    .explain-work-media :global(img),
+    .explain-expand {
+      transition: none;
+    }
+  }
+</style>

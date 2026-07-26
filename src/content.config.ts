@@ -25,6 +25,7 @@ const blog = defineCollection({
   schema: ({ image }) => z.object({
     title: z.string(),
     description: z.string().max(155),
+    heroAlt: z.string().min(20),
     tldr: z.string().refine((value) => {
       const words = value.trim().split(/\s+/).filter(Boolean).length;
       return words >= 40 && words <= 60;
@@ -38,6 +39,7 @@ const blog = defineCollection({
     ogImage: image().optional(),
     faq: z.array(z.object({ question: z.string(), answer: z.string() })).default([]),
     featured: z.boolean().default(false),
+    draft: z.boolean().default(false),
     draftFinal: z.object({
       draftImage: image(),
       finalImage: image(),

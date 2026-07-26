@@ -17,7 +17,7 @@ export function sortBlogPosts(posts: BlogEntry[]) {
 }
 
 export async function getAllBlogPosts() {
-  return sortBlogPosts(await getCollection("blog"));
+  return sortBlogPosts((await getCollection("blog")).filter((post) => !post.data.draft));
 }
 
 export async function getPostAuthor(post: BlogEntry) {

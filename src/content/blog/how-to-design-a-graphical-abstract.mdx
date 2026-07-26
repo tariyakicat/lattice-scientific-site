@@ -1,12 +1,13 @@
 ---
 title: How to Design a Graphical Abstract
 description: A practical, answer-first guide to planning a clear graphical abstract for journal submission and research communication.
+heroAlt: Graphical abstract showing hydrogel preparation, wastewater treatment, photocatalysis and microalgae response
 tldr: A strong graphical abstract communicates one research message through a deliberate visual sequence, not a miniature version of the paper. Start with the takeaway, reduce the content to essential evidence, build a clear reading path, and check the target journal’s current specifications before choosing software or commissioning final artwork.
 category: Graphical Abstracts
 tags: [graphical abstract, journal submission, visual hierarchy]
 author: lattice-visual-editorial-team
 datePublished: 2026-06-22
-dateModified: 2026-06-22
+dateModified: 2026-07-26
 heroImage: ../../assets/resources/ga2_algae.jpg
 ogImage: ../../assets/resources/ga2_algae.jpg
 faq:
@@ -19,10 +20,7 @@ faq:
   - question: How much information should a graphical abstract contain?
     answer: Include only the information needed to understand the main research message; supporting detail belongs in the paper or figure legend.
 featured: true
-draftFinal:
-  draftImage: ../../assets/portfolio/cellular-pathway-draft.png
-  finalImage: ../../assets/portfolio/cellular-pathway-final.png
-  caption: A placeholder comparison showing how hierarchy, spacing, and visual emphasis can clarify the same scientific pathway.
+draft: false
 relatedSlugs: [best-scientific-poster-examples, medical-illustration-guide]
 ---
 
@@ -31,23 +29,48 @@ import Callout from "@/components/blog/Callout.astro";
 
 ## What is a graphical abstract?
 
-A graphical abstract is a single-image summary of a paper’s central research story. This section will define its role, distinguish it from a conventional figure, and show where readers encounter it.
+A graphical abstract is a single visual that communicates the central message of a research paper. It is designed for fast orientation: a reader should be able to identify the research context, the essential process or comparison, and the main outcome without reading a miniature version of the manuscript.
+
+Unlike a conventional figure, a graphical abstract does not need to display every control, parameter, or secondary result. Its job is to reveal the paper’s overall logic. A figure may support one claim in the Results section; a graphical abstract presents the relationship between the question, approach, and takeaway.
+
+That distinction matters because graphical abstracts are often viewed at small sizes in journal contents pages, search listings, presentations, and social posts. A design that works only when enlarged is not doing its job.
 
 ## What should you decide before designing?
 
-Decide the one message a reader should remember before selecting icons, colours, or software. Add the study question, essential evidence, audience, and intended publication context here.
+Decide the one message a reader should remember before selecting icons, colours, or software. Write that message as a plain-language sentence, then identify the minimum visual evidence needed to support it.
 
-<Callout title="Article development note">
-  Replace this note with the paper’s approved key-message framework and one worked example before publication.
+A useful planning brief contains four parts:
+
+1. **Context:** What system, material, disease, or research problem is being studied?
+2. **Action:** What intervention, mechanism, method, or comparison drives the story?
+3. **Outcome:** What changed, and in which direction?
+4. **Audience:** Which concepts can the intended reader already understand without explanation?
+
+This first pass should be verbal, not decorative. If the message cannot be expressed clearly in one or two sentences, adding more visual elements will usually make the problem harder to solve.
+
+<Callout title="The one-sentence test">
+  Ask a colleague outside the immediate project to read only the proposed takeaway. If they cannot explain what changed and why it matters, refine the message before building the artwork.
 </Callout>
 
 ## What are Elsevier's requirements?
 
-Elsevier requirements depend on the individual journal, so the official author instructions must be checked at the time of submission. Summarise current dimensions, file types, typography, and accessibility guidance here with direct source links.
+Elsevier’s general guidance provides a useful baseline, but the target journal’s Guide for Authors remains the final authority. As of July 2026, Elsevier asks for an original image submitted as a separate file, with a clear start and end and a reading direction that is usually left to right or top to bottom.
+
+The publisher’s [graphical abstract guidance](https://www.elsevier.com/en-gb/researcher/author/tools-and-resources/graphical-abstract) specifies a minimum canvas of 1328 × 531 pixels at 300 dpi, or a larger image at the same ratio. Preferred file types include TIFF, EPS, PDF, and Microsoft Office formats. It also advises authors to avoid unnecessary white space and not to add a redundant “Graphical abstract” heading inside the artwork.
+
+Treat these as export constraints rather than a design template. Before final delivery:
+
+- open the exact journal instructions and confirm whether a graphical abstract is required or optional;
+- verify dimensions, file type, colour mode, naming convention, and upload location;
+- check whether third-party assets, stock imagery, or generative tools are permitted;
+- test all labels after scaling the artwork to its expected online display size;
+- prepare accurate alternative text when the submission workflow requests it.
+
+Elsevier’s current [author guide to image alt text](https://www.elsevier.support/publishing/news/journal-author-guide-to-alt-text-for-images) also makes clear that authors must review image descriptions during proofing. Alt text should communicate the meaning of the visual, not merely list colours and shapes.
 
 ## How should information flow through the visual?
 
-The reading path should make the research question, intervention, and main result understandable without searching the page. Expand this section with left-to-right, radial, and comparison-led structures.
+The reading path should make the research question, intervention, and main result understandable without searching the page. Choose a structure that matches the scientific relationship instead of forcing every project into the same row of icons.
 
 <ComparisonTable
   caption="Graphical abstract structure planning table"
@@ -59,10 +82,39 @@ The reading path should make the research question, intervention, and main resul
   ]}
 />
 
+For a linear mechanism, use alignment and directional arrows to establish sequence. For a treatment comparison, give the control and intervention equal starting weight so that the outcome, rather than panel size, communicates the difference. For a central model, keep the focal system dominant and group supporting evidence by proximity.
+
+Visual hierarchy should do more work than labels. Size, position, contrast, and spacing can indicate what to read first. Colour should reinforce existing structure, not become the only way to decode it. When colour carries meaning, add labels, symbols, or patterns so the message remains available to readers with colour-vision differences.
+
+The [W3C contrast guidance](https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum) applies to text embedded in images as well as ordinary page text. This is especially relevant when small labels sit over microscopy, tissue, or rendered backgrounds.
+
 ## BioRender or hire a professional?
 
-BioRender is efficient for standard diagram-led communication, while bespoke support is valuable when the science, publication context, or desired visual identity requires custom problem solving. Add a transparent cost, time, originality, and licensing comparison here.
+BioRender is efficient for standard diagram-led communication, while bespoke support is valuable when the scientific story or intended use needs custom problem solving. The choice is less about which tool is “best” and more about the level of interpretation, differentiation, and production control required.
+
+<ComparisonTable
+  caption="Choosing a graphical abstract production route"
+  columns={[{ key: "route", label: "Route" }, { key: "worksWell", label: "Works well when" }, { key: "consider", label: "Consider" }]}
+  rows={[
+    { route: "DIY presentation software", worksWell: "The story is simple and the team has design time", consider: "Consistency, export quality, and accessibility checks" },
+    { route: "BioRender or an icon library", worksWell: "Standard biological objects can explain the mechanism", consider: "Licence terms, visual similarity, and limited custom rendering" },
+    { route: "Bespoke scientific design", worksWell: "The mechanism is novel or the visual must serve several audiences", consider: "Briefing time, scientific review, scope, and usage rights" },
+  ]}
+/>
+
+Use a self-service tool when the team already knows the message and needs a clear, conventional diagram. Bring in professional support when the project requires original 2D or 3D assets, complex spatial relationships, unusually dense evidence, multiple outputs, or a visual identity that should not look interchangeable with template-based work.
 
 ## What should you check before submission?
 
-Check scientific accuracy, journal specifications, legibility at final size, permissions, colour accessibility, and file export quality. Finish this section with a downloadable pre-submission checklist.
+Check scientific accuracy, journal specifications, legibility, permissions, accessibility, and export quality before submission. A reliable review sequence is:
+
+1. **Message check:** Can a reader state the main finding after a brief look?
+2. **Science check:** Are structures, scales, directions, labels, and causal relationships accurate?
+3. **Hierarchy check:** Is there one obvious entry point and an unambiguous reading path?
+4. **Reduction check:** Does every element help explain the takeaway?
+5. **Accessibility check:** Is the text readable, and is meaning available without colour alone?
+6. **Specification check:** Does the file meet the target journal’s current instructions?
+7. **Rights check:** Are all assets cleared for the intended publication and promotional uses?
+8. **Export check:** Does the delivered file remain sharp and complete when opened outside the design application?
+
+The final artwork should work as a compact explanation, not as proof that every part of the paper can fit on one canvas. When the story is well edited, the visual becomes easier to understand, easier to review, and easier to reuse across the research communication journey.
