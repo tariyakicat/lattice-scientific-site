@@ -14,6 +14,16 @@ export const blogCategories = [
     slug: "medical-illustration",
     intro: "Clear guidance on commissioning, evaluating, and producing accurate medical and biomedical illustration for research communication.",
   },
+  {
+    name: "Research Presentations",
+    slug: "research-presentations",
+    intro: "Practical guidance for turning research into clear presentation decks for conferences, stakeholder meetings, investor conversations, and public engagement.",
+  },
+  {
+    name: "Data Visualization",
+    slug: "data-visualization",
+    intro: "Evidence-led guidance for designing scientific charts and figures that preserve data integrity while improving clarity, accessibility, and interpretation.",
+  },
 ] as const;
 
 export const blogCategoryNames = blogCategories.map((category) => category.name) as [

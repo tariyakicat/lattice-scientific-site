@@ -1,0 +1,207 @@
+---
+title: "Scientific Data Visualization Guide"
+description: Choose clearer charts, colour palettes, annotations, and figure structures for accurate, accessible scientific data visualization.
+heroAlt: Multi-panel scientific data visualization showing genomic workflows, circular relationships, distributions, comparisons and protein structures
+tldr: Effective scientific data visualization matches the chart to the analytical question, preserves uncertainty and sample structure, and makes the intended comparison easy to see. Use direct labels, accessible colour, consistent scales, and captions that state the finding. Never simplify a figure in a way that hides variability, changes context, or overstates the evidence.
+category: Data Visualization
+tags: [scientific data visualization, scientific figures, publication figures]
+author: lattice-visual-editorial-team
+datePublished: 2026-07-27
+dateModified: 2026-07-27
+heroImage: ../../assets/homepage/research-data-syngenome.png
+ogImage: ../../assets/homepage/research-data-syngenome.png
+faq:
+  - question: What makes a scientific data visualization effective?
+    answer: An effective visualization uses the chart form, scales, labels, and visual hierarchy that best support the scientific comparison without hiding variation or uncertainty.
+  - question: Which chart should I use for scientific data?
+    answer: Choose by question. Use bars or dots for comparisons, lines for change over ordered time, distributions for spread, scatterplots for relationships, and maps or networks only when spatial or relational structure matters.
+  - question: How many colours should a scientific figure use?
+    answer: Use only the colours needed to distinguish meaningful groups or values. Combine colour with labels, shapes, or line styles and choose perceptually uniform, colour-vision-accessible palettes.
+  - question: Should a scientific figure include every result?
+    answer: No. A figure should include the evidence needed for one argument. Additional analyses can appear in separate or supplementary figures as long as selection does not distort the interpretation.
+featured: false
+draft: false
+relatedSlugs: [scientific-presentation-design, graphical-abstract-examples-layouts, how-to-design-a-graphical-abstract]
+---
+
+import ComparisonTable from "@/components/blog/ComparisonTable.astro";
+import Callout from "@/components/blog/Callout.astro";
+
+## What is scientific data visualization?
+
+Scientific data visualization is the design of charts, diagrams, maps, networks, and multi-panel figures that help readers interpret evidence accurately. It is part of analysis and scientific communication, not decoration added after the analysis is complete.
+
+A 2026 Nature Human Behaviour article on [designing effective scientific figures](https://www.nature.com/articles/s41562-026-02466-9) emphasises that figures strongly influence how findings are interpreted. The design process therefore needs to account for audience, task, evidence, and context as well as journal specifications.
+
+Good visualization makes the intended comparison visible while preserving:
+
+- sample structure;
+- variation and uncertainty;
+- measurement scale;
+- missing or excluded data;
+- relevant baselines;
+- the distinction between observation and interpretation.
+
+## How do you choose the right chart?
+
+Choose a chart by the question the reader must answer, not by the chart type that looks most impressive.
+
+<ComparisonTable
+  caption="Scientific chart types by analytical question"
+  columns={[{ key: "question", label: "Reader question" }, { key: "chart", label: "Useful chart" }, { key: "caution", label: "Main caution" }]}
+  rows={[
+    { question: "How do groups differ?", chart: "Dot plot, interval plot, box or violin plot", caution: "Show sample size and variation" },
+    { question: "How does a value change over time?", chart: "Line chart or small multiples", caution: "Use an honest time scale" },
+    { question: "How are variables related?", chart: "Scatterplot with model or uncertainty", caution: "Do not imply causation" },
+    { question: "What is the distribution?", chart: "Histogram, density, ECDF, or violin plot", caution: "Bin and smoothing choices matter" },
+    { question: "How does composition change?", chart: "Stacked bars or area with direct labels", caution: "Middle segments are hard to compare" },
+    { question: "How are entities connected?", chart: "Network or chord diagram", caution: "Dense links can hide structure" },
+    { question: "Where does something occur?", chart: "Map or spatial field", caution: "Projection and area affect perception" },
+  ]}
+/>
+
+Avoid choosing a pie chart, network, or 3D chart solely because it appears more visual. If the audience needs precise comparison, position on a shared axis is often clearer.
+
+## How should scientific figures show variation?
+
+Scientific figures should show the structure of the data whenever that structure affects interpretation. A mean alone can hide skew, outliers, clusters, pairing, and small sample sizes.
+
+Depending on the study, show:
+
+- individual observations;
+- distribution shape;
+- confidence or credible intervals;
+- paired measurements;
+- repeated measures or hierarchical grouping;
+- model predictions and uncertainty;
+- sample size and missing-data notes.
+
+Do not add jitter, smoothing, or aggregation without understanding how it changes perception. A clean figure is not one that removes inconvenient variation.
+
+<Callout title="Clarity does not mean less evidence">
+  Simplification should remove visual friction, not scientific context. Keep the information needed to judge the result, then improve hierarchy through layout, annotation, and scale.
+</Callout>
+
+## How should colour work in scientific data visualization?
+
+Colour should encode variables accurately and remain accessible to readers with different colour vision. Categorical, sequential, and diverging data require different palette logic.
+
+The open-access review [Choosing Suitable Color Palettes for Accessible and Accurate Science Figures](https://pubmed.ncbi.nlm.nih.gov/39162346/) explains why colour choice affects both accessibility and scientific accuracy. Perceptually uniform gradients are especially important when colour represents numerical magnitude.
+
+Use:
+
+- categorical colours for distinct unordered groups;
+- a light-to-dark sequential palette for increasing values;
+- a diverging palette only when a meaningful centre exists;
+- consistent group colours across related figures;
+- labels, patterns, or line styles alongside colour.
+
+Avoid rainbow scales, automatic red-green comparisons, low-contrast pastel series, and palettes where equal numerical steps appear visually unequal.
+
+Convert the figure to grayscale and use a colour-vision simulator before publication. If groups disappear, add redundant cues.
+
+## How do labels and annotations improve a figure?
+
+Direct labels reduce the work required to match marks with a distant legend. Annotation can explain the intended comparison without turning the figure into a poster.
+
+Useful annotations include:
+
+- short message titles;
+- labels next to lines or groups;
+- arrows pointing to a specific change;
+- brackets defining anatomical or material regions;
+- scale bars and units;
+- notes identifying modelled or normalised values;
+- concise source and method information.
+
+Keep annotation close to the evidence it explains. Use one visual style for the same annotation function throughout a figure set.
+
+## How should multi-panel scientific figures be organised?
+
+Multi-panel figures should make the argument progress in a logical sequence. Panel order, size, and alignment tell the reader what matters.
+
+A reliable sequence might move from:
+
+1. study design or system;
+2. primary measurement;
+3. validation or mechanism;
+4. comparison or robustness;
+5. integrated model or conclusion.
+
+Align related axes and use consistent scales where comparison is intended. Place legends, colour bars, and panel labels in predictable positions.
+
+PLOS Biology's [figure preparation guidance](https://journals.plos.org/plosbiology/s/figures) also stresses scientific integrity in image preparation. Global contrast or background adjustments must not selectively alter the information shown.
+
+## How do you design for journals, slides, and digital media?
+
+One source figure rarely works unchanged across every format. Preserve the underlying data and claim while adapting the presentation layer.
+
+For journal figures:
+
+- follow exact dimensions and file requirements;
+- retain enough detail for close reading;
+- use complete captions and panel labels.
+
+For presentation slides:
+
+- isolate the comparison being discussed;
+- enlarge labels and marks;
+- annotate the relevant result directly.
+
+For web and interactive use:
+
+- provide responsive layouts;
+- support keyboard and touch interaction;
+- include accessible alternatives and descriptive text;
+- avoid hover-only explanations.
+
+The [scientific presentation design guide](/blog/scientific-presentation-design/) shows how to adapt publication figures for a live audience.
+
+## What should a scientific figure caption do?
+
+A figure caption should identify the evidence, explain necessary methods and abbreviations, and help the reader interpret the panels without searching through the main text.
+
+Use:
+
+- a short title stating the subject or finding;
+- panel-by-panel explanation in reading order;
+- sample and condition definitions;
+- statistical test and uncertainty definitions where required;
+- scale, units, and abbreviation definitions;
+- source or adaptation information.
+
+Do not use the caption to rescue an unreadable figure. Labels, legends, and structure still need to work inside the visual.
+
+## What are the most common scientific visualization mistakes?
+
+Common mistakes include:
+
+- truncated axes that exaggerate differences without clear justification;
+- bar charts that hide individual data and distributions;
+- inconsistent colours for the same group;
+- legends that require repeated eye movement;
+- labels too small for the publication or presentation size;
+- decorative 3D perspective that distorts magnitude;
+- too many panels with no visible hierarchy;
+- colour-only encoding;
+- image enhancement that changes scientific information;
+- causal language applied to correlational evidence.
+
+Review the figure with a domain expert and with someone outside the immediate project. They test different types of comprehension.
+
+## What is the final data visualization checklist?
+
+The final check should cover analytical validity, perceptual clarity, accessibility, and output quality.
+
+- [ ] The chart type matches the scientific question.
+- [ ] Axes, units, and scales are explicit.
+- [ ] Variation, uncertainty, and sample size are represented appropriately.
+- [ ] The intended comparison is easy to find.
+- [ ] Colour is accurate and accessible.
+- [ ] Labels and annotations remain legible at final size.
+- [ ] Related panels use consistent scales and visual encoding.
+- [ ] Image adjustments preserve scientific integrity.
+- [ ] Captions define panels, methods, and abbreviations.
+- [ ] The exported file meets journal or platform requirements.
+
+View [research visualization examples](/portfolio/explain/) or [contact Lattice Visual](/#contact) for publication figures, presentation-ready data stories, and interactive research reports.
