@@ -7,7 +7,7 @@ category: Graphical Abstracts
 tags: [graphical abstract examples, graphical abstract layout, graphical abstract design]
 author: lattice-visual-editorial-team
 datePublished: 2026-07-27
-dateModified: 2026-07-27
+dateModified: 2026-07-28
 heroImage: ../../assets/portfolio/explain/data-vitamin-k-map.webp
 ogImage: ../../assets/portfolio/explain/data-vitamin-k-map.webp
 faq:
@@ -26,6 +26,8 @@ relatedSlugs: [how-to-design-a-graphical-abstract, graphical-abstract-template-p
 
 import ComparisonTable from "@/components/blog/ComparisonTable.astro";
 import Callout from "@/components/blog/Callout.astro";
+import { Image } from "astro:assets";
+import linearWorkflowExample from "../../assets/blog/graphical-abstract-examples/linear-workflow-epidemiology.png";
 
 ## What makes a graphical abstract example effective?
 
@@ -52,6 +54,19 @@ Seven reusable layout patterns cover most journal graphical abstract needs. They
 A linear workflow moves from input to method to outcome. It works well for synthesis, fabrication, experimental protocols, treatment sequences, and computational pipelines.
 
 Use three to five stages with one consistent direction. Keep secondary conditions below the main path so the reader does not confuse them with core steps.
+
+<figure class="blog-example-figure">
+  <Image
+    src={linearWorkflowExample}
+    alt="Graphical abstract connecting an epidemiological study, multiomics analysis and experimental validation of the lung-gut axis"
+    widths={[720, 1080, 1440]}
+    sizes="(max-width: 900px) 100vw, 760px"
+    loading="lazy"
+  />
+  <figcaption>
+    A three-part evidence workflow: population observations establish the question, multiomics analysis explains the lung-gut relationship, and experimental models test the proposed response.
+  </figcaption>
+</figure>
 
 ### 2. Central mechanism
 

@@ -22,6 +22,10 @@ import dataPregnancyCoagulation from "@/assets/portfolio/explain/data-pregnancy-
 import dataVitaminKMap from "@/assets/portfolio/explain/data-vitamin-k-map.webp";
 import dataEcmoMonitoring from "@/assets/portfolio/explain/data-ecmo-monitoring.webp";
 import dataSynGenome from "@/assets/homepage/research-data-syngenome.png";
+import dataLungGutHistology from "@/assets/data-visualization/lung-gut-study-histology.png";
+import dataMetabolomicsComparison from "@/assets/data-visualization/metabolomics-scores-enrichment.png";
+import dataMetaboliteNetwork from "@/assets/data-visualization/metabolite-network-sankey.png";
+import dataCorrelationAtlas from "@/assets/data-visualization/microbiome-metabolite-correlations.png";
 
 type Work = {
   id: string;
@@ -247,6 +251,42 @@ const sections: WorkSection[] = [
         layout: "feature",
         ratio: "1.15 / 1",
       },
+      {
+        id: "lung-gut-study",
+        title: "Lung-gut experimental evidence",
+        descriptor: "Histology · injury scoring · study design",
+        alt: "Multi-panel lung and gut study figure combining experimental design, tissue histology and quantitative injury scores",
+        image: dataLungGutHistology,
+        layout: "portrait",
+        ratio: "0.9 / 1",
+      },
+      {
+        id: "metabolomics-comparison",
+        title: "Metabolomics group comparison",
+        descriptor: "Score plots · VIP ranking · pathway enrichment",
+        alt: "Metabolomics data visualization with group-separation plots, ranked VIP scores and enrichment bar charts",
+        image: dataMetabolomicsComparison,
+        layout: "wide",
+        ratio: "1.38 / 1",
+      },
+      {
+        id: "metabolite-network-flow",
+        title: "Metabolite networks and pathway flow",
+        descriptor: "Networks · circular correlation · Sankey",
+        alt: "Scientific data visualization combining a metabolite tree, association network, circular correlation diagram and Sankey flow plot",
+        image: dataMetaboliteNetwork,
+        layout: "standard",
+        ratio: "1.1 / 1",
+      },
+      {
+        id: "microbiome-correlation-atlas",
+        title: "Microbiome-metabolite correlation atlas",
+        descriptor: "Bubble matrices · correlation networks",
+        alt: "Multi-panel microbiome and metabolite correlation atlas using diverging bubble matrices and network diagrams",
+        image: dataCorrelationAtlas,
+        layout: "portrait",
+        ratio: "0.84 / 1",
+      },
     ],
   },
 ];
@@ -365,7 +405,11 @@ const jsonLd = [
                       src={work.image}
                       alt={work.alt}
                       widths={[560, 900, 1400, 2200]}
-                      sizes="(max-width: 767px) 92vw, (max-width: 1100px) 50vw, 48vw"
+                      sizes={
+                        section.id === "data-visualization"
+                          ? "(max-width: 767px) 92vw, (max-width: 1280px) 85vw, 1088px"
+                          : "(max-width: 767px) 92vw, (max-width: 1100px) 50vw, 48vw"
+                      }
                       loading="lazy"
                     />
                     <span class="explain-expand" aria-hidden="true">↗</span>
@@ -683,6 +727,29 @@ const jsonLd = [
     width: min(100%, 68rem);
     margin-inline: auto;
     columns: 1;
+  }
+
+  .explain-gallery.is-data-visualization .explain-work-media {
+    display: block;
+    aspect-ratio: auto;
+  }
+
+  .explain-gallery.is-data-visualization .explain-work-media :global(picture) {
+    display: block;
+    width: 100%;
+  }
+
+  .explain-gallery.is-data-visualization .explain-work-media :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .explain-gallery.is-data-visualization
+    .explain-work-open:hover
+    .explain-work-media
+    :global(img) {
+    transform: none;
   }
 
   .explain-work {

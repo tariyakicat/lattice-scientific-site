@@ -884,6 +884,29 @@ img {
   text-underline-offset: 0.18em;
 }
 
+.blog-example-figure {
+  width: 100%;
+  margin: 1.75rem 0 3rem;
+}
+
+.blog-example-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--color-line);
+  border-radius: 0.5rem;
+  background: #f7fbfc;
+  object-fit: contain;
+}
+
+.blog-example-figure figcaption {
+  max-width: 46rem;
+  margin: 0.75rem 0 0;
+  color: var(--color-muted);
+  font-size: 0.78rem;
+  line-height: 1.6;
+}
+
 .blog-table-wrap {
   width: 100%;
   margin: 2rem 0 2.5rem;

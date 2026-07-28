@@ -7,7 +7,7 @@ category: Data Visualization
 tags: [scientific data visualization, scientific figures, publication figures]
 author: lattice-visual-editorial-team
 datePublished: 2026-07-27
-dateModified: 2026-07-27
+dateModified: 2026-07-28
 heroImage: ../../assets/homepage/research-data-syngenome.png
 ogImage: ../../assets/homepage/research-data-syngenome.png
 faq:
@@ -26,6 +26,11 @@ relatedSlugs: [scientific-presentation-design, graphical-abstract-examples-layou
 
 import ComparisonTable from "@/components/blog/ComparisonTable.astro";
 import Callout from "@/components/blog/Callout.astro";
+import { Image } from "astro:assets";
+import lungGutStudyFigure from "../../assets/data-visualization/lung-gut-study-histology.png";
+import metabolomicsComparisonFigure from "../../assets/data-visualization/metabolomics-scores-enrichment.png";
+import metaboliteNetworkFigure from "../../assets/data-visualization/metabolite-network-sankey.png";
+import correlationAtlasFigure from "../../assets/data-visualization/microbiome-metabolite-correlations.png";
 
 ## What is scientific data visualization?
 
@@ -61,6 +66,38 @@ Choose a chart by the question the reader must answer, not by the chart type tha
 />
 
 Avoid choosing a pie chart, network, or 3D chart solely because it appears more visual. If the audience needs precise comparison, position on a shared axis is often clearer.
+
+<figure class="blog-example-figure">
+  <Image
+    src={metabolomicsComparisonFigure}
+    alt="Metabolomics data visualization combining group-separation score plots, VIP score rankings and pathway enrichment bar charts"
+    widths={[720, 1200, 1800, 2200]}
+    sizes="(max-width: 900px) 100vw, 760px"
+    loading="lazy"
+  />
+  <figcaption>
+    Different chart forms answer different analytical questions: score plots show group separation, ranked dots identify influential metabolites, and enrichment bars summarise affected pathways.
+  </figcaption>
+</figure>
+
+## When should you use networks, chord diagrams, and Sankey plots?
+
+Use relational visualizations only when connection structure or flow is itself part of the scientific question. A network reveals linked entities, a chord diagram compares many-to-many relationships, and a Sankey plot shows how quantities or categories move between defined stages.
+
+Dense relational graphics need aggressive hierarchy. Label only the nodes that carry the argument, distinguish positive and negative relationships with more than colour alone, and provide a simpler supporting view when readers need precise values.
+
+<figure class="blog-example-figure">
+  <Image
+    src={metaboliteNetworkFigure}
+    alt="Scientific data visualization comparing a metabolite tree, association network, circular microbiome correlation diagram and Sankey flow plot"
+    widths={[720, 1200, 1800, 2200]}
+    sizes="(max-width: 900px) 100vw, 760px"
+    loading="lazy"
+  />
+  <figcaption>
+    Four relational structures serve different jobs: hierarchy, network centrality, cross-domain correlation, and flow between biological compartments and enriched pathways.
+  </figcaption>
+</figure>
 
 ## How should scientific figures show variation?
 
@@ -100,6 +137,19 @@ Avoid rainbow scales, automatic red-green comparisons, low-contrast pastel serie
 
 Convert the figure to grayscale and use a colour-vision simulator before publication. If groups disappear, add redundant cues.
 
+<figure class="blog-example-figure">
+  <Image
+    src={correlationAtlasFigure}
+    alt="Multi-panel microbiome and metabolite correlation visualization using diverging bubble matrices, networks and significance markers"
+    widths={[720, 1200, 1800, 2200]}
+    sizes="(max-width: 900px) 100vw, 760px"
+    loading="lazy"
+  />
+  <figcaption>
+    A diverging palette encodes correlation direction while circle size and significance symbols provide additional cues. Repeated scales and labels make the dense panels comparable.
+  </figcaption>
+</figure>
+
 ## How do labels and annotations improve a figure?
 
 Direct labels reduce the work required to match marks with a distant legend. Annotation can explain the intended comparison without turning the figure into a poster.
@@ -131,6 +181,19 @@ A reliable sequence might move from:
 Align related axes and use consistent scales where comparison is intended. Place legends, colour bars, and panel labels in predictable positions.
 
 PLOS Biology's [figure preparation guidance](https://journals.plos.org/plosbiology/s/figures) also stresses scientific integrity in image preparation. Global contrast or background adjustments must not selectively alter the information shown.
+
+<figure class="blog-example-figure">
+  <Image
+    src={lungGutStudyFigure}
+    alt="Multi-panel lung and gut study figure combining experimental workflow, histology images, injury scores and tissue comparisons"
+    widths={[720, 1200, 1800, 2200]}
+    sizes="(max-width: 900px) 100vw, 760px"
+    loading="lazy"
+  />
+  <figcaption>
+    The figure moves from study design to representative tissue images, quantitative injury scores, and organ-specific validation while keeping panel labels and group colours consistent.
+  </figcaption>
+</figure>
 
 ## How do you design for journals, slides, and digital media?
 
