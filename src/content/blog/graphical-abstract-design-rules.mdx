@@ -1,0 +1,213 @@
+---
+title: "10 Graphical Abstract Design Rules: A Practical Checklist"
+description: Apply ten evidence-informed rules for clearer graphical abstracts, covering message, layout, arrows, text, colour, tools, and feedback.
+heroAlt: Three stages in graphical abstract development showing a hand sketch, a rapid digital draft, and the refined final scientific illustration
+tldr: An effective graphical abstract starts with one audience-specific message, then uses a consistent visual language, an obvious reading path, concise labels, purposeful arrows, and accessible colour. Jambor and Bornhäuser’s ten-rule framework also emphasises choosing the right format and tools, testing at thumbnail size, and improving the design through specific feedback.
+category: Graphical Abstracts
+tags: [graphical abstract design rules, graphical abstract checklist, scientific visual communication]
+author: lattice-visual-editorial-team
+datePublished: 2026-08-22
+dateModified: 2026-08-22
+heroImage: ../../assets/blog/graphical-abstract-rules/design-evolution.png
+ogImage: ../../assets/blog/graphical-abstract-rules/design-evolution.png
+faq:
+  - question: What is the most important rule for designing a graphical abstract?
+    answer: Define one audience-specific message before choosing icons, colours, or software. Every visual element should help the reader understand that message.
+  - question: How much text should a graphical abstract contain?
+    answer: Use only the title fragments, labels, and short annotations needed to remove ambiguity. The graphical abstract should complement the written abstract, not reproduce it.
+  - question: Which file format is best for a graphical abstract?
+    answer: Build in a vector-based format when possible, then export in the dimensions and file type required by the target journal. Always check the journal's current author guidance.
+  - question: How should a graphical abstract be tested before submission?
+    answer: Review it at thumbnail size, verify the reading order and arrow meanings, check colour contrast, and ask someone unfamiliar with the project to explain the message after a short viewing.
+featured: false
+draft: false
+relatedSlugs: [how-to-design-a-graphical-abstract, graphical-abstract-examples-layouts, elsevier-graphical-abstract-requirements]
+---
+
+import ComparisonTable from "@/components/blog/ComparisonTable.astro";
+import Callout from "@/components/blog/Callout.astro";
+import { Image } from "astro:assets";
+import layoutPatterns from "../../assets/blog/graphical-abstract-rules/layout-patterns.png";
+
+## What are the ten rules for designing a graphical abstract?
+
+The ten rules move from defining the message to testing the finished visual, treating graphical abstract design as a communication process rather than a decoration task. They come from Helena Klara Jambor and Martin Bornhäuser's 2024 open-access paper, [*Ten simple rules for designing graphical abstracts*](https://pmc.ncbi.nlm.nih.gov/articles/PMC10833524/), published in *PLOS Computational Biology*.
+
+The framework can be summarised as follows:
+
+1. define the key message for a specific audience;
+2. choose pictures and pictograms with a consistent visual style;
+3. use data or charts only when they carry the main message;
+4. design for the required dimensions and final display size;
+5. create an obvious reading direction;
+6. use arrows, spacing, and grouping to connect ideas;
+7. keep text concise and integrated with the visuals;
+8. use colour to encode meaning and maintain accessibility;
+9. choose tools that support the required output quality;
+10. seek specific feedback throughout the process.
+
+The [publisher version](https://doi.org/10.1371/journal.pcbi.1011789) is available under a [Creative Commons Attribution 4.0 licence](https://creativecommons.org/licenses/by/4.0/). The hero image is Figure 1 from the paper, showing the evolution from sketch to rapid prototype and final artwork; the authors also released that figure's drawings through [Figshare under CC0](https://doi.org/10.6084/m9.figshare.24486061.v1).
+
+<Callout title="The central principle">
+  A graphical abstract is a visual entry point into a paper, not a compressed version of every section. Its first job is to make one research relationship easy to recognise.
+</Callout>
+
+## How should you define the message and audience?
+
+Write the one conclusion your intended reader should retain before you begin drawing. A domain specialist, journal editor, investor, clinician, and general reader bring different background knowledge, so the same paper may need a different visual emphasis for each audience.
+
+A practical message statement has three parts:
+
+- **Context:** what system, population, material, or problem is being studied?
+- **Change or relationship:** what was tested, compared, discovered, or explained?
+- **Implication:** why does this result matter to the intended reader?
+
+Try completing this sentence: "We show that **[finding]** occurs through **[mechanism or evidence]**, which matters because **[implication]**." Then remove any clause that the graphical abstract does not need to show.
+
+The source paper notes that a graphical abstract normally works alongside the written title and abstract. It should help people screen, recognise, and explore the research, rather than promise complete comprehension on its own. Our [graphical abstract design guide](/blog/how-to-design-a-graphical-abstract/) explains how to turn this message statement into a visual brief.
+
+## Which visual elements should you choose?
+
+Choose the simplest visual elements that preserve the scientific meaning and use one coherent illustration language throughout. Mixed icon styles, inconsistent perspectives, and arbitrary levels of detail make a composition feel assembled rather than designed.
+
+Use pictograms when the reader needs to identify familiar entities quickly. Use a custom diagram when relationships, spatial organisation, or mechanism matter. Use microscopy, photography, or data when the evidence itself is the story and cannot be represented honestly by an icon.
+
+Useful licensed scientific icon sources include the [Reactome Icon Library](https://reactome.org/icon-lib), [Servier Medical Art](https://smart.servier.com/), and [Bioicons](https://bioicons.com/). Check the licence for every asset, retain attribution records, and adapt only when the licence permits it.
+
+Before combining visual elements, check:
+
+- line weight and edge treatment;
+- perspective and scale;
+- colour saturation and contrast;
+- biological or anatomical specificity;
+- whether repeated entities look identical;
+- whether each asset's licence permits the intended use.
+
+## When should a graphical abstract include data?
+
+Include data only when the result itself is more informative than a symbolic representation of it. A small chart can make direction, magnitude, or comparison visible, but a publication figure copied into a thumbnail usually carries too much detail.
+
+Prefer chart forms that readers can interpret quickly: a few bars or dots for group comparison, a short line for a trend, or a small number of slices only when composition is the actual point. Remove secondary ticks, legends, and categories only if doing so does not change the interpretation.
+
+For complex analyses, show the analytical concept rather than a miniature version of every output. A simplified network may communicate connectivity; a restrained heatmap may communicate a pattern; and a labelled distribution may communicate separation. Keep the complete quantitative evidence in the paper.
+
+The [scientific data visualization guide](/blog/scientific-data-visualization-guide/) covers chart choice, uncertainty, multi-panel figures, and accessible colour in more detail.
+
+## How should layout control the reading path?
+
+Match the layout to the logic of the research and give the composition one visible entry point. Left-to-right sequences suit workflows and progression, cycles suit genuinely recurring processes, comparisons suit parallel columns, and multiscale stories suit nested or zoomed structures.
+
+<figure class="blog-example-figure">
+  <Image
+    src={layoutPatterns}
+    alt="Layout patterns for graphical abstracts including linear, circular, comparison, grouped, and multiscale reading structures"
+    widths={[720, 1200, 1800, 2100]}
+    sizes="(max-width: 900px) 100vw, 760px"
+    loading="lazy"
+  />
+  <figcaption>
+    Common graphical abstract structures from Jambor and Bornhäuser (2024), Figure 5. Reproduced from the <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10833524/">open-access article</a> under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
+  </figcaption>
+</figure>
+
+The paper also highlights perceptual grouping. Proximity, similarity, boundaries, alignment, and white space can organise elements into meaningful units before the reader studies any labels. Use boxes only when a boundary has meaning; white space often creates a cleaner group.
+
+Choose a layout by the relationship you need to explain:
+
+<ComparisonTable
+  caption="Graphical abstract structures by research logic"
+  columns={[{ key: "logic", label: "Research logic" }, { key: "structure", label: "Useful structure" }, { key: "risk", label: "Main risk" }]}
+  rows={[
+    { logic: "Sequential method or progression", structure: "Left-to-right workflow", risk: "Too many procedural steps" },
+    { logic: "Feedback or recurring process", structure: "Circular pathway", risk: "Implying a cycle that the evidence does not support" },
+    { logic: "Control versus treatment", structure: "Parallel comparison", risk: "Unequal scales or visual emphasis" },
+    { logic: "Cause, mechanism, and outcome", structure: "Central mechanism", risk: "Crowding the centre" },
+    { logic: "Organism to tissue to molecule", structure: "Nested or multiscale zoom", risk: "Unclear spatial origin" },
+    { logic: "Several findings around one question", structure: "Evidence map", risk: "Giving every finding equal weight" },
+  ]}
+/>
+
+See [seven graphical abstract layout examples](/blog/graphical-abstract-examples-layouts/) for a closer comparison of these structures.
+
+## What should arrows communicate?
+
+Every arrow should have a defined meaning that the reader can infer from direction, label, and context. Arrows may indicate movement, sequence, activation, inhibition, transformation, transport, or an annotation link; using the same arrow style for several of these meanings creates ambiguity.
+
+Create a small arrow vocabulary before polishing the artwork. For example:
+
+- solid arrow: sequence or movement;
+- labelled arrow: transformation or treatment;
+- blunt-ended line: inhibition;
+- double-headed arrow: reversible relationship;
+- leader line without an arrowhead: annotation only.
+
+Use the same visual rule everywhere. If two arrow types differ in meaning, make that difference visible through shape or end marks, not only through colour.
+
+## How much text should you use?
+
+Use text to remove ambiguity, not to retell the manuscript. Short labels, action verbs, and message-led headings work better than paragraphs or unexplained abbreviations.
+
+Text and visuals should be integrated. Place labels next to the objects they describe, label unusual symbols directly, and use the same wording as the manuscript where scientific precision matters. Avoid a distant legend when direct annotation can do the job more efficiently.
+
+A useful test is to hide the text temporarily. The overall relationship should remain visible. Then restore the labels: each one should clarify an entity, direction, condition, or conclusion that the image alone cannot communicate reliably.
+
+## How should colour support meaning and accessibility?
+
+Use colour consistently and sparingly so that a colour change always signals a meaningful change. Colour may highlight the focal result, distinguish conditions, encode a numerical scale, or preserve the natural identity of an object.
+
+For quantitative information, [ColorBrewer](https://colorbrewer2.org/) helps distinguish sequential, diverging, and qualitative palette logic. For interface and text contrast, the [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/) provides a useful accessibility test.
+
+Do not rely on red versus green as the only distinction. Add labels, shape, line style, or position as a second cue. Review the design in grayscale and with a colour-vision simulator, then verify that essential labels remain legible at the final display size.
+
+## Which software should you use?
+
+Use software that can produce the required dimensions and preserve editable, high-quality artwork. The paper discusses vector tools such as Adobe Illustrator and Inkscape, presentation software such as PowerPoint, and web-based platforms such as BioRender, Canva, and Figma.
+
+The best tool depends on the task:
+
+- **PowerPoint:** accessible for structured diagrams and journal-ready layouts when the canvas and export settings are controlled;
+- **Inkscape or Illustrator:** stronger for custom vector illustration, precise typography, and reusable components;
+- **BioRender or icon libraries:** efficient for standard biomedical objects, subject to licence and style constraints;
+- **3D or image software:** appropriate when spatial form, material texture, or anatomy cannot be explained adequately in flat icons.
+
+Keep an editable master file, retain vector elements where possible, and export only after confirming the target journal's current specifications. The [Elsevier graphical abstract requirements checklist](/blog/elsevier-graphical-abstract-requirements/) is one publisher-specific starting point.
+
+## How should you collect feedback?
+
+Ask reviewers to explain what they see rather than asking whether they like the design. Specific comprehension questions expose problems that aesthetic opinions often miss.
+
+Test at three stages:
+
+1. **Message sketch:** ask whether the central claim is accurate and worth showing.
+2. **Visual draft:** ask where the eye goes first and what each arrow means.
+3. **Final artwork:** ask for a ten-second interpretation at thumbnail size.
+
+Include at least one domain expert and one reader who is not deeply involved in the project. The expert checks scientific fidelity; the less familiar reader reveals assumptions, jargon, and unclear visual relationships.
+
+Useful prompts include:
+
+- What did you notice first?
+- Where did you start reading?
+- What changed between the left and right sides?
+- What does this arrow mean?
+- What is the main conclusion?
+- Which element could be removed without losing the message?
+
+## What is the final graphical abstract checklist?
+
+The final review should test message, scientific accuracy, visual hierarchy, accessibility, and technical delivery separately. A polished image can still fail if it overstates the evidence or becomes unreadable at the journal's real display size.
+
+- [ ] One audience and one central message are defined.
+- [ ] The chosen layout matches the research logic.
+- [ ] The entry point and reading direction are obvious.
+- [ ] Icons share a consistent style, scale, and perspective.
+- [ ] Every arrow has one clear meaning.
+- [ ] Data are simplified without changing interpretation.
+- [ ] Text is concise, direct, and legible at thumbnail size.
+- [ ] Colour remains understandable in grayscale and for colour-vision differences.
+- [ ] Asset licences and attributions are recorded.
+- [ ] The file meets the journal's dimensions, resolution, and format requirements.
+- [ ] A domain expert has checked scientific accuracy.
+- [ ] An unfamiliar reader can explain the main message after a short viewing.
+
+The original [PMC article](https://pmc.ncbi.nlm.nih.gov/articles/PMC10833524/) remains the primary source for the full ten-rule framework and its references. For examples across graphical abstracts, mechanisms, and data-rich research figures, view our [selected visual communication cases](/portfolio/explain/). To develop a publication-ready visual around a manuscript, target journal, and deadline, [contact Lattice Visual](/#contact).
