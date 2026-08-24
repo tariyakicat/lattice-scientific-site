@@ -45,12 +45,6 @@ export const premiumResources = {
     currency: "usd",
     stripePriceId: "price_TODO_cell_organelle_pack",
   },
-  "biomedical-texture-pack": {
-    title: "Biomedical Texture Pack",
-    price: 1500,
-    currency: "usd",
-    stripePriceId: "price_TODO_biomedical_texture_pack",
-  },
 };
 
 export function getPremiumResource(slug) {

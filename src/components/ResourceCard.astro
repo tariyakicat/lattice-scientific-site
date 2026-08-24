@@ -26,7 +26,7 @@ const access = resource.data.isPremium ? "premium" : "free";
 >
   <div class="resource-card">
     <a class="resource-card-media" href={href} aria-label={`View ${resource.data.title}`}>
-      <Image src={resource.data.thumb} alt={`${resource.data.title} preview`} widths={[480, 760]} sizes="(max-width: 767px) 100vw, (max-width: 991px) 50vw, 33vw" loading="lazy" />
+      <Image src={resource.data.thumb} alt={resource.data.thumbAlt ?? `${resource.data.title} preview`} widths={[480, 760]} sizes="(max-width: 767px) 100vw, (max-width: 991px) 50vw, 33vw" loading="lazy" />
       <span class:list={["resource-card-badge", resource.data.isPremium ? "is-premium" : "is-free"]}>{resourceLabel(resource)}</span>
     </a>
     <div class="resource-card-body">

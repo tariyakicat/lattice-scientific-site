@@ -59,7 +59,7 @@ const breadcrumbJsonLd = {
             <figure class:list={{ "is-active": index === 0 }} data-gallery-slide={index} aria-hidden={index === 0 ? "false" : "true"}>
               <Image
                 src={preview}
-                alt={`${resource.data.title} preview ${index + 1}`}
+                alt={resource.data.previewAlts?.[index] ?? `${resource.data.title} preview ${index + 1}`}
                 widths={[720, 1100]}
                 sizes="(max-width: 899px) 100vw, 58vw"
                 loading={index === 0 ? "eager" : "lazy"}
@@ -73,13 +73,15 @@ const breadcrumbJsonLd = {
             </>
           )}
         </div>
-        <div class="resource-gallery-thumbs" aria-label="Choose preview image">
-          {resource.data.previewImages.map((preview, index) => (
-            <button type="button" class:list={{ "is-active": index === 0 }} aria-label={`Show preview ${index + 1}`} aria-current={index === 0 ? "true" : undefined} data-gallery-thumb={index}>
-              <Image src={preview} alt="" width={140} height={100} loading="lazy" />
-            </button>
-          ))}
-        </div>
+        {resource.data.previewImages.length > 1 && (
+          <div class="resource-gallery-thumbs" aria-label="Choose preview image">
+            {resource.data.previewImages.map((preview, index) => (
+              <button type="button" class:list={{ "is-active": index === 0 }} aria-label={`Show preview ${index + 1}`} aria-current={index === 0 ? "true" : undefined} data-gallery-thumb={index}>
+                <Image src={preview} alt="" width={140} height={100} loading="lazy" />
+              </button>
+            ))}
+          </div>
+        )}
       </section>
 
       <aside class="resource-detail-info">
