@@ -31,6 +31,10 @@ Images referenced by MDX entries live in `src/assets/resources/`. Free public fi
 
 Operational test resources are listed in `src/lib/resource-visibility.mjs`. They keep their direct URLs and checkout flow, but are omitted from the resource hub, related-resource cards and sitemap; their detail pages use `noindex` and omit promotional structured data.
 
+### Clean transparent PNG downloads
+
+With Pillow and NumPy installed, run `python scripts/clean-transparent-png.py source.png candidate.png`. The script writes a separate candidate, clears RGB data only in fully transparent pixels, and verifies that every visible pixel, every alpha value, and composites on three backgrounds remain identical. It records the source SHA-256 in the candidate's metadata. Review the candidate before replacing a download and update the resource's `fileSize` if needed.
+
 ## Deployment Notes
 
 The production configuration uses Astro static output plus Cloudflare Pages Functions:
