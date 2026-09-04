@@ -29,6 +29,8 @@ Create one MDX file in `src/content/resources/` using an existing entry as a tem
 
 Images referenced by MDX entries live in `src/assets/resources/`. Free public files live in `public/downloads/`; premium files must remain in private object storage.
 
+Operational test resources are listed in `src/lib/resource-visibility.mjs`. They keep their direct URLs and checkout flow, but are omitted from the resource hub, related-resource cards and sitemap; their detail pages use `noindex` and omit promotional structured data.
+
 ## Deployment Notes
 
 The production configuration uses Astro static output plus Cloudflare Pages Functions:

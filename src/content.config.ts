@@ -72,6 +72,8 @@ const resources = defineCollection({
       summary: z.string(),
       included: z.array(z.string()).min(1),
       downloadUrl: z.string().nullable().optional(),
+      downloadNote: z.string().optional(),
+      customHelp: z.string().optional(),
       featured: z.boolean().default(false),
       date: z.coerce.date(),
     })

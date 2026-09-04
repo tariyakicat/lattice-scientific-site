@@ -21,6 +21,7 @@ const access = resource.data.isPremium ? "premium" : "free";
   data-title={resource.data.title.toLowerCase()}
   data-summary={resource.data.summary.toLowerCase()}
   data-subtype={resource.data.subtype.toLowerCase()}
+  data-formats={resource.data.formats.join(" ").toLowerCase()}
   data-category={resource.data.category}
   data-access={access}
 >

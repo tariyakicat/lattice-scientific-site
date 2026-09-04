@@ -18,7 +18,7 @@ const jsonLd = [
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     name: "Scientific templates & assets",
-    description: "Download publication-ready scientific illustration templates, figure kits, slide systems and visual asset packs.",
+    description: "Explore scientific illustration assets, figure templates and presentation layouts for research communication.",
     url: resourcesUrl,
     mainEntity: { "@type": "ItemList", itemListElement: itemList },
   },
@@ -43,7 +43,7 @@ const jsonLd = [
     <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span aria-current="page">Resources</span></nav>
     <p class="section-label">Resources</p>
     <h1>Scientific templates &amp; assets</h1>
-    <p>Build clearer graphical abstracts, figures, posters and scientific presentations with publication-ready systems designed for researchers.</p>
+    <p>Illustrations and templates for your next figure, poster or presentation. Free resources download instantly, without an account.</p>
   </header>
 
   <section class="resource-hub" data-resource-hub>
@@ -60,7 +60,7 @@ const jsonLd = [
         <button type="button" aria-pressed="false" data-resource-filter="asset-library">Asset Library</button>
       </div>
     </div>
-    <div class="resource-results-meta" aria-live="polite"><strong data-results-count>{resources.length}</strong> resources</div>
+    <div class="resource-results-meta" aria-live="polite"><strong data-results-count>{resources.length}</strong> <span data-results-label>resources</span></div>
     <div class="resource-grid" data-resource-grid>{resources.map((resource) => <ResourceCard {resource} headingLevel="h2" />)}</div>
     <div class="resource-empty" data-resource-empty hidden><h2>No resources found</h2><p>Try a broader search or reset the active filter.</p><button type="button" data-resource-reset>Show all resources</button></div>
   </section>
@@ -73,8 +73,11 @@ const jsonLd = [
     const cards = [...hub.querySelectorAll<HTMLElement>("[data-resource-card]")];
     const buttons = [...hub.querySelectorAll<HTMLButtonElement>("[data-resource-filter]")];
     const count = hub.querySelector<HTMLElement>("[data-results-count]");
+    const label = hub.querySelector<HTMLElement>("[data-results-label]");
     const empty = hub.querySelector<HTMLElement>("[data-resource-empty]");
-    let filter = new URL(window.location.href).searchParams.get("filter") ?? "all";
+    const params = new URL(window.location.href).searchParams;
+    if (search) search.value = params.get("q") ?? "";
+    let filter = params.get("filter") ?? "all";
     const validFilters = buttons.map((button) => button.dataset.resourceFilter);
     if (!validFilters.includes(filter)) filter = "all";
 
@@ -82,8 +85,8 @@ const jsonLd = [
       const query = (search?.value ?? "").trim().toLowerCase();
       let visible = 0;
       cards.forEach((card) => {
-        const haystack = `${card.dataset.title} ${card.dataset.summary} ${card.dataset.subtype}`;
-        const queryMatch = !query || haystack.includes(query);
+        const haystack = `${card.dataset.title} ${card.dataset.summary} ${card.dataset.subtype} ${card.dataset.formats}`;
+        const queryMatch = query.split(/\s+/).every((term) => haystack.includes(term));
         const category = card.dataset.category;
         const access = card.dataset.access;
         const filterMatch = filter === "all" || filter === access || (filter === "templates" && category === "Templates") || (filter === "asset-library" && category === "Asset Library");
@@ -93,6 +96,7 @@ const jsonLd = [
       });
       buttons.forEach((button) => { const active = button.dataset.resourceFilter === filter; button.classList.toggle("is-active", active); button.setAttribute("aria-pressed", String(active)); });
       if (count) count.textContent = String(visible);
+      if (label) label.textContent = visible === 1 ? "resource" : "resources";
       if (empty) empty.hidden = visible !== 0;
       const url = new URL(window.location.href);
       query ? url.searchParams.set("q", query) : url.searchParams.delete("q");

@@ -3,7 +3,8 @@ import { Image } from "astro:assets";
 import { getCollection, render } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import ResourceCard from "@/components/ResourceCard.astro";
-import { resourceSlug, type ResourceEntry } from "@/lib/resources";
+import { getAllResources, resourceSlug, type ResourceEntry } from "@/lib/resources";
+import { isPublicResourceSlug } from "@/lib/resource-visibility.mjs";
 
 export async function getStaticPaths() {
   const resources = await getCollection("resources");
@@ -13,14 +14,22 @@ export async function getStaticPaths() {
 interface Props { resource: ResourceEntry; }
 const { resource } = Astro.props;
 const { Content } = await render(resource);
-const allResources = await getCollection("resources");
+const allResources = await getAllResources();
 const slug = resourceSlug(resource);
+const isPublic = isPublicResourceSlug(slug);
 const related = allResources.filter((entry) => entry.id !== resource.id && entry.data.category === resource.data.category).slice(0, 3);
 const accessLabel = resource.data.isPremium ? "Premium" : "Free";
 const title = `${resource.data.title} — ${accessLabel} ${resource.data.fileType} | Lattice Visual`;
 const canonical = `/resources/${slug}/`;
 const homeUrl = new URL("/", Astro.site).href;
 const resourcesUrl = new URL("/resources/", Astro.site).href;
+const contactUrl = `/?resource=${encodeURIComponent(slug)}#contact`;
+const imageJsonLd = {
+  "@type": "ImageObject",
+  contentUrl: new URL(resource.data.thumb.src, Astro.site).href,
+  caption: resource.data.thumbAlt ?? resource.data.title,
+  creator: { "@type": "Organization", name: "Lattice Visual", url: homeUrl },
+};
 const itemJsonLd = resource.data.isPremium ? {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -37,6 +46,7 @@ const itemJsonLd = resource.data.isPremium ? {
   encodingFormat: resource.data.fileType,
   isAccessibleForFree: true,
   url: new URL(canonical, Astro.site).href,
+  image: imageJsonLd,
 };
 const breadcrumbJsonLd = {
   "@context": "https://schema.org",
@@ -49,7 +59,7 @@ const breadcrumbJsonLd = {
 };
 ---
 
-<BaseLayout {title} description={resource.data.summary} image={resource.data.thumb.src} {canonical} jsonLd={[itemJsonLd, breadcrumbJsonLd]}>
+<BaseLayout {title} description={resource.data.summary} image={resource.data.thumb.src} {canonical} noindex={!isPublic} jsonLd={isPublic ? [itemJsonLd, breadcrumbJsonLd] : undefined}>
   <article class="resource-detail">
     <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/resources/">Resources</a><span aria-hidden="true">/</span><span aria-current="page">{resource.data.title}</span></nav>
     <div class="resource-detail-grid">
@@ -85,17 +95,26 @@ const breadcrumbJsonLd = {
       </section>
 
       <aside class="resource-detail-info">
+        <div class="resource-detail-intro">
         <div class="resource-detail-tags"><span>{resource.data.category}</span><span>{resource.data.fileType}</span></div>
         <h1>{resource.data.title}</h1>
         <p class="resource-detail-summary">{resource.data.summary}</p>
-        <section class="resource-included" aria-labelledby="included-title"><h2 id="included-title">What's included</h2><ul>{resource.data.included.map((item) => <li><span aria-hidden="true">✓</span>{item}</li>)}</ul></section>
-        <dl class="resource-specs"><div><dt>Formats</dt><dd>{resource.data.formats.join(", ")}</dd></div><div><dt>File size</dt><dd>{resource.data.fileSize}</dd></div><div><dt>License</dt><dd>{resource.data.license}</dd></div><div><dt>Compatibility</dt><dd>{resource.data.compatibility}</dd></div></dl>
+        </div>
         <div class="resource-buy-panel">
-          {resource.data.isPremium ? <><div><span>One-time purchase</span><strong>${resource.data.price}</strong></div><button type="button" data-checkout-slug={slug}>Buy &amp; download <span aria-hidden="true">→</span></button><p>Secure checkout. {resource.data.license} license included.</p><p class="checkout-error" data-checkout-error hidden></p></> : <><a href={resource.data.downloadUrl ?? "#"} class="resource-download" download>Download free resource <span aria-hidden="true">↓</span></a><p>{resource.data.license} license included.</p></>}
+          {resource.data.isPremium ? <><div><span>One-time purchase</span><strong>${resource.data.price}</strong></div><button type="button" data-checkout-slug={slug}>Buy &amp; download <span aria-hidden="true">→</span></button><p>Secure checkout. {resource.data.license} license included.</p><p class="checkout-error" data-checkout-error hidden></p></> : <><a href={resource.data.downloadUrl ?? "#"} class="resource-download" download>Download free {resource.data.fileType} <span aria-hidden="true">↓</span></a><p>{resource.data.fileSize} · No account required{resource.data.downloadNote ? ` · ${resource.data.downloadNote}` : ""}</p><p>Usage: {resource.data.license}. <a href="#resource-license">View usage details</a></p></>}
+          {isPublic && <p class="resource-custom-shortcut"><a href={contactUrl}>Ask about a custom version <span aria-hidden="true">→</span></a></p>}
+        </div>
+        <div class="resource-detail-specifications">
+          <section class="resource-included" aria-labelledby="included-title"><h2 id="included-title">What's included</h2><ul>{resource.data.included.map((item) => <li><span aria-hidden="true">✓</span>{item}</li>)}</ul></section>
+          <dl class="resource-specs"><div><dt>Formats</dt><dd>{resource.data.formats.join(", ")}</dd></div><div><dt>File size</dt><dd>{resource.data.fileSize}</dd></div><div><dt>License</dt><dd>{resource.data.license}</dd></div><div><dt>Compatibility</dt><dd>{resource.data.compatibility}</dd></div></dl>
         </div>
       </aside>
     </div>
-    <section class="resource-rich-body"><h2>About this resource</h2><div class="resource-prose"><Content /></div></section>
+    <section class="resource-rich-body"><h2>About this resource</h2><div class="resource-prose"><Content /></div><div id="resource-license" class="resource-usage"><h3>Usage &amp; license</h3><p>{resource.data.license}.</p><p>For questions about using this resource in your project, <a href="mailto:contact@latticevisual.com">contact Lattice Visual</a>.</p></div></section>
+    {isPublic && <section class="resource-custom-help" aria-labelledby="custom-help-title">
+      <div><p class="section-label">Made for your research</p><h2 id="custom-help-title">Need a figure tailored to your paper?</h2><p>{resource.data.customHelp ?? "We can help turn your research into a clear graphical abstract, figure, poster or presentation."}</p></div>
+      <div class="resource-custom-actions"><a class="resource-download" href={contactUrl}>Discuss a custom figure <span aria-hidden="true">→</span></a><a href="/portfolio/explain/">See our scientific illustration work <span aria-hidden="true">→</span></a></div>
+    </section>}
     {related.length > 0 && <section class="related-resources"><div class="related-heading"><h2>Related resources</h2><a href="/resources/">View all <span aria-hidden="true">→</span></a></div><div class="resource-grid">{related.map((entry) => <ResourceCard resource={entry} />)}</div></section>}
   </article>
 </BaseLayout>

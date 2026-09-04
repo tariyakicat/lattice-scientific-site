@@ -1,4 +1,5 @@
 import { getCollection, type CollectionEntry } from "astro:content";
+import { isPublicResourceSlug } from "./resource-visibility.mjs";
 
 export type ResourceEntry = CollectionEntry<"resources">;
 
@@ -11,7 +12,7 @@ export function sortResources(resources: ResourceEntry[]) {
 }
 
 export async function getAllResources() {
-  return sortResources(await getCollection("resources"));
+  return sortResources((await getCollection("resources")).filter((resource) => isPublicResourceSlug(resourceSlug(resource))));
 }
 
 export async function getResourceBySlug(slug: string) {
