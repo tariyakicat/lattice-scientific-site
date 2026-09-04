@@ -35,7 +35,7 @@ Resources support `topics` and `uses` arrays from `src/lib/resource-taxonomy.ts`
 
 ## Application Examples
 
-`src/lib/applications.ts` defines the studio concepts shown on the homepage and `/applications/`. Layouts in `ApplicationPreview.astro` use existing illustration assets; the concepts are labelled separately from commissioned projects. Each example links to a relevant asset or portfolio and can prefill an editable enquiry using an allowlisted `application` URL parameter. Contact submissions include the optional `channel` field in both plain-text and HTML email bodies.
+`src/lib/applications.ts` defines the studio concepts shown on the homepage and `/applications/`. Responsive previews in `ApplicationPreview.astro` use AI-assisted concept images in `src/assets/applications/`; the concepts are labelled separately from commissioned projects. Each example links to a relevant asset or portfolio and can prefill an editable enquiry using an allowlisted `application` URL parameter. Contact submissions include the optional `channel` field in both plain-text and HTML email bodies.
 
 Tawk.to welcome-trigger wording is configured in its dashboard, independently of `LiveChat.astro`. When changing site positioning, also review the welcome message under Administration → Triggers.
 

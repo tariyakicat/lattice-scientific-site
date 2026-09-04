@@ -4,14 +4,15 @@ import { applications } from "@/lib/applications";
 ---
 
 <section id="applications" class="application-examples" aria-labelledby="application-examples-title">
-  <header class="application-section-heading" data-reveal><div><p class="section-label">Ideas in use</p><h2 id="application-examples-title">Made to explain.<br />Ready to connect.</h2></div><p>From a health explainer to a classroom lesson or a product story. Explore three studio concepts built around a specific audience and use.</p></header>
+  <header class="application-section-heading" data-reveal><div><p class="section-label">Illustration applications</p><h2 id="application-examples-title">See how illustration<br />can support your work.</h2></div><p>Explore examples for health education, classroom learning and technical communication. Each concept shows a finished format we can design around your brief.</p></header>
   <div class="application-example-grid">
     {applications.map((application) => <article data-reveal>
       <a class="application-example-link" href={`/applications/#${application.id}`}>
-        <ApplicationPreview id={application.id} />
+        <ApplicationPreview id={application.id} compact />
         <p class="application-category">{application.category} · Studio concept</p>
-        <h3>{application.shortTitle} <span aria-hidden="true">↗</span></h3>
-        <p>{application.summary}</p>
+        <h3>{application.shortTitle}</h3>
+        <p class="application-card-summary">{application.summary}</p>
+        <span class="application-view-example">View example <span aria-hidden="true">→</span></span>
       </a>
     </article>)}
   </div>

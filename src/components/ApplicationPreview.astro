@@ -1,26 +1,20 @@
 ---
 import { Image } from "astro:assets";
-import heart from "../../public/downloads/anatomical-heart-illustration.png";
-import chloroplast from "../../public/downloads/chloroplast-cutaway-illustration.png";
-import water from "@/assets/homepage/water-treatment-impact-campaign-mockup.png";
+import health from "@/assets/applications/health-education-poster.png";
+import education from "@/assets/applications/plant-biology-lesson.png";
+import technology from "@/assets/applications/technical-project-report.png";
 import type { ApplicationId } from "@/lib/applications";
-interface Props { id: ApplicationId; }
-const { id } = Astro.props;
----
 
-<div class:list={["application-preview", `application-preview-${id}`]}>
-  {id === "health-education" && <>
-    <div class="application-preview-copy"><span>THE HUMAN BODY / 01</span><strong>A closer look<br />at the heart.</strong><p>A visual starting point<br />for anatomy education.</p></div>
-    <Image src={heart} alt="Anatomical heart illustration arranged in a health education poster concept" widths={[400, 700, 1000]} sizes="(min-width: 960px) 40vw, 90vw" loading="lazy" />
-    <div class="application-preview-foot"><span>OBSERVE · LEARN · DISCUSS</span><span>LATTICE VISUAL</span></div>
-  </>}
-  {id === "plant-biology-lesson" && <>
-    <div class="application-preview-copy"><span>PLANT BIOLOGY / CLASSROOM SERIES</span><strong>Inside a<br />chloroplast.</strong><p>Look closely.<br />What can you see?</p></div>
-    <Image src={chloroplast} alt="Chloroplast cutaway with an observation prompt in a plant biology lesson concept" widths={[480, 800, 1200]} sizes="(min-width: 960px) 45vw, 95vw" loading="lazy" />
-    <div class="application-preview-foot"><span>OBSERVE · LABEL · EXPLAIN</span><span>LATTICE VISUAL</span></div>
-  </>}
-  {id === "environmental-technology" && <>
-    <Image src={water} alt="Concept water-treatment report and dashboard showing how a technical project can be presented across print and digital formats" widths={[480, 800, 1200]} sizes="(min-width: 960px) 45vw, 95vw" loading="lazy" />
-    <div class="application-preview-foot"><span>FROM PROCESS TO PROJECT STORY</span><span>LATTICE VISUAL</span></div>
-  </>}
+interface Props { id: ApplicationId; compact?: boolean; }
+const { id, compact = false } = Astro.props;
+const previews = {
+  "health-education": { image: health, alt: "Concept health education poster with a labelled skin cutaway and magnified views of the epidermis, dermis and subcutaneous tissue" },
+  "plant-biology-lesson": { image: education, alt: "Concept plant biology lesson showing four illustrated stages from seed to seedling, stage labels and a discussion prompt" },
+  "environmental-technology": { image: technology, alt: "Concept technical report spread with a filtration-system cutaway, a three-step process diagram and a visual legend" },
+};
+const preview = previews[id];
+const sizes = compact ? "(min-width: 761px) 31vw, 95vw" : "(min-width: 1040px) 992px, 95vw";
+---
+<div class="application-preview">
+  <Image src={preview.image} alt={preview.alt} widths={[480, 800, 1200, 1440]} sizes={sizes} format="webp" loading="lazy" />
 </div>
