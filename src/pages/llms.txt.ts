@@ -5,10 +5,11 @@ export async function GET({ site }: { site: URL }) {
   const lines = [
     "# Lattice Visual",
     "",
-    "> Scientific illustration and visual communication for research.",
+    "> Illustration and visual communication for science, health, education and technology.",
     "",
     `- Home: ${new URL("/", site).href}`,
     `- Portfolio: ${new URL("/portfolio/", site).href}`,
+    `- Applications: ${new URL("/applications/", site).href}`,
     `- Resources: ${new URL("/resources/", site).href}`,
     `- Blog: ${new URL("/blog/", site).href}`,
     "",

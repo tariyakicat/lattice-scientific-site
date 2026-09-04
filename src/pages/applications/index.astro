@@ -1,0 +1,37 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ApplicationPreview from "@/components/ApplicationPreview.astro";
+import { applications, applicationContactUrl } from "@/lib/applications";
+
+const canonical = new URL("/applications/", Astro.site).href;
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "Illustration applications for health, education and technology",
+  description: "Three studio concepts demonstrating how illustrations become health explainers, learning materials and environmental project stories.",
+  url: canonical,
+  mainEntity: { "@type": "ItemList", itemListElement: applications.map((application, index) => ({ "@type": "ListItem", position: index + 1, name: application.title, url: `${canonical}#${application.id}` })) },
+};
+---
+
+<BaseLayout title="Illustration for Health, Education & Technology | Lattice Visual" description="Explore three illustration application concepts: a health education poster, a plant biology lesson and an environmental technology project story." canonical="/applications/" {jsonLd}>
+  <header class="application-page-hero">
+    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span aria-current="page">Applications</span></nav>
+    <p class="section-label">Illustration in context</p>
+    <h1>A clear idea.<br />A world of applications.</h1>
+    <p>See how visual assets can become useful communication for health, education and technology. These are studio concepts showing possible applications and deliverables, not commissioned client projects.</p>
+    <nav class="application-page-nav" aria-label="Application examples">{applications.map((application) => <a href={`#${application.id}`}>{application.shortTitle} <span aria-hidden="true">↓</span></a>)}</nav>
+  </header>
+  <div class="application-studies">
+    {applications.map((application, index) => <article id={application.id} class="application-study">
+      <header><p class="section-label">{String(index + 1).padStart(2, "0")} / {application.category}</p><h2>{application.title}</h2><p>{application.audience}</p></header>
+      <figure><ApplicationPreview id={application.id} /><figcaption>Studio concept · Illustrative layout. Content, annotations and final formats are developed for each brief.</figcaption></figure>
+      <div class="application-study-notes">
+        <section><h3>The brief</h3><p>{application.brief}</p></section>
+        <section><h3>How we would build it</h3><p>{application.approach}</p></section>
+        <section><h3>What we can deliver</h3><p>{application.deliverables}</p></section>
+      </div>
+      <div class="application-study-actions"><a class="resource-download" href={applicationContactUrl(application.id)}>Discuss a similar project <span aria-hidden="true">→</span></a><a href={application.resourceHref}>{application.resourceLabel} <span aria-hidden="true">→</span></a></div>
+    </article>)}
+  </div>
+</BaseLayout>

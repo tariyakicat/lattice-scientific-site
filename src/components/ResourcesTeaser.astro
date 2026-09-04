@@ -8,10 +8,10 @@ const { resources } = Astro.props;
 
 <section id="resources" class="resources-section resources-teaser">
   <div class="resources-shell">
-    <div class="resources-heading" data-reveal><p>Resources</p><h2>Templates &amp; assets</h2><span>Publication-ready tools to jump-start your science visuals.</span></div>
+    <div class="resources-heading" data-reveal><p>Resources</p><h2>Templates &amp; assets</h2><span>Start with a free illustration for your next lesson, health explainer or presentation.</span></div>
     <form class="resource-search" action="/resources/" method="get" role="search">
-      <label class="sr-only" for="home-resource-search">Search scientific templates and assets</label>
-      <input id="home-resource-search" type="search" name="q" placeholder="Search templates, figure kits, icons…" />
+      <label class="sr-only" for="home-resource-search">Search illustrations and templates</label>
+      <input id="home-resource-search" type="search" name="q" placeholder="Search heart, chloroplast, presentations…" />
       <button type="submit">Search <span aria-hidden="true">→</span></button>
     </form>
     <div class="resource-grid resource-teaser-grid">{resources.map((resource) => <ResourceCard {resource} />)}</div>

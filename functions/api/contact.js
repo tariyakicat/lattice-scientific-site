@@ -24,12 +24,13 @@ export async function onRequestPost({ request, env }) {
     const email = value(form, "email");
     const projectType = value(form, "projectType");
     const target = value(form, "target");
+    const channel = value(form, "channel");
     const message = value(form, "message");
 
     if (value(form, "website")) return json({ ok: true });
     if (!name || !email || !message) return json({ error: "Name, email and project details are required." }, 400);
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return json({ error: "Please enter a valid email address." }, 400);
-    if (name.length > 120 || email.length > 254 || target.length > 240 || message.length > 8000) return json({ error: "One or more fields are too long." }, 400);
+    if (name.length > 120 || email.length > 254 || target.length > 240 || channel.length > 240 || projectType.length > 120 || message.length > 8000) return json({ error: "One or more fields are too long." }, 400);
 
     const files = form.getAll("files").filter((entry) => entry instanceof File && entry.size > 0);
     if (files.length > MAX_FILES) return json({ error: `Please attach no more than ${MAX_FILES} files.` }, 400);
@@ -44,6 +45,7 @@ export async function onRequestPost({ request, env }) {
     const safeName = escapeHtml(name);
     const safeEmail = escapeHtml(email);
     const safeProjectType = escapeHtml(projectType || "Not specified");
+    const safeChannel = escapeHtml(channel || "Not specified");
     const safeTarget = escapeHtml(target || "Not specified");
     const safeMessage = escapeHtml(message).replaceAll("\n", "<br />");
     const response = await fetch("https://api.resend.com/emails", {
@@ -57,9 +59,9 @@ export async function onRequestPost({ request, env }) {
         from: env.CONTACT_FROM_EMAIL || "Lattice Visual Website <website@send.latticevisual.com>",
         to: [env.CONTACT_TO_EMAIL || "contact@latticevisual.com"],
         reply_to: email,
-        subject: `[Lattice Visual] ${projectType || "Research communication enquiry"} — ${name}`,
-        text: [`Name: ${name}`, `Email: ${email}`, `Project type: ${projectType || "Not specified"}`, `Target audience / deadline: ${target || "Not specified"}`, "", message].join("\n"),
-        html: `<h2>New project enquiry</h2><p><strong>Name:</strong> ${safeName}</p><p><strong>Email:</strong> <a href="mailto:${safeEmail}">${safeEmail}</a></p><p><strong>Project type:</strong> ${safeProjectType}</p><p><strong>Target audience / deadline:</strong> ${safeTarget}</p><hr /><p>${safeMessage}</p>`,
+        subject: `[Lattice Visual] ${projectType || "Visual communication enquiry"} — ${name}`,
+        text: [`Name: ${name}`, `Email: ${email}`, `Project type: ${projectType || "Not specified"}`, `Target audience / deadline: ${target || "Not specified"}`, `Where it will be used: ${channel || "Not specified"}`, "", message].join("\n"),
+        html: `<h2>New project enquiry</h2><p><strong>Name:</strong> ${safeName}</p><p><strong>Email:</strong> <a href="mailto:${safeEmail}">${safeEmail}</a></p><p><strong>Project type:</strong> ${safeProjectType}</p><p><strong>Target audience / deadline:</strong> ${safeTarget}</p><p><strong>Where it will be used:</strong> ${safeChannel}</p><hr /><p>${safeMessage}</p>`,
         attachments,
       }),
     });

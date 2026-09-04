@@ -3,6 +3,7 @@ import { glob } from "astro/loaders";
 import { z } from "astro/zod";
 import { blogCategoryNames } from "@/lib/blog-categories";
 import { portfolioCategoryNames } from "@/lib/portfolio-categories";
+import { resourceTopics, resourceUses } from "@/lib/resource-taxonomy";
 
 const authors = defineCollection({
   loader: glob({ base: "./src/content/authors", pattern: "**/*.{md,mdx,json,yaml,yml}" }),
@@ -56,6 +57,8 @@ const resources = defineCollection({
       title: z.string(),
       category: z.enum(["Templates", "Asset Library"]),
       subtype: z.string(),
+      topics: z.array(z.enum(resourceTopics)).default([]),
+      uses: z.array(z.enum(resourceUses)).default([]),
       fileType: z.enum(["PPTX", "AI", "SVG", "PNG", "ZIP"]),
       isPremium: z.boolean(),
       price: z.number().nonnegative().nullable(),

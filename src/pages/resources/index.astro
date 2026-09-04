@@ -4,6 +4,8 @@ import ResourceCard from "@/components/ResourceCard.astro";
 import { getAllResources, resourceSlug } from "@/lib/resources";
 
 const resources = await getAllResources();
+const topics = [...new Set(resources.flatMap((resource) => resource.data.topics))].sort();
+const uses = [...new Set(resources.flatMap((resource) => resource.data.uses))].sort();
 const initialQuery = Astro.url.searchParams.get("q") ?? "";
 const homeUrl = new URL("/", Astro.site).href;
 const resourcesUrl = new URL("/resources/", Astro.site).href;
@@ -17,8 +19,8 @@ const jsonLd = [
   {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "Scientific templates & assets",
-    description: "Explore scientific illustration assets, figure templates and presentation layouts for research communication.",
+    name: "Illustrations & templates",
+    description: "Explore illustrations and templates for education, health communication, scientific figures and presentations.",
     url: resourcesUrl,
     mainEntity: { "@type": "ItemList", itemListElement: itemList },
   },
@@ -34,16 +36,16 @@ const jsonLd = [
 ---
 
 <BaseLayout
-  title="Scientific Templates & Assets | Lattice Visual"
-  description="Download scientific figure templates, graphical abstract layouts, presentation systems and illustration assets for publication-ready research communication."
+  title="Illustrations & Templates for Science, Health & Education | Lattice Visual"
+  description="Download illustrations and templates for lessons, health explainers, scientific figures and presentations. Browse by topic, use and file type."
   canonical="/resources/"
   jsonLd={jsonLd}
 >
   <header class="resource-hub-hero">
     <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span aria-current="page">Resources</span></nav>
     <p class="section-label">Resources</p>
-    <h1>Scientific templates &amp; assets</h1>
-    <p>Illustrations and templates for your next figure, poster or presentation. Free resources download instantly, without an account.</p>
+    <h1>Illustrations &amp; templates</h1>
+    <p>Visual resources for lessons, health explainers, research figures and presentations. Free resources download instantly, without an account.</p>
   </header>
 
   <section class="resource-hub" data-resource-hub>
@@ -52,6 +54,10 @@ const jsonLd = [
         <label for="resource-search">Search the resource library</label>
         <div><input id="resource-search" type="search" name="q" value={initialQuery} placeholder="Search by title, format or use…" autocomplete="off" data-resource-search /><button type="submit">Search</button></div>
       </form>
+      <div class="resource-taxonomy-controls">
+        <label for="resource-topic">Topic<select id="resource-topic" name="topic" data-resource-topic><option value="">All topics</option>{topics.map((topic) => <option value={topic}>{topic}</option>)}</select></label>
+        <label for="resource-use">Use<select id="resource-use" name="use" data-resource-use><option value="">All uses</option>{uses.map((use) => <option value={use}>{use}</option>)}</select></label>
+      </div>
       <div class="resource-filters" aria-label="Filter resources">
         <button type="button" class="is-active" aria-pressed="true" data-resource-filter="all">All</button>
         <button type="button" aria-pressed="false" data-resource-filter="free">Free</button>
@@ -64,12 +70,15 @@ const jsonLd = [
     <div class="resource-grid" data-resource-grid>{resources.map((resource) => <ResourceCard {resource} headingLevel="h2" />)}</div>
     <div class="resource-empty" data-resource-empty hidden><h2>No resources found</h2><p>Try a broader search or reset the active filter.</p><button type="button" data-resource-reset>Show all resources</button></div>
   </section>
+  <aside class="application-callout"><p>See how a single illustration can become a health education poster or a plant biology lesson.</p><a href="/applications/">Explore application examples →</a></aside>
 </BaseLayout>
 
 <script>
   const hub = document.querySelector<HTMLElement>("[data-resource-hub]");
   if (hub) {
     const search = hub.querySelector<HTMLInputElement>("[data-resource-search]");
+    const topic = hub.querySelector<HTMLSelectElement>("[data-resource-topic]");
+    const use = hub.querySelector<HTMLSelectElement>("[data-resource-use]");
     const cards = [...hub.querySelectorAll<HTMLElement>("[data-resource-card]")];
     const buttons = [...hub.querySelectorAll<HTMLButtonElement>("[data-resource-filter]")];
     const count = hub.querySelector<HTMLElement>("[data-results-count]");
@@ -77,6 +86,10 @@ const jsonLd = [
     const empty = hub.querySelector<HTMLElement>("[data-resource-empty]");
     const params = new URL(window.location.href).searchParams;
     if (search) search.value = params.get("q") ?? "";
+    for (const [select, key] of [[topic, "topic"], [use, "use"]] as const) {
+      const value = params.get(key) ?? "";
+      if (select) select.value = [...select.options].some((option) => option.value === value) ? value : "";
+    }
     let filter = params.get("filter") ?? "all";
     const validFilters = buttons.map((button) => button.dataset.resourceFilter);
     if (!validFilters.includes(filter)) filter = "all";
@@ -85,12 +98,14 @@ const jsonLd = [
       const query = (search?.value ?? "").trim().toLowerCase();
       let visible = 0;
       cards.forEach((card) => {
-        const haystack = `${card.dataset.title} ${card.dataset.summary} ${card.dataset.subtype} ${card.dataset.formats}`;
+        const haystack = `${card.dataset.title} ${card.dataset.summary} ${card.dataset.subtype} ${card.dataset.formats} ${card.dataset.topics} ${card.dataset.uses}`.toLowerCase().replaceAll("|", " ");
         const queryMatch = query.split(/\s+/).every((term) => haystack.includes(term));
         const category = card.dataset.category;
         const access = card.dataset.access;
         const filterMatch = filter === "all" || filter === access || (filter === "templates" && category === "Templates") || (filter === "asset-library" && category === "Asset Library");
-        const show = queryMatch && filterMatch;
+        const topicMatch = !topic?.value || (card.dataset.topics ?? "").split("|").includes(topic.value);
+        const useMatch = !use?.value || (card.dataset.uses ?? "").split("|").includes(use.value);
+        const show = queryMatch && filterMatch && topicMatch && useMatch;
         card.hidden = !show;
         if (show) visible += 1;
       });
@@ -101,13 +116,18 @@ const jsonLd = [
       const url = new URL(window.location.href);
       query ? url.searchParams.set("q", query) : url.searchParams.delete("q");
       filter !== "all" ? url.searchParams.set("filter", filter) : url.searchParams.delete("filter");
+      for (const [select, key] of [[topic, "topic"], [use, "use"]] as const) {
+        select?.value ? url.searchParams.set(key, select.value) : url.searchParams.delete(key);
+      }
       history.replaceState({}, "", url);
     };
+    topic?.addEventListener("change", apply);
+    use?.addEventListener("change", apply);
     let searchTimer: number | undefined;
     search?.addEventListener("input", () => { window.clearTimeout(searchTimer); searchTimer = window.setTimeout(apply, 120); });
     hub.querySelector("form")?.addEventListener("submit", (event) => { event.preventDefault(); apply(); });
     buttons.forEach((button) => button.addEventListener("click", () => { filter = button.dataset.resourceFilter ?? "all"; apply(); }));
-    hub.querySelector("[data-resource-reset]")?.addEventListener("click", () => { filter = "all"; if (search) search.value = ""; apply(); });
+    hub.querySelector("[data-resource-reset]")?.addEventListener("click", () => { filter = "all"; if (topic) topic.value = ""; if (use) use.value = ""; if (search) search.value = ""; apply(); });
     apply();
   }
 </script>

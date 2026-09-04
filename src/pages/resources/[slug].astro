@@ -1,4 +1,5 @@
 ---
+import { applications } from "@/lib/applications";
 import { Image } from "astro:assets";
 import { getCollection, render } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
@@ -16,6 +17,7 @@ const { resource } = Astro.props;
 const { Content } = await render(resource);
 const allResources = await getAllResources();
 const slug = resourceSlug(resource);
+const application = applications.find((entry) => entry.resourceSlug === slug);
 const isPublic = isPublicResourceSlug(slug);
 const related = allResources.filter((entry) => entry.id !== resource.id && entry.data.category === resource.data.category).slice(0, 3);
 const accessLabel = resource.data.isPremium ? "Premium" : "Free";
@@ -111,9 +113,11 @@ const breadcrumbJsonLd = {
       </aside>
     </div>
     <section class="resource-rich-body"><h2>About this resource</h2><div class="resource-prose"><Content /></div><div id="resource-license" class="resource-usage"><h3>Usage &amp; license</h3><p>{resource.data.license}.</p><p>For questions about using this resource in your project, <a href="mailto:contact@latticevisual.com">contact Lattice Visual</a>.</p></div></section>
+    {isPublic && <div class="resource-context-links">{resource.data.topics.map((topic) => <a href={`/resources/?topic=${encodeURIComponent(topic)}`}>{topic}</a>)}{resource.data.uses.map((use) => <a href={`/resources/?use=${encodeURIComponent(use)}`}>{use}</a>)}</div>}
+    {application && <aside class="application-callout"><p>{application.summary}</p><a href={`/applications/#${application.id}`}>See the {application.shortTitle.toLowerCase()} example →</a></aside>}
     {isPublic && <section class="resource-custom-help" aria-labelledby="custom-help-title">
-      <div><p class="section-label">Made for your research</p><h2 id="custom-help-title">Need a figure tailored to your paper?</h2><p>{resource.data.customHelp ?? "We can help turn your research into a clear graphical abstract, figure, poster or presentation."}</p></div>
-      <div class="resource-custom-actions"><a class="resource-download" href={contactUrl}>Discuss a custom figure <span aria-hidden="true">→</span></a><a href="/portfolio/explain/">See our scientific illustration work <span aria-hidden="true">→</span></a></div>
+      <div><p class="section-label">Made for your audience</p><h2 id="custom-help-title">Need visuals tailored to your project?</h2><p>{resource.data.customHelp ?? "We can help turn your source material into a clear illustration, lesson, infographic or presentation."}</p></div>
+      <div class="resource-custom-actions"><a class="resource-download" href={contactUrl}>Discuss a custom project <span aria-hidden="true">→</span></a><a href="/portfolio/explain/">See our illustration work <span aria-hidden="true">→</span></a></div>
     </section>}
     {related.length > 0 && <section class="related-resources"><div class="related-heading"><h2>Related resources</h2><a href="/resources/">View all <span aria-hidden="true">→</span></a></div><div class="resource-grid">{related.map((entry) => <ResourceCard resource={entry} />)}</div></section>}
   </article>

@@ -5,7 +5,7 @@ export async function GET(context) {
   const posts = await getAllBlogPosts();
   return rss({
     title: "Lattice Visual Blog",
-    description: "Scientific illustration and research communication guidance from Lattice Visual.",
+    description: "Illustration and visual communication guidance from Lattice Visual.",
     site: context.site,
     items: posts.map((post) => ({
       title: post.data.title,

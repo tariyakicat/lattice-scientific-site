@@ -24,6 +24,8 @@ const access = resource.data.isPremium ? "premium" : "free";
   data-formats={resource.data.formats.join(" ").toLowerCase()}
   data-category={resource.data.category}
   data-access={access}
+  data-topics={resource.data.topics.join("|")}
+  data-uses={resource.data.uses.join("|")}
 >
   <div class="resource-card">
     <a class="resource-card-media" href={href} aria-label={`View ${resource.data.title}`}>
@@ -31,7 +33,7 @@ const access = resource.data.isPremium ? "premium" : "free";
       <span class:list={["resource-card-badge", resource.data.isPremium ? "is-premium" : "is-free"]}>{resourceLabel(resource)}</span>
     </a>
     <div class="resource-card-body">
-      <span class="resource-type">{resource.data.fileType}</span>
+      <span class="resource-type">{resource.data.fileType}{resource.data.topics[0] && ` · ${resource.data.topics[0]}`}</span>
       <Heading><a href={href}>{resource.data.title}</a></Heading>
       <p>{resource.data.summary}</p>
       <div class="resource-card-footer">

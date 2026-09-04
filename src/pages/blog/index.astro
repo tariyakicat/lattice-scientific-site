@@ -16,7 +16,7 @@ const jsonLd = [
   {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "Lattice Visual scientific illustration blog",
+    name: "Lattice Visual illustration and visual communication blog",
     description: "Practical guidance on graphical abstracts, scientific posters, medical illustration, and research communication design.",
     url: canonical,
     mainEntity: { "@type": "ItemList", itemListElement: posts.map((post, index) => ({ "@type": "ListItem", position: index + 1, name: post.data.title, url: new URL(blogUrl(post), Astro.site).href })) },
@@ -32,12 +32,14 @@ const jsonLd = [
 ];
 ---
 
-<BaseLayout title="Scientific Illustration Blog | Lattice Visual" description="Practical guides to graphical abstracts, scientific posters, medical illustration, and clearer research communication." canonical="/blog/" image={featured?.data.ogImage?.src ?? featured?.data.heroImage.src} {jsonLd} next={nextPage}>
+<BaseLayout title="Illustration & Visual Communication Blog | Lattice Visual" description="Practical guides to graphical abstracts, scientific posters, medical illustration, and clearer research communication." canonical="/blog/" image={featured?.data.ogImage?.src ?? featured?.data.heroImage.src} {jsonLd} next={nextPage}>
   <header class="blog-index-hero">
     <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span aria-current="page">Blog</span></nav>
-    <div><p class="section-label">Field notes for visual research</p><h1>Blog</h1></div>
-    <p>Practical, evidence-aware guidance for turning complex research into graphical abstracts, posters, medical illustrations, and visual stories people can understand.</p>
+    <div><p class="section-label">Field notes for visual communication</p><h1>Blog</h1></div>
+    <p>Practical guidance on illustration, information design and visual storytelling, from scientific figures to educational and health communication.</p>
   </header>
+
+  <aside class="application-callout"><p>Looking for ideas beyond a research figure? Explore three worked examples for health education, plant biology lessons and environmental technology.</p><a href="/applications/">See the application examples →</a></aside>
 
   <div data-blog-index>
     {featured && <section class="blog-featured" aria-labelledby="featured-article-title"><p class="section-label" id="featured-article-title">Featured article</p><PostCard post={featured} featured /></section>}

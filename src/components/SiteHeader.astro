@@ -2,11 +2,11 @@
 const currentPath = Astro.url.pathname;
 const links = [
   { href: "/", label: "Home" },
-  { href: "/portfolio/explain/", label: "Portfolio" },
+  { href: "/portfolio/", label: "Portfolio" },
   { href: "/#services", label: "Services" },
   { href: "/blog/", label: "Blog" },
   { href: "/resources/", label: "Resources" },
-  { href: "/#process", label: "Process" },
+  { href: "/applications/", label: "Applications" },
   { href: "/#contact", label: "Contact" },
 ];
 ---
@@ -20,7 +20,7 @@ const links = [
 
     <div class="site-nav-links">
       {links.map((link) => (
-        <a href={link.href} aria-current={(link.label === "Home" && currentPath === "/") || (link.label === "Resources" && currentPath.startsWith("/resources")) || (link.label === "Portfolio" && currentPath.startsWith("/portfolio")) || (link.label === "Blog" && currentPath.startsWith("/blog")) ? "page" : undefined}>
+        <a href={link.href} aria-current={(link.label === "Home" && currentPath === "/") || (link.label === "Resources" && currentPath.startsWith("/resources")) || (link.label === "Portfolio" && currentPath.startsWith("/portfolio")) || (link.label === "Blog" && currentPath.startsWith("/blog")) || (link.label === "Applications" && currentPath.startsWith("/applications")) ? "page" : undefined}>
           {link.label}
         </a>
       ))}

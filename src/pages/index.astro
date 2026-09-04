@@ -2,8 +2,13 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import ContactForm from "@/components/ContactForm.astro";
 import Hero from "@/components/Hero.astro";
+import ApplicationExamples from "@/components/ApplicationExamples.astro";
+import ResourcesTeaser from "@/components/ResourcesTeaser.astro";
+import { getAllResources } from "@/lib/resources";
 import Process from "@/components/Process.astro";
 import ServiceCases from "@/components/ServiceCases.astro";
+
+const resources = (await getAllResources()).filter((resource) => !resource.data.isPremium).slice(0, 3);
 
 const organizationJsonLd = {
   "@context": "https://schema.org",
@@ -11,17 +16,19 @@ const organizationJsonLd = {
   name: "Lattice Visual",
   url: new URL("/", Astro.site).href,
   email: "contact@latticevisual.com",
-  description: "Research communication for research teams and science-led companies across biotechnology, chemicals, environmental solutions and advanced materials.",
+  description: "Illustration, information design and digital experiences for science, health, education and technology.",
 };
 ---
 
 <BaseLayout
-  title="Lattice Visual — Research Communication Studio"
-  description="Research communication for science-led teams: scientific visuals, data visualization, slides, posters, interactive research microsites and impact showcases."
+  title="Lattice Visual — Illustration & Visual Communication"
+  description="Illustration, information design and digital experiences for science, health, education and technology. Explore our work and free visual resources."
   jsonLd={organizationJsonLd}
 >
   <Hero />
+  <ApplicationExamples />
   <ServiceCases />
+  <ResourcesTeaser {resources} />
   <Process />
   <ContactForm />
 </BaseLayout>

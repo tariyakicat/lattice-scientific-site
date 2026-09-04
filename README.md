@@ -31,6 +31,14 @@ Images referenced by MDX entries live in `src/assets/resources/`. Free public fi
 
 Operational test resources are listed in `src/lib/resource-visibility.mjs`. They keep their direct URLs and checkout flow, but are omitted from the resource hub, related-resource cards and sitemap; their detail pages use `noindex` and omit promotional structured data.
 
+Resources support `topics` and `uses` arrays from `src/lib/resource-taxonomy.ts`. Assign only applicable values. The library displays categories that have public resources and combines topic/use selection with search and access/type filters. Filter state is preserved in the URL.
+
+## Application Examples
+
+`src/lib/applications.ts` defines the studio concepts shown on the homepage and `/applications/`. Layouts in `ApplicationPreview.astro` use existing illustration assets; the concepts are labelled separately from commissioned projects. Each example links to a relevant asset or portfolio and can prefill an editable enquiry using an allowlisted `application` URL parameter. Contact submissions include the optional `channel` field in both plain-text and HTML email bodies.
+
+Tawk.to welcome-trigger wording is configured in its dashboard, independently of `LiveChat.astro`. When changing site positioning, also review the welcome message under Administration → Triggers.
+
 ### Clean transparent PNG downloads
 
 With Pillow and NumPy installed, run `python scripts/clean-transparent-png.py source.png candidate.png`. The script writes a separate candidate, clears RGB data only in fully transparent pixels, and verifies that every visible pixel, every alpha value, and composites on three backgrounds remain identical. It records the source SHA-256 in the candidate's metadata. Review the candidate before replacing a download and update the resource's `fileSize` if needed.
