@@ -171,5 +171,9 @@ const lightboxProjects = projects.map((project) => ({
     dialog.querySelector("[data-lightbox-next]")?.addEventListener("click", () => move(1));
     range?.addEventListener("input", () => compare?.style.setProperty("--compare-position", `${range.value}%`));
     dialog.addEventListener("close", () => { document.documentElement.classList.remove("has-dialog"); returnFocus?.focus(); });
+    const requestedSlug = new URL(window.location.href).searchParams.get("project");
+    const requestedButton = [...document.querySelectorAll<HTMLElement>("[data-portfolio-card]")]
+      .find((card) => card.dataset.projectSlug === requestedSlug && !card.hidden)?.querySelector<HTMLButtonElement>("[data-portfolio-open]");
+    if (requestedSlug && bySlug.has(requestedSlug)) requestedButton?.click();
   });
 </script>

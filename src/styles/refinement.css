@@ -1,0 +1,74 @@
+/* Shared scientific studio typography and navigation. */
+:root {
+  --color-blue: #075fc6; --color-blue-dark: #034da8; --color-ink: #102b4e;
+  --color-muted: #395475; --color-line: #c9d6e4; --color-soft: #eef6fd;
+  --font-display: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --content-width: 1320px;
+}
+body { background: #fff; color: var(--color-ink); font-family: var(--font-body); }
+a, button, input, select, textarea, summary { -webkit-tap-highlight-color: transparent; }
+:where(a, button, input, select, textarea, summary):focus-visible { outline: 3px solid #397fce; outline-offset: 4px; }
+::selection { background: #d5e8ff; color: #102b4e; }
+section[id], article[id] { scroll-margin-top: 7rem; }
+.ui-icon { display: inline-flex; width: 1.25em; height: 1.25em; flex: 0 0 auto; }
+.ui-icon svg { display: block; width: 100%; height: 100%; }
+.site-header { background: #fff; border-bottom: 1px solid #e9eff5; backdrop-filter: none; }
+.site-nav { width: min(93.6%, var(--content-width)); min-height: clamp(64px,7.2vw,88px); gap: clamp(1.2rem,3vw,2.8rem); }
+.site-brand { gap: 1rem; flex-shrink: 0; color: var(--color-ink); font-weight: 700; font-size: clamp(1.1rem,2.3vw,1.45rem); }
+.site-brand-logo { display: block; width: clamp(145px,14vw,176px); height: auto; object-fit: contain; }
+.site-nav-links { margin-left: auto; gap: clamp(1.2rem,3.8vw,3.2rem); }
+.site-nav-links a { font-size: clamp(.85rem,1.7vw,1rem); font-weight: 500; color: var(--color-ink); }
+.site-nav-cta { border-radius: 5px; background: var(--color-blue); padding: .85rem 1.35rem; font-size: .95rem; font-weight: 600; white-space: nowrap; box-shadow: none; }
+.site-nav-cta:hover { background: var(--color-blue-dark); transform: none; }
+.site-nav-mobile { margin-left: auto; }
+.site-nav-mobile summary { width: 44px; height: 44px; padding: 10px; border-radius: 4px; }
+.site-nav-mobile summary .ui-icon { width: 24px; height: 24px; background: transparent; }
+.site-nav-mobile > div { top: calc(100% + .75rem); right: 0; min-width: 220px; border-radius: 5px; background: #fff; }
+.site-footer { background: #fff; padding: 0; border: 0; }
+.site-footer-inner { display: flex; justify-content: space-between; align-items: center; gap: 2rem; margin: auto; width: min(93.6%,var(--content-width)); border-top: 1px solid var(--color-line); padding: 1rem 0 1.25rem; }
+.site-footer .site-brand { font-size: 1.1rem; color: var(--color-ink); }
+.site-footer .site-brand-logo { width: 146px; }
+.site-footer nav { display: flex; gap: 1.6rem; }
+.site-footer nav a { font-size: .85rem; color: #56708c; }
+.site-footer-secondary { display:flex; justify-content:space-between; gap:1.5rem; width:min(93.6%,var(--content-width)); margin:0 auto; padding:0 0 2rem; }
+.site-footer-secondary a { font-size:.8rem; text-decoration:none; }
+.portfolio-hero, .portfolio-category-hero, .resource-hub-hero { padding-block: 8.5rem 3rem; }
+.portfolio-hero h1, .portfolio-category-hero h1, .resource-hub-hero h1, .application-page-hero h1 { letter-spacing: -.04em; }
+.portfolio-index { padding-block: 2rem 4rem; }
+.portfolio-featured { padding-block: 3rem 5rem; border-top: 1px solid var(--color-line); }
+.portfolio-featured-list article:nth-child(even) { margin-top: 0; }
+.portfolio-filter-bar { flex-wrap: wrap; overflow: visible; gap: .5rem; }
+.portfolio-filter-bar button { min-height: 2.75rem; border-radius: 4px; font-weight: 500; }
+.portfolio-card-media { border-radius: 4px; background: #fff; box-shadow: none; border: 1px solid var(--color-line); }
+.portfolio-card-media img { object-fit: contain; padding: 1rem; }
+.portfolio-card-caption :is(h2,h3) { font-family: var(--font-body); font-weight: 600; font-size: 1.2rem; }
+.portfolio-lightbox-copy h2 { letter-spacing: -.025em; overflow-wrap: anywhere; }
+.portfolio-lightbox-cta { border-radius: 4px; background: var(--color-blue); }
+.portfolio-bottom-cta { background: #edf5fc; }
+.resource-hub-tools { box-shadow: none; border-radius: 5px; background: #fff; }
+.resource-hub-tools .resource-filters { flex-wrap: wrap; overflow: visible; padding-bottom: 0; }
+.resource-hub-search input, .resource-taxonomy-controls select, .resource-filters button { border-radius: 4px; }
+.resource-card { border-radius: 5px; border: 1px solid var(--color-line); box-shadow: none; }
+.contact-select-wrap > span { position: absolute; right: .95rem; top: 50%; transform: translateY(-50%); pointer-events: none; }
+@media (max-width: 1039px) {
+  .site-nav-links { display: flex; }
+  .site-nav-cta { display: inline-flex; }
+  .site-nav-mobile { display: none; }
+  body:not(.scientific-home) .site-nav-links { display: none; }
+  body:not(.scientific-home) .site-nav-mobile { display: block; }
+}
+@media (max-width: 699px) {
+  .site-nav { min-height: 72px; gap: .7rem; }
+  .site-nav-links, .site-nav-cta { display: none; }
+  .site-nav-mobile { display: block; }
+  .site-brand { font-size: 1.05rem; gap: .65rem; }
+  .site-brand-logo { width: 150px; }
+  .site-footer-inner { align-items: start; flex-direction: column; gap: 1.3rem; padding-block: 1.5rem 2rem; }
+  .site-footer-secondary { flex-direction: column; }
+  .portfolio-hero, .portfolio-category-hero, .resource-hub-hero { padding-top: 7rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}

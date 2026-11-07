@@ -67,15 +67,15 @@ const jsonLd = [
     </section>
   )}
 
-  <main class="portfolio-category-body">
+  <section class="portfolio-category-body">
     {projects.length ? <PortfolioGrid projects={projects} lightboxId={`portfolio-${category.slug}`} /> : (
       <div class="portfolio-category-empty"><h2>New work is being prepared.</h2><p>This category is part of the studio’s portfolio structure and will be populated as projects are cleared for public display.</p></div>
     )}
-  </main>
+  </section>
 
   <nav class="portfolio-category-links" aria-label="Explore other portfolio categories">
     <p>Explore other project types</p>
-    <div>{portfolioCategories.filter((item) => item.slug !== category.slug).map((item) => <a href={`/portfolio/${item.slug}/`}>{item.name}<span aria-hidden="true">↗</span></a>)}</div>
+    <div>{portfolioCategories.filter((item) => item.slug !== category.slug && allProjects.some((project) => project.data.category === item.name)).map((item) => <a href={`/portfolio/${item.slug}/`}>{item.name}<span aria-hidden="true">↗</span></a>)}</div>
   </nav>
 
   <section class="portfolio-bottom-cta">

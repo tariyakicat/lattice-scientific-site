@@ -5,6 +5,7 @@ import SiteFooter from "@/components/SiteFooter.astro";
 import SiteHeader from "@/components/SiteHeader.astro";
 import "@/styles/global.css";
 import "@/styles/applications.css";
+import "@/styles/refinement.css";
 
 export interface Props {
   title: string;
@@ -13,13 +14,14 @@ export interface Props {
   canonical?: string;
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
   hideHeader?: boolean;
+  scientificHome?: boolean;
   headType?: "website" | "article";
   prev?: string;
   next?: string;
   noindex?: boolean;
 }
 
-const { title, description, image, canonical, jsonLd, hideHeader = false, headType = "website", prev, next, noindex = false } = Astro.props;
+const { title, description, image, canonical, jsonLd, hideHeader = false, scientificHome = false, headType = "website", prev, next, noindex = false } = Astro.props;
 ---
 
 <!doctype html>
@@ -28,16 +30,16 @@ const { title, description, image, canonical, jsonLd, hideHeader = false, headTy
     <BaseHead {title} {description} {image} {canonical} {jsonLd} type={headType} {prev} {next} {noindex} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
   </head>
-  <body>
+  <body class:list={{ "scientific-home": scientificHome }}>
     <a class="skip-link" href="#main-content">Skip to content</a>
-    {!hideHeader && <SiteHeader />}
+    {!hideHeader && <SiteHeader {scientificHome} />}
     <main id="main-content">
       <slot />
     </main>
-    <SiteFooter />
-    <LiveChat />
+    <SiteFooter {scientificHome} />
+    {import.meta.env.PROD && <LiveChat />}
     <script>
       const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const reveals = document.querySelectorAll<HTMLElement>("[data-reveal]");

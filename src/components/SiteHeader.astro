@@ -1,41 +1,30 @@
 ---
+import SiteBrand from './SiteBrand.astro';
+import UiIcon from './UiIcon.astro';
+interface Props { scientificHome?: boolean; }
+const { scientificHome = false } = Astro.props;
 const currentPath = Astro.url.pathname;
-const links = [
-  { href: "/", label: "Home" },
-  { href: "/portfolio/", label: "Portfolio" },
-  { href: "/#services", label: "Services" },
-  { href: "/blog/", label: "Blog" },
-  { href: "/resources/", label: "Resources" },
-  { href: "/applications/", label: "Applications" },
-  { href: "/#contact", label: "Contact" },
+const links = scientificHome ? [
+  { href: '/portfolio/', label: 'Work' }, { href: '/#services', label: 'Services' }, { href: '/#process', label: 'Process' },
+] : [
+  { href: '/portfolio/', label: 'Work' }, { href: '/#services', label: 'Services' }, { href: '/blog/', label: 'Blog' },
+  { href: '/resources/', label: 'Resources' }, { href: '/applications/', label: 'Applications' },
 ];
 ---
-
 <header class="site-header">
   <nav class="site-nav" aria-label="Primary navigation">
-    <a href="/" class="site-brand" aria-label="Lattice Visual home">
-      <span class="site-brand-mark" aria-hidden="true">LV</span>
-      <span>Lattice Visual</span>
-    </a>
-
-    <div class="site-nav-links">
-      {links.map((link) => (
-        <a href={link.href} aria-current={(link.label === "Home" && currentPath === "/") || (link.label === "Resources" && currentPath.startsWith("/resources")) || (link.label === "Portfolio" && currentPath.startsWith("/portfolio")) || (link.label === "Blog" && currentPath.startsWith("/blog")) || (link.label === "Applications" && currentPath.startsWith("/applications")) ? "page" : undefined}>
-          {link.label}
-        </a>
-      ))}
-    </div>
-
-    <a href="/#contact" class="site-nav-cta">Start a project <span aria-hidden="true">→</span></a>
-
+    <SiteBrand />
+    <div class="site-nav-links">{links.map(link => <a href={link.href} aria-current={!link.href.includes('#') && currentPath.startsWith(link.href) ? 'page' : undefined}>{link.label}</a>)}</div>
+    <a class="site-nav-cta" href="/#contact">Start a project</a>
     <details class="site-nav-mobile">
-      <summary aria-label="Open navigation menu">
-        <span></span><span></span><span></span>
-      </summary>
-      <div>
-        {links.map((link) => <a href={link.href}>{link.label}</a>)}
-        <a href="/#contact">Start a project</a>
-      </div>
+      <summary aria-label="Open navigation menu"><UiIcon name="menu" /></summary>
+      <div>{links.map(link => <a href={link.href}>{link.label}</a>)}<a href="/#contact">Start a project</a></div>
     </details>
   </nav>
 </header>
+<script>
+  const menu = document.querySelector<HTMLDetailsElement>('.site-nav-mobile');
+  menu?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => { menu.open = false; }));
+  document.addEventListener('keydown', event => { if (event.key === 'Escape' && menu?.open) { menu.open = false; menu.querySelector('summary')?.focus(); } });
+  document.addEventListener('click', event => { if (menu?.open && event.target instanceof Node && !menu.contains(event.target)) menu.open = false; });
+</script>

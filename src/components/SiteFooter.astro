@@ -1,21 +1,12 @@
+---
+import SiteBrand from './SiteBrand.astro';
+interface Props { scientificHome?: boolean; }
+const { scientificHome = false } = Astro.props;
+---
 <footer class="site-footer">
   <div class="site-footer-inner">
-    <div>
-      <a class="site-footer-brand" href="/">Lattice Visual</a>
-      <p>Illustration and visual communication for science, health, education and technology.</p>
-    </div>
-    <nav aria-label="Footer navigation">
-      <a href="/">Home</a>
-      <a href="/portfolio/">Portfolio</a>
-      <a href="/#services">Services</a>
-      <a href="/applications/">Applications</a>
-      <a href="/blog/">Blog</a>
-      <a href="/resources/">Resources</a>
-      <a href="/#contact">Contact</a>
-    </nav>
-    <div class="site-footer-contact">
-      <a href="mailto:contact@latticevisual.com">contact@latticevisual.com</a>
-      <p>© 2026 Lattice Visual</p>
-    </div>
+    <SiteBrand />
+    <nav aria-label="Footer navigation"><a href="/portfolio/">Work</a><a href="/#services">Services</a><a href="/#contact">Contact</a></nav>
   </div>
+  {!scientificHome && <div class="site-footer-secondary"><nav aria-label="More from Lattice Visual"><a href="/applications/">Applications</a><a href="/blog/">Blog</a><a href="/resources/">Resources</a></nav><a href="mailto:contact@latticevisual.com">contact@latticevisual.com</a></div>}
 </footer>

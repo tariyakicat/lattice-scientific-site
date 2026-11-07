@@ -1,26 +1,19 @@
 ---
 const steps = [
-  { title: "Brief", description: "We clarify the audience, evidence and communication goal." },
-  { title: "Communication strategy", description: "We shape the right narrative, format and level of detail." },
-  { title: "Design", description: "We create clear, accurate and compelling visual work." },
-  { title: "Delivery", description: "We supply ready-to-use files and practical handover support." },
+  { title: 'Share the science', description: 'Send your brief, sketch or manuscript.' },
+  { title: 'Shape the story', description: 'Agree the structure and visual direction.' },
+  { title: 'Review together', description: 'Refine scientific details and presentation.' },
+  { title: 'Prepare the files', description: 'Export for the intended publication or format.' },
 ];
 ---
-
-<section id="process" class="home-process" aria-labelledby="home-process-title">
-  <div class="home-process-inner" data-reveal>
-    <header>
-      <p class="section-label">How we work</p>
-      <h2 id="home-process-title">Our process. Collaborative by design.</h2>
-    </header>
-    <ol class="home-process-steps">
-      {steps.map((step, index) => (
-        <li>
-          <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-          <strong>{step.title}</strong>
-          <p>{step.description}</p>
-        </li>
-      ))}
+<section id="process" class="sci-process" aria-labelledby="process-title">
+  <div class="sci-shell">
+    <h2 id="process-title">From your research to the final figure</h2>
+    <ol class="sci-process-grid">
+      {steps.map((step, index) => <li>
+        <div class="sci-step-track"><span>{String(index + 1).padStart(2, '0')}</span></div>
+        <h3>{step.title}</h3><p>{step.description}</p>
+      </li>)}
     </ol>
   </div>
 </section>

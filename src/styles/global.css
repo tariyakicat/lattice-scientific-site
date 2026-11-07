@@ -10,12 +10,12 @@
   --color-line: #e0e5ec;
   --color-surface: #ffffff;
   --color-soft: #f5f9fd;
-  --font-display: "Playfair Display", Georgia, "Times New Roman", serif;
-  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --font-body: "DM Sans", ui-sans-serif, system-ui, sans-serif;
   --content-width: 1280px;
   color: #101418;
   background: #f7f9fa;
-  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-family: "DM Sans", ui-sans-serif, system-ui, sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -2246,7 +2246,7 @@ textarea {
 .lv-hero-title {
   margin-top: 1.65rem;
   color: #1a2433;
-  font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+  font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
   font-size: clamp(2.5rem, 5.3vw, 4rem);
   font-weight: 600;
   line-height: 1.1;
@@ -2973,7 +2973,7 @@ textarea {
 .impact-copy h2 {
   margin: 0;
   color: #1a2433;
-  font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+  font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
   font-size: clamp(2.25rem, 4.1vw, 2.95rem);
   font-weight: 600;
   line-height: 1.08;
@@ -3099,7 +3099,7 @@ textarea {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   color: #1a2433;
-  font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+  font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
   font-size: clamp(1.28rem, 2vw, 1.48rem);
   font-weight: 600;
   line-height: 1.18;
@@ -3187,7 +3187,7 @@ textarea {
 .solution-column h2 {
   margin: 0;
   color: var(--solution-accent);
-  font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+  font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
   font-size: clamp(1.95rem, 3vw, 2.2rem);
   font-weight: 600;
   letter-spacing: 0;
@@ -3407,7 +3407,7 @@ textarea {
 .services-heading h2 {
   margin: 0;
   color: #1a2433;
-  font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+  font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
   font-size: clamp(2.05rem, 3.6vw, 2.4rem);
   font-weight: 600;
   letter-spacing: 0;
@@ -3511,7 +3511,7 @@ textarea {
   min-height: 2.55rem;
   margin: 1.2rem auto 0;
   color: #1a3a5c;
-  font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+  font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
   font-size: clamp(0.98rem, 1.4vw, 1.05rem);
   font-weight: 700;
   letter-spacing: 0;
@@ -3651,7 +3651,7 @@ textarea {
 .resources-heading h2 {
   margin: 0.75rem 0 0;
   color: #1a2433;
-  font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+  font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
   font-size: clamp(2rem, 4vw, 2.6rem);
   font-weight: 600;
   letter-spacing: 0;
@@ -3722,7 +3722,7 @@ textarea {
 .resource-group > h3 {
   margin: 0 0 1.15rem;
   color: #1a2433;
-  font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+  font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
   font-size: 1.25rem;
   font-weight: 600;
   letter-spacing: 0;
@@ -3833,7 +3833,7 @@ textarea {
 .resource-card h3 {
   margin: 0.7rem 0 0;
   color: #1a2433;
-  font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+  font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
   font-size: clamp(1.05rem, 1.6vw, 1.22rem);
   font-weight: 650;
   line-height: 1.25;
@@ -4104,7 +4104,7 @@ textarea {
 .contact-info h2 {
   margin: 1rem 0 0;
   color: #1a2433;
-  font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+  font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
   font-size: clamp(1.8rem, 3vw, 2.1rem);
   font-weight: 600;
   letter-spacing: 0;
@@ -4480,7 +4480,7 @@ textarea {
 .contact-success h3 {
   max-width: 31rem;
   margin: 1.35rem 0 0;
-  font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+  font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
   font-size: clamp(1.65rem, 3vw, 2rem);
   line-height: 1.25;
 }
@@ -4702,7 +4702,7 @@ textarea {
     width: min(100%, 14.5rem);
   }
 
-  main section h2 {
+  body:not(.scientific-home) main section h2 {
     max-width: 100%;
     font-size: clamp(2rem, 8.6vw, 2.35rem) !important;
     line-height: 1.1 !important;
@@ -4711,7 +4711,7 @@ textarea {
     overflow-wrap: anywhere;
   }
 
-  main section p {
+  body:not(.scientific-home) main section p {
     max-width: 100%;
     text-wrap: wrap !important;
     overflow-wrap: anywhere;

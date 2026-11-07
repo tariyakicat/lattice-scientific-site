@@ -1,0 +1,38 @@
+---
+import ContactForm from './ContactForm.astro';
+import UiIcon from './UiIcon.astro';
+---
+<section id="contact" class="sci-contact sci-shell" aria-labelledby="enquiry-title">
+  <div class="sci-contact-copy"><h2 id="enquiry-title">Let’s discuss your <br />next figure.</h2><p>Tell us what you want to communicate.</p></div>
+  <form class="sci-enquiry" data-enquiry-start>
+    <label for="enquiry-email">Email<input id="enquiry-email" name="email" type="email" autocomplete="email" placeholder="name@university.edu" required /></label>
+    <label for="enquiry-type">Project type<select id="enquiry-type" name="projectType"><option value="">Select a project type</option><option>Graphical abstract</option><option>Mechanism diagram</option><option>Scientific illustration</option><option>Figure design</option><option>Research poster</option><option>Other</option></select></label>
+    <button class="sci-button" type="submit">Start an enquiry</button>
+  </form>
+  <noscript><p>Email your project brief to <a href="mailto:contact@latticevisual.com">contact@latticevisual.com</a>.</p></noscript>
+</section>
+<dialog class="sci-enquiry-dialog" aria-labelledby="enquiry-detail-title" data-enquiry-dialog>
+  <div class="sci-dialog-header"><div><p class="sci-eyebrow">Project enquiry</p><h2 id="enquiry-detail-title">Tell us about your figure</h2></div><button class="sci-close" type="button" data-enquiry-close aria-label="Close project enquiry"><UiIcon name="close" /></button></div>
+  <ContactForm embedded />
+</dialog>
+<script>
+  const start = document.querySelector<HTMLFormElement>('[data-enquiry-start]');
+  const dialog = document.querySelector<HTMLDialogElement>('[data-enquiry-dialog]');
+  const openEnquiry = () => {
+    if (!dialog || !start) return;
+    const values = new FormData(start);
+    const email = dialog.querySelector<HTMLInputElement>('[name="email"]');
+    const type = dialog.querySelector<HTMLSelectElement>('[name="projectType"]');
+    if (email && values.get('email')) email.value = String(values.get('email'));
+    if (type && values.get('projectType')) type.value = String(values.get('projectType'));
+    dialog.showModal();
+    document.body.classList.add('enquiry-open');
+    dialog.querySelector<HTMLInputElement>('[name="name"]')?.focus();
+  };
+  start?.addEventListener('submit', event => { event.preventDefault(); openEnquiry(); });
+  dialog?.querySelector('[data-enquiry-close]')?.addEventListener('click', () => dialog.close());
+  dialog?.addEventListener('click', event => { if (event.target === dialog) { const box = dialog.getBoundingClientRect(); if (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom) dialog.close(); } });
+  dialog?.addEventListener('close', () => { document.body.classList.remove('enquiry-open'); start?.querySelector<HTMLButtonElement>('button')?.focus(); });
+  const query = new URLSearchParams(window.location.search);
+  if (query.has('resource') || query.has('application')) openEnquiry();
+</script>

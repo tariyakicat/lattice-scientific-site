@@ -1,10 +1,14 @@
 ---
 import { portfolioCategories } from "@/lib/portfolio-categories";
+import type { PortfolioEntry } from "@/lib/portfolio";
+interface Props { projects: PortfolioEntry[]; }
+const { projects } = Astro.props;
+const categories = portfolioCategories.filter((category) => projects.some((project) => project.data.category === category.name));
 ---
 
 <div class="portfolio-filter-bar" aria-label="Filter portfolio by project type" data-portfolio-filters>
   <button type="button" class="is-active" data-portfolio-filter="all" aria-pressed="true">All</button>
-  {portfolioCategories.map((category) => (
+  {categories.map((category) => (
     <button type="button" data-portfolio-filter={category.slug} aria-pressed="false">{category.name}</button>
   ))}
 </div>

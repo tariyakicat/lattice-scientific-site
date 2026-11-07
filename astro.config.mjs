@@ -6,6 +6,7 @@ import { includeInSitemap } from "./src/lib/resource-visibility.mjs";
 export default defineConfig({
   site: "https://sci.latticevisual.com",
   trailingSlash: "always",
+  devToolbar: { enabled: false },
   integrations: [
     mdx(),
     sitemap({

@@ -1,21 +1,16 @@
 ---
-import Icon from "./Icon.astro";
+import UiIcon from './UiIcon.astro';
 ---
-
-<section id="home" class="lv-hero" style="--hero-bg: url('/generated/hero-background-wide.webp')">
-  <div class="lv-hero-inner">
-    <div class="lv-hero-grid">
-      <div class="lv-hero-copy" data-reveal>
-        <p class="lv-hero-eyebrow"><Icon name="sparkles" size={16} /> Science · Health · Education · Technology</p>
-        <h1 class="lv-hero-title">
-          <span>Make complex</span>{" "}
-          <span>ideas clear.</span>
-        </h1>
-        <p class="lv-hero-subtitle">Illustration, information design and digital experiences for people with something to explain. We help researchers, educators and brands turn specialist knowledge into visuals their audiences can use.</p>
-        <div class="lv-hero-actions">
-          <a href="#contact" class="lv-hero-btn lv-hero-btn-primary">Start a project <span aria-hidden="true">→</span></a>
-          <a href="/resources/?filter=free" class="lv-hero-btn lv-hero-btn-secondary">Free resources <span aria-hidden="true">→</span></a>
-        </div>
+<section id="home" class="sci-hero" aria-labelledby="hero-title">
+  <img class="sci-hero-background" src="/generated/hero-background-wide.webp" width="2400" height="1100" alt="" fetchpriority="high" />
+  <div class="sci-shell sci-hero-inner">
+    <div class="sci-hero-copy">
+      <p class="sci-eyebrow">Scientific illustration</p>
+      <h1 id="hero-title">Your research,<br />clearly illustrated.</h1>
+      <p class="sci-hero-description">Graphical abstracts, mechanism diagrams and scientific figures for research communication.</p>
+      <div class="sci-actions">
+        <a class="sci-button" href="#contact">Discuss your project</a>
+        <a class="sci-link" href="#selected-work">Explore our work <UiIcon /></a>
       </div>
     </div>
   </div>

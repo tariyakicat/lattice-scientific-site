@@ -1,0 +1,26 @@
+---
+import { Image } from 'astro:assets';
+import UiIcon from './UiIcon.astro';
+import nanovaccine from '@/assets/portfolio/explain/graphical-nanovaccine.webp';
+import neurovascular from '@/assets/portfolio/explain/mechanism-neurovascular-unit.webp';
+const projects = [
+  { title: 'Nanovaccine delivery and immune activation', category: 'Graphical abstract · Immunology', image: nanovaccine, alt: 'Scientific figure connecting nanovaccine preparation, lymph-node delivery and tumour immune activation', href: '/portfolio/?category=graphical-abstracts&project=nanovaccine-delivery' },
+  { title: 'The neurovascular unit', category: 'Mechanism diagram · Neuroscience', image: neurovascular, alt: 'Mechanism diagram showing the neurovascular unit, blood–brain barrier and endothelial cell junctions', href: '/portfolio/explain/#neurovascular-unit' },
+];
+---
+<section id="selected-work" class="sci-work sci-shell" aria-labelledby="work-title">
+  <header class="sci-work-heading">
+    <div class="sci-section-heading"><h2 id="work-title">Selected scientific work</h2><p>Explore the science behind the visuals.</p></div>
+    <a class="sci-link" href="/portfolio/">View all work <UiIcon /></a>
+  </header>
+  <div class="sci-work-grid">
+    {projects.map(project => <article class="sci-project">
+      <a class="sci-project-image" href={project.href} aria-label={`View ${project.title}`}>
+        <Image src={project.image} alt={project.alt} widths={[480, 800, 1200]} sizes="(min-width: 1400px) 640px, (min-width: 700px) 46vw, 92vw" loading="lazy" />
+      </a>
+      <p class="sci-project-category">{project.category}</p>
+      <h3><a href={project.href}>{project.title}</a></h3>
+      <a class="sci-link" href={project.href} aria-label={`View project: ${project.title}`}>View project <UiIcon /></a>
+    </article>)}
+  </div>
+</section>

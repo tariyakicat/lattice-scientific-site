@@ -14,7 +14,7 @@ const { projects, filters = false, lightboxId = "portfolio-lightbox" } = Astro.p
 ---
 
 <section class="portfolio-gallery" data-portfolio-hub={filters ? "true" : undefined}>
-  {filters && <PortfolioFilters />}
+  {filters && <PortfolioFilters {projects} />}
   <div class="portfolio-results-line" aria-live="polite"><strong data-portfolio-count>{projects.length}</strong> selected projects</div>
   <div class="portfolio-grid">
     {projects.map((project) => <PortfolioCard {project} />)}

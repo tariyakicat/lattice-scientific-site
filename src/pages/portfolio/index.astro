@@ -5,7 +5,7 @@ import PortfolioGrid from "@/components/PortfolioGrid.astro";
 import { getPublicPortfolio, portfolioAlt } from "@/lib/portfolio";
 
 const projects = await getPublicPortfolio();
-const comparisons = projects.filter((project) => project.data.draftImage).slice(0, 4);
+const comparisons = projects.filter((project) => project.data.draftImage).slice(0, 2);
 const canonical = "https://sci.latticevisual.com/portfolio/";
 const itemList = projects.map((project, index) => ({
   "@type": "ListItem",
@@ -45,10 +45,18 @@ const jsonLd = [
     <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span aria-current="page">Portfolio</span></nav>
     <p class="section-label">Portfolio</p>
     <h1>Selected work</h1>
-    <p>Explore our scientific illustration and information design work, with application studies showing how these skills translate into health, education and technology communication.</p>
-    <p><a class="communication-case-link" href="/applications/">Explore health, education and technology examples →</a></p>
-    <div class="portfolio-hero-proof"><strong>{projects.length}</strong><span>projects currently selected for public view</span></div>
+    <p>Scientific illustration, visual explanations and research stories. Explore the collection by format, or open a project for a closer look.</p>
+    <p><a class="communication-case-link" href="/portfolio/explain/">Explore the full visual explanation collection →</a></p>
+    <div class="portfolio-hero-proof"><strong>{projects.length}</strong><span>selected projects</span></div>
   </header>
+
+  <section id="collection" class="portfolio-index" aria-labelledby="portfolio-grid-title">
+    <div class="portfolio-section-heading is-compact">
+      <div><p class="section-label">Browse by type</p><h2 id="portfolio-grid-title">Find your visual direction.</h2></div>
+      <p>Filter the collection by deliverable. Every image opens into a focused project viewer.</p>
+    </div>
+    <PortfolioGrid projects={projects} filters />
+  </section>
 
   {comparisons.length > 0 && (
     <section class="portfolio-featured" aria-labelledby="portfolio-featured-title">
@@ -72,14 +80,6 @@ const jsonLd = [
       </div>
     </section>
   )}
-
-  <main class="portfolio-index" aria-labelledby="portfolio-grid-title">
-    <div class="portfolio-section-heading is-compact">
-      <div><p class="section-label">Browse by type</p><h2 id="portfolio-grid-title">The work, without the pitch.</h2></div>
-      <p>Filter the collection by deliverable. Every image opens into a focused project viewer.</p>
-    </div>
-    <PortfolioGrid projects={projects} filters />
-  </main>
 
   <section class="portfolio-bottom-cta">
     <p class="section-label">Have a project in mind?</p>
